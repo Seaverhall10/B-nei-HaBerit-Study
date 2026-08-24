@@ -25,3 +25,7 @@ select{padding:9px;border:1px solid var(--line);border-radius:6px;font-size:1rem
 .note{font-size:.9rem;color:var(--muted)}
 
 a.btn,a.button{display:inline-block;border:1px solid var(--deep);border-radius:6px;padding:10px 14px;background:var(--deep);color:#fff;font-weight:700;text-decoration:none}
+
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pills a{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid #e0eee8;color:#fff;text-decoration:none;font:700 .85rem Arial,sans-serif}
+.pills a.here{background:#c4892a;border-color:#c4892a;color:#102b2a}
