@@ -1,30 +1,31 @@
 <!doctype html>
-<html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width, initial-scale=1">
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Story map | Bnei Haberit</title>
-<link rel=stylesheet href=styles.css>
-<link rel=stylesheet href=map.css>
-</head>
-<body>
-<header>
-<p class=kicker>Bnei Haberit</p>
-<h1>The story so far</h1>
-<p>What we have seen in Scripture, mapped as we walk it.</p>
-<nav class="pills nav"><a href=index.html>Weekly reading</a><a class=here href=map.html>Story map</a><a href=job.html>Job</a></nav>
+<link rel="icon" href="seal.png">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="map.css">
+</head><body>
+<header class="mast">
+<img class="seal" src="seal.png" alt="">
+<p class="he-title">בְּנֵי הַבְּרִית</p>
+<p class="kicker">The story so far</p>
+<h1>Twelve stations</h1>
+<p class="lede">What we have seen in Scripture, mapped as we walk it.</p>
+<nav class="pills nav"><a href="index.html">Weekly reading</a><a class="here" href="map.html">Story map</a><a href="job.html">Job</a></nav>
 </header>
-<main class=wrap>
-<section class=card><h2>Twelve stations</h2><p class=muted>Gold is done. Dark is next. Tap a station.</p><div class=rail id=rail></div></section>
-<section class=card>
-<h2 id=week-title>Week</h2>
-<p class=muted id=week-blurb></p>
-<p><a class=btn id=week-read href=index.html>Open this week reading</a></p>
-<div class=flow id=flow></div>
+<main class="wrap">
+<section class="card"><h2>Twelve stations</h2><p class="muted">Gold is done. Dark is next. Tap a station.</p><div class="rail" id="rail"></div></section>
+<section class="card">
+<h2 id="week-title">Week</h2>
+<p class="muted" id="week-blurb"></p>
+<p><a class="btn" id="week-read" href="index.html">Open this week reading</a></p>
+<div class="flow" id="flow"></div>
 </section>
-<section class=card><h2>Load-bearing words</h2><p class=muted>Hebrew first. English walks around it.</p><div class=words id=words></div></section>
-<section class=card><h2>What we can now say</h2><ol class=learned id=learned></ol></section>
-<section class=card><h2>The long arc</h2><p class=muted>From sacred space lost to sacred space restored.</p><div class=arc id=arc></div></section>
+<section class="card"><h2>Load-bearing words</h2><p class="muted">Hebrew first. English walks around it.</p><div class="words" id="words"></div></section>
+<section class="card"><h2>What we can now say</h2><ol class="learned" id="learned"></ol></section>
+<section class="card"><h2>The long arc</h2><p class="muted">From sacred space lost to sacred space restored.</p><div class="arc" id="arc"></div></section>
 </main>
-<script src=map.js></script>
+<script src="map.js"></script>
 </body></html>
