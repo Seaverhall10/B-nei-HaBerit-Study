@@ -2,9 +2,12 @@
 
 Resume branch `codex/major-study-experience-upgrade-20260824` in this isolated worktree.
 
+Draft review: https://github.com/Seaverhall10/B-nei-HaBerit-Study/pull/1
+
+The 2026-08-24 local desktop/phone acceptance checks and the GitHub `validate` job passed. The live site remains unchanged.
+
 Before merge:
 
-1. Run `python tools/validate_site.py` and the JavaScript syntax checks.
-2. Serve `public/` locally and verify participant, story-map, and Job pages at desktop and 320/390px phone widths.
-3. Confirm reading checks, notes, remembered week, and copied week URL work after refresh.
-4. Review the draft pull request. Merge to `main` only with owner approval; that merge deploys the public site.
+1. Review the draft pull request and its participant experience.
+2. If approved, mark it ready and merge to `main`; that merge deploys the public site.
+3. After deployment, verify the live URL at desktop and phone widths before announcing the release.
