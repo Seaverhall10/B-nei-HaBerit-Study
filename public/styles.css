@@ -23,3 +23,5 @@ select{padding:9px;border:1px solid var(--line);border-radius:6px;font-size:1rem
 .muted{color:var(--muted);font-size:.92rem}
 .progress{font:700 1rem Arial,sans-serif;color:var(--deep)}
 .note{font-size:.9rem;color:var(--muted)}
+
+a.btn,a.button{display:inline-block;border:1px solid var(--deep);border-radius:6px;padding:10px 14px;background:var(--deep);color:#fff;font-weight:700;text-decoration:none}
