@@ -41,7 +41,8 @@ async function boot() {
   weeks = await (await fetch("weeks.json")).json();
   const sel = document.getElementById("pick");
   sel.innerHTML = weeks.map(function(w){ return "<option value=\"" + w.n + "\">Week " + w.n + ": " + w.title + "</option>"; }).join("");
-  sel.value = String(DEFAULT_WEEK);
+  var q=Number(new URLSearchParams(location.search).get("week"));
+  sel.value = String(q || DEFAULT_WEEK);
   sel.addEventListener("change", render);
   if (configLooksReal() && window.firebase) {
     firebase.initializeApp(window.FIREBASE_CONFIG);
