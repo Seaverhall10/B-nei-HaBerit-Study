@@ -1,34 +1,66 @@
 <!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bnei Haberit Study</title>
-<link rel="icon" href="seal.png">
-<link rel="stylesheet" href="styles.css">
-</head><body>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12211e">
+  <meta name="description" content="A twelve-week, Scripture-first study of Yahweh's covenant family and the biblical story.">
+  <meta property="og:title" content="B’nei Haberit Study">
+  <meta property="og:description" content="Read Scripture first. Follow the story. Bring one honest question.">
+  <meta property="og:image" content="seal.png">
+  <title>Weekly reading | B’nei Haberit Study</title>
+  <link rel="icon" href="seal.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to this week</a>
 <header class="mast">
-<img class="seal" src="seal.png" alt="">
-<p class="he-title">בְּנֵי הַבְּרִית</p>
-<p class="kicker">Sons of the Covenant</p>
-<h1>Weekly reading</h1>
-<p class="lede">Read Scripture first. Check off what you finished. Bring one honest question.</p>
-<nav class="pills nav"><a class="here" href="index.html">Weekly reading</a><a href="map.html">Story map</a><a href="job.html">Job</a></nav>
+  <img class="seal" src="seal.png" alt="B’nei Haberit covenant seal" width="96" height="96">
+  <p class="he-title" lang="he" dir="rtl">בְּנֵי הַבְּרִית</p>
+  <p class="kicker">Sons of the Covenant</p>
+  <h1>Weekly reading</h1>
+  <p class="lede">Read Scripture first. Follow the story. Bring one honest question.</p>
+  <nav class="pills nav" aria-label="Main navigation">
+    <a class="here" aria-current="page" href="index.html">Weekly reading</a>
+    <a href="map.html">Story map</a>
+    <a href="job.html">Job</a>
+  </nav>
 </header>
-<main class="wrap">
-<div class="card" id="auth-card">
-<p>Sign in with Google to save your reading. Until Firebase is connected, checks stay on this device.</p>
-<div class="row">
-<button class="primary" id="signin">Sign in with Google</button>
-<button id="signout" hidden>Sign out</button>
-<span class="muted" id="who"></span>
-</div></div>
-<div class="row"><label>Week <select id="pick"></select></label><span class="progress" id="progress"></span></div>
-<article class="card" id="week"></article>
-<p class="note">Teacher notes are not on this page. Links open BibleGateway NIV as a convenience.</p>
+
+<main class="wrap" id="main">
+  <section class="card controls" aria-labelledby="journey-title">
+    <div class="control-heading">
+      <div>
+        <p class="eyebrow">Your journey</p>
+        <h2 id="journey-title">Choose a week</h2>
+      </div>
+      <span class="save-state" title="No account required">Saved on this device</span>
+    </div>
+    <label class="week-picker" for="pick">Study week
+      <select id="pick" aria-describedby="progress-text"></select>
+    </label>
+    <div class="progress-line">
+      <progress id="progress-bar" max="12" value="0"></progress>
+      <span class="progress" id="progress-text">0 of 12 readings complete</span>
+    </div>
+    <div class="journey-actions" aria-label="Week navigation">
+      <button type="button" id="previous-week">← Previous</button>
+      <button type="button" id="copy-link">Copy week link</button>
+      <button type="button" class="primary" id="next-week">Next →</button>
+    </div>
+    <p class="action-status" id="action-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <article class="card week-card" id="week" aria-live="polite" aria-busy="true">
+    <p>Loading this week…</p>
+  </article>
+
+  <footer class="site-footer">
+    <p><strong>B’nei Haberit Study</strong> · Twelve weeks through the covenant story.</p>
+    <p>Reading checks and notes stay in this browser. Clearing browser data removes them.</p>
+  </footer>
 </main>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="app.js"></script>
-</body></html>
+<script src="app.js" defer></script>
+</body>
+</html>
