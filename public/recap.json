@@ -1,0 +1,166 @@
+{
+  "updated": "2026-08-23",
+  "currentWeek": 2,
+  "completed": [
+    1
+  ],
+  "spine": [
+    {
+      "n": 1,
+      "label": "Eden",
+      "he": "בְּרֵאשִׁית",
+      "title": "Image, sacred space, rebel",
+      "status": "done"
+    },
+    {
+      "n": 2,
+      "label": "Flood",
+      "he": "מַבּוּל",
+      "title": "Seed, Watchers, remnant",
+      "status": "next"
+    },
+    {
+      "n": 3,
+      "label": "Babel",
+      "he": "בָּבֶל",
+      "title": "One lip divided",
+      "status": "ahead"
+    },
+    {
+      "n": 4,
+      "label": "Abraham",
+      "he": "אַבְרָהָם",
+      "title": "Covenant seed",
+      "status": "ahead"
+    },
+    {
+      "n": 5,
+      "label": "Exodus",
+      "he": "יְצִיאָה",
+      "title": "Rescue then Sinai",
+      "status": "ahead"
+    },
+    {
+      "n": 6,
+      "label": "Dwelling",
+      "he": "מִשְׁכָּן",
+      "title": "Presence and holiness",
+      "status": "ahead"
+    },
+    {
+      "n": 7,
+      "label": "David",
+      "he": "דָּוִד",
+      "title": "Faithful king",
+      "status": "ahead"
+    },
+    {
+      "n": 8,
+      "label": "Exile",
+      "he": "גָּלוּת",
+      "title": "New heart promised",
+      "status": "ahead"
+    },
+    {
+      "n": 9,
+      "label": "Yeshua",
+      "he": "יֵשׁוּעַ",
+      "title": "Faithful Son",
+      "status": "ahead"
+    },
+    {
+      "n": 10,
+      "label": "Cross",
+      "he": "צְלָב",
+      "title": "Death and firstfruits",
+      "status": "ahead"
+    },
+    {
+      "n": 11,
+      "label": "Spirit",
+      "he": "רוּחַ",
+      "title": "Nations reclaimed",
+      "status": "ahead"
+    },
+    {
+      "n": 12,
+      "label": "New earth",
+      "he": "שָׁמַיִם חֲדָשִׁים",
+      "title": "Eden restored",
+      "status": "ahead"
+    }
+  ],
+  "week1": {
+    "met": "2026-08-23",
+    "title": "Creation, Eden, and the Human Calling",
+    "path": [
+      {
+        "from": "Yahweh creates alone",
+        "to": "Heavenly family witnesses",
+        "text": "Job 38:4-7 morning stars / sons of God"
+      },
+      {
+        "from": "Humanity in the image",
+        "to": "Royal-priestly vocation",
+        "text": "Genesis 1:26-28 tselem, radah"
+      },
+      {
+        "from": "Eden as sacred space",
+        "to": "The nachash attacks",
+        "text": "Genesis 3; later named Satan"
+      },
+      {
+        "from": "Death and exile",
+        "to": "The seed promised",
+        "text": "Genesis 3:15 zera, he will crush"
+      },
+      {
+        "from": "Barred tree of life",
+        "to": "Last Adam ahead",
+        "text": "Romans 5; 1 Corinthians 15"
+      }
+    ],
+    "words": [
+      {
+        "he": "צֶלֶם",
+        "tr": "tselem",
+        "en": "image — vocation to represent Yahweh rule"
+      },
+      {
+        "he": "דְּמוּת",
+        "tr": "demut",
+        "en": "likeness"
+      },
+      {
+        "he": "נָחָשׁ",
+        "tr": "nachash",
+        "en": "serpent; the rebel, named later as Satan"
+      },
+      {
+        "he": "זֶרַע",
+        "tr": "zera",
+        "en": "seed — masculine, the coming crusher"
+      },
+      {
+        "he": "בְּנֵי הָאֱלֹהִים",
+        "tr": "bene ha-elohim",
+        "en": "sons of God — present at creation"
+      },
+      {
+        "he": "עָרוֹם / עָרוּם",
+        "tr": "arom / arum",
+        "en": "naked / crafty — bodies and shame together"
+      }
+    ],
+    "learned": [
+      "Yahweh alone creates. The plural of 1:26 is his heavenly family hearing. 1:27 is singular action.",
+      "Image is calling: fill, rule, work, keep. Not a slogan about having a mind like God.",
+      "The tree is knowledge of good and evil. They had not yet taken that knowledge as sinners. Eyes opened. Shame and nakedness together.",
+      "The nachash is a spiritual being. Scripture later names the ancient serpent Devil and Satan.",
+      "One lie sat in the middle of true-sounding words: you will not die.",
+      "Genesis 3:15 is the seed war. He will crush the head. The heel is struck.",
+      "Eden is real sacred space. The way to the tree of life is guarded. Presence is not trapped there.",
+      "Next: how rebellion spreads — seed line, Watchers, flood."
+    ]
+  }
+}
