@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bnei Haberit Study</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<header><h1>Bnei Haberit Study</h1><p>Read Scripture first. Check off what you finished. Bring one honest question.</p></header>
+<main class="wrap">
+<div class="card" id="auth-card">
+<p>Sign in with Google to save your reading. Until Firebase is connected, checks stay on this device.</p>
+<div class="row">
+<button class="primary" id="signin">Sign in with Google</button>
+<button id="signout" hidden>Sign out</button>
+<span class="muted" id="who"></span>
+</div></div>
+<div class="row"><label>Week <select id="pick"></select></label><span class="progress" id="progress"></span></div>
+<article class="card" id="week"></article>
+<p class="note">Teacher notes are not on this page. Links open BibleGateway NIV as a convenience.</p>
+</main>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="app.js"></script>
+</body></html>
