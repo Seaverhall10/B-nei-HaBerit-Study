@@ -30,7 +30,39 @@
     "app": "Live this week as an image-bearer: represent Yahweh rule in ordinary work, family, and speech.",
     "guard": "Do not reduce image of God to a list of human faculties while ignoring royal-priestly vocation.",
     "response": "Blessed are you, Yahweh; you made us to walk with you. Restore our calling in Messiah.",
-    "alreadyMet": true
+    "alreadyMet": true,
+    "recap": [
+      {
+        "h": "What we covered",
+        "p": [
+          "Yahweh alone creates. The morning stars and the sons of God were already there when the earth was laid (Job 38). Humans in his image: represent his rule on the earth. Eden is real sacred space.",
+          "The nachash is a spiritual rebel, later named Satan. His craft is truth with a death-lie in it: you will not die. Eve added “do not touch,” which God did not say.",
+          "Genesis 3:15 is the load-bearing verse. Hebrew zera is masculine. He crushes the head. The heel is struck. That war is the rest of the book."
+        ]
+      },
+      {
+        "h": "Job, since we opened it",
+        "p": [
+          "There was a man in Uz, blameless and upright, who feared Yahweh and turned from evil. He had seven sons and three daughters, and he would rise early and offer for them.",
+          "A day came when the sons of God presented themselves before Yahweh, and the adversary was among them. Yahweh said, have you considered my servant Job. The adversary said Job only fears you because you hedged him. Stretch out your hand. Yahweh gave permission. He withheld Job’s life from the adversary.",
+          "Messengers came in a pile. Oxen and donkeys taken. Fire on the sheep. Chaldeans on the camels. Then this, and the feast was easy to misremember: Job’s sons and daughters were eating and drinking wine in the house of their eldest brother. A great wind came from the wilderness. The house fell on the young people. They died.",
+          "Job tore his robe, shaved, fell, and worshiped. Yahweh gave, Yahweh took. He did not charge Yahweh with wrong.",
+          "Another day in the council. The adversary said, skin for skin. Yahweh allowed bone and flesh, not his life. Job sat in ashes with sores. His wife said curse God and die. He would not. Three friends came and sat seven days without a word, then they wrecked it by insisting he must have sinned.",
+          "Job cursed his birth. He did not throw away God, but he wanted the pressure to stop. Yahweh answered from the whirlwind: where were you when I laid the earth? When the morning stars sang and all the sons of God shouted. That is why we read it in Week 1. The council is already there. Testing is already there. Yahweh remains God.",
+          "Yahweh restored Job. Friends had to ask Job to pray for them. He saw sons and daughters again. The first man in the story is not the last Adam. He is the template for a righteous sufferer under a God who is not on a leash."
+        ]
+      },
+      {
+        "h": "Where the story goes next",
+        "p": [
+          "Genesis 6. Watchers. Seed line. Flood. Two falls, not one: the adversary’s host, and the sons of God in the days of Noah."
+        ]
+      }
+    ],
+    "recapLink": {
+      "href": "job.html",
+      "label": "The whole book of Job, scene by scene"
+    }
   },
   {
     "n": 2,
@@ -38,34 +70,47 @@
     "theme": "seed / Watchers / Nephilim / giant clans / covenant remnant",
     "spine": "Genesis 6:1-8",
     "big": "Rebellion spreads from Eden through bloodshed and through transgression of the heavenly/earthly boundary. Yahweh judges the world by flood and preserves a seed through Noah.",
-    "student": "Genesis 4-9; Jude 6, 14-15; 2 Peter 2:4-5; 1 Peter 3:18-22",
+    "student": "Genesis 4-9; Genesis 18-19; Numbers 13:25-33; Deuteronomy 2:10-12; Deuteronomy 3:1-11; Joshua 11:21-22; 1 Samuel 17; 2 Samuel 21:15-22; Matthew 4; Luke 17:26-30; Jude 6-7; 2 Peter 2:4-10; 1 Peter 3:18-22",
     "focus": [
-      "Genesis 4:1-16",
       "Genesis 6:1-8",
-      "Genesis 6:9-22",
-      "Genesis 9:8-17",
+      "Genesis 18:16-33",
+      "Genesis 19:1-29",
+      "Numbers 13:32-33",
+      "Deuteronomy 3:1-11",
+      "Matthew 4:1-11",
+      "Jude 6-7",
       "1 Peter 3:18-22"
     ],
     "question": "How does rebellion spread, and what does Yahweh preserve?",
     "observe": [
       "Track two lines after Eden: violence (Cain) and the named seed that still calls on Yahweh.",
-      "Read Genesis 6:1-4 with Jude 6 and 2 Peter 2:4: who crossed the boundary?",
-      "Ask what Nephilim language is doing (and what it is not).",
-      "Notice why Noah is righteous in his generation and how the ark is rescue through judgment.",
-      "Connect 1 Peter 3:18-22: Jesus proclaims victory; baptism corresponds to being brought safely through water.",
-      "Mark the Noahic covenant in 9:8-17: Yahweh binds himself to preserve the earth for his purposes."
+      "Read Genesis 6:1-4 with Job 1:6, 2:1, and 38:7: bene ha-elohim is the same phrase. Divine beings, not Sethite men.",
+      "Mark the Hebrew: nephilim from n-p-l (fallen ones), gibborim (mighty ones), and the clause and also afterward (6:4).",
+      "Genesis 6:3’s 120 years: hold both a countdown to the flood and the later human lifespan. People after the flood still live past 120 for a time.",
+      "Read Numbers 13:32-33: the spies call the Anakim descendants of the Nephilim. That is why “afterward” matters. Og (Deut 3) and Goliath (1 Sam 17; 2 Sam 21) are Scripture, not a side hobby.",
+      "Lot: Genesis 18-19. Jude 6-7 stacks the Watchers and Sodom. Luke 17:26-30 stacks the days of Noah and the days of Lot.",
+      "Matthew 4: the adversary offers the kingdoms. Treat the offer as real. Same rebel as Eden and Job.",
+      "Noah after the flood (Gen 8-9): the world is judged, a seed is kept, Yahweh binds himself by covenant.",
+      "1 Peter 3:18-22: Messiah proclaims victory; baptism corresponds to being brought safely through water.",
+      "1 Enoch 6-16 describes that same Watcher event. It is extra-biblical. Label it. It cannot overrule Genesis."
     ],
     "teacherMoves": [
       "Honor the group request: spend real time on Watchers, Nephilim, and later giant clans without turning class into folklore hour.",
-      "Read Genesis 6:1-8 aloud twice; then Jude 6 and 2 Peter 2:4-5.",
-      "Distinguish biblical data from later speculation.",
-      "Keep the through-line: Yahweh preserves a seed.",
-      "Land on 1 Peter 3: Christ is the greater ark."
+      "Read Genesis 6:1-8 aloud twice. Then Job 1:6 and 38:7 so bene ha-elohim is not a Sethite guess.",
+      "Hit 6:4 afterward, then Numbers 13:32-33, then Og, then Goliath. That is the biblical through-line.",
+      "Lot and Matthew 4 belong in this week: Jude stacks Sodom with the Watchers; the adversary still has kingdoms to offer.",
+      "Distinguish biblical data from later speculation. Enoch is labeled. Fossils and worldwide giant lore stay in the study app, not as verses.",
+      "Land on 1 Peter 3: Messiah is the greater ark."
     ],
     "app": "Where rebellion looks overwhelming, cling to the God who preserves a people through judgment.",
     "guard": "Do not let giant-clan curiosity eclipse the gospel: flood is about Yahweh justice and mercy, not monster lore.",
     "response": "Yahweh, judge evil and keep a remnant. Hide us in Messiah, our ark.",
-    "alreadyMet": false
+    "alreadyMet": false,
+    "studyApp": {
+      "href": "https://seaverhall10.github.io/ancient-texts-app/#book/nephilim_giants",
+      "label": "Nephilim & Giants in the study app",
+      "note": "Scripture first. Second Temple chapters (1 Enoch, Book of Giants, Jubilees) are labeled extra-biblical and cannot overrule Genesis. Worldwide traditions and physical-evidence chapters are Seaver’s deeper file, not this week’s homework."
+    }
   },
   {
     "n": 3,
