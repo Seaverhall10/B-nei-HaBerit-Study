@@ -9,6 +9,26 @@ function loadLocal() { try { checks = JSON.parse(localStorage.getItem(localKey()
 function saveLocal() { localStorage.setItem(localKey(), JSON.stringify(checks)); }
 async function loadRemote() { if (!firebaseReady || !uid) return; const snap = await firebase.firestore().doc("users/" + uid + "/progress/weeks").get(); if (snap.exists) { const data = snap.data() || {}; checks = {}; Object.keys(data).forEach(function(k){ if (k === "updatedAt") return; const v = data[k]; checks[k] = (v && v.items) ? v.items : v; }); } else loadLocal(); render(); }
 async function saveRemote() { saveLocal(); if (!firebaseReady || !uid) return; const payload = { updatedAt: firebase.firestore.FieldValue.serverTimestamp() }; Object.keys(checks).forEach(function(k){ const items = Array.isArray(checks[k]) ? checks[k] : ((checks[k] && checks[k].items) || []); payload[k] = { items: items }; }); await firebase.firestore().doc("users/" + uid + "/progress/weeks").set(payload, { merge: true }); }
+function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function recapHtml(w) {
+  if (!w.recap || !w.recap.length) return "";
+  var html = "<section class=\"recap\"><p class=\"recap-kicker\">Session recap</p>";
+  w.recap.forEach(function(b){
+    if (b.h) html += "<h3>" + esc(b.h) + "</h3>";
+    (b.p || []).forEach(function(t){ html += "<p>" + esc(t) + "</p>"; });
+  });
+  if (w.recapLink) html += "<p class=\"recap-link\"><a href=\"" + esc(w.recapLink.href) + "\">" + esc(w.recapLink.label) + "</a></p>";
+  html += "</section>";
+  return html;
+}
+function studyAppHtml(w) {
+  if (!w.studyApp) return "";
+  var a = w.studyApp;
+  var html = "<div class=\"study-app\"><h3>Study app</h3><p><a href=\"" + esc(a.href) + "\" target=\"_blank\" rel=\"noopener\">" + esc(a.label) + "</a></p>";
+  if (a.note) html += "<p class=\"muted\">" + esc(a.note) + "</p>";
+  html += "</div>";
+  return html;
+}
 function itemsFor(w) { return w.student.split(";").map(function(s){return s.trim();}).filter(Boolean); }
 function weekChecks(n, len) { const rec = checks[n] || checks[String(n)]; const base = rec && rec.items ? rec.items : rec; const arr = Array.isArray(base) ? base.slice() : []; while (arr.length < len) arr.push(false); return arr; }
 function gw(refs) { return "https://www.biblegateway.com/passage/?search=" + encodeURIComponent(refs) + "&version=NIV"; }
@@ -21,7 +41,7 @@ function render() {
   const count = done.filter(Boolean).length;
   document.getElementById("progress").textContent = count + "/" + items.length + " this week";
   const focus = w.focus.join("; ");
-  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div>" + (w.alreadyMet ? "<p><strong>Week 1 already met.</strong> Use the list to track what you finished.</p>" : "") + "<p class=\"question\"><strong>Bring this question:</strong> " + w.question + "</p><h3>Read in your Bible</h3><ul class=\"checklist\" id=\"list\"></ul><p class=\"read\"><strong>Focused in-room text:</strong> " + focus + "<br><a href=\"" + gw(w.student) + "\" target=\"_blank\" rel=\"noopener\">Open whole assignment (NIV)</a> &nbsp;|&nbsp; <a href=\"" + gw(focus) + "\" target=\"_blank\" rel=\"noopener\">Open focused passages (NIV)</a></p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>";
+  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div>" + recapHtml(w) + "<p class=\"question\"><strong>Bring this question:</strong> " + w.question + "</p><h3>Read in your Bible</h3><ul class=\"checklist\" id=\"list\"></ul><p class=\"read\"><strong>Focused in-room text:</strong> " + focus + "<br><a href=\"" + gw(w.student) + "\" target=\"_blank\" rel=\"noopener\">Open whole assignment (NIV)</a> &nbsp;|&nbsp; <a href=\"" + gw(focus) + "\" target=\"_blank\" rel=\"noopener\">Open focused passages (NIV)</a></p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>" + studyAppHtml(w);
   const list = document.getElementById("list");
   items.forEach(function(item, i) {
     const li = document.createElement("li");
