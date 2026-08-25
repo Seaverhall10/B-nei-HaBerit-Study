@@ -109,6 +109,11 @@ header.mast .lede{margin:12px auto 0;max-width:38em;color:#d7e7e1}
   font:700 1.05rem Cinzel,serif;
 }
 .theme{margin:6px 0 0;color:var(--muted);font:.95rem Cinzel,serif;letter-spacing:.04em}
+.recap{margin:22px 0 8px;padding:18px 16px 8px;background:#fffdf6;border-left:4px solid var(--gold)}
+.recap-kicker{margin:0 0 10px;letter-spacing:.28em;text-transform:uppercase;font:700 .68rem Cinzel,serif;color:#aa7625}
+.recap h3{margin:18px 0 8px;font:700 1.05rem Cinzel,serif;color:#173d39;letter-spacing:.03em}
+.recap p{margin:0 0 12px;font-size:1.08rem}
+.recap-link a{color:#173d39;font:700 .78rem Cinzel,serif;letter-spacing:.04em}
 .question{margin:16px 0;padding:12px 14px;background:#fff7e6;border-left:4px solid var(--gold)}
 .read{padding:12px 14px;background:#edf3ed;border-left:4px solid #4d796d}
 
@@ -169,3 +174,8 @@ select{padding:9px;border:1px solid #d8d3c7;font:1rem "Cormorant Garamond",serif
   .card,.breath{box-shadow:none}
   .scene p, header.mast h1, .he-title{color:#000}
 }
+
+.study-app{margin:18px 0 0;padding:14px 16px;background:#173d39;color:#f6eedc}
+.study-app h3{margin:0 0 8px;font:700 .9rem Cinzel,serif;color:#e7c56a;letter-spacing:.04em}
+.study-app a{color:#e7c56a;font-weight:700}
+.study-app .muted{color:#cde7df}
