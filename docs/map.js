@@ -9,7 +9,7 @@ function show(n){
   const title=document.getElementById("week-title");
   const blurb=document.getElementById("week-blurb");
   const read=document.getElementById("week-read");
-  read.href="index.html?week="+selected;
+  read.href="week.html?week="+selected;
   if(!w){title.textContent="Week "+selected; blurb.textContent="Not mapped yet. The rail is waiting."; document.getElementById("flow").innerHTML=""; document.getElementById("words").innerHTML=""; document.getElementById("learned").innerHTML=""; return;}
   title.textContent="Week "+selected+": "+w.title;
   blurb.textContent=w.preview ? "Preview. Read it first. Come ready." : ("How that night moved" + (w.met ? " ("+w.met+")" : "."));
