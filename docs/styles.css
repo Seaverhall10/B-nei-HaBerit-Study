@@ -214,3 +214,18 @@ select{padding:9px;border:1px solid #d8d3c7;font:1rem "Source Serif 4",serif;bac
 }
 .doors{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
 .doors .btn{margin:0}
+
+.recap-items{list-style:none;padding:0;margin:0 0 8px}
+.recap-items > li{
+  margin:0 0 16px;padding:0 0 14px;
+  border-bottom:1px solid rgba(201,162,74,.22);
+}
+.recap-items > li:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.recap-items .lead{
+  margin:0 0 6px;
+  font:700 1.05rem Cinzel,serif;
+  color:#173d39;
+  letter-spacing:.02em;
+}
+.recap-items p{margin:0 0 8px;font-size:1.06rem}
+.recap-items p:last-child{margin-bottom:0}
