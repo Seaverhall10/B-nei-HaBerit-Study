@@ -13,13 +13,13 @@ async function saveRemote() { saveLocal(); if (!firebaseReady || !uid) return; c
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function recapHtml(w) {
   if (!w.recap || !w.recap.length) return "";
-  var html = "<details class=\"recap\"><summary class=\"recap-kicker\">Last session</summary>";
+  var html = "<section class=\"recap\"><p class=\"recap-kicker\">Session recap</p>";
   w.recap.forEach(function(b){
     if (b.h) html += "<h3>" + esc(b.h) + "</h3>";
     (b.p || []).forEach(function(t){ html += "<p>" + esc(t) + "</p>"; });
   });
   if (w.recapLink) html += "<p class=\"recap-link\"><a href=\"" + esc(w.recapLink.href) + "\">" + esc(w.recapLink.label) + "</a></p>";
-  html += "</details>";
+  html += "</section>";
   return html;
 }
 function studyAppHtml(w) {
@@ -182,7 +182,7 @@ function render() {
   document.getElementById("progress").textContent = count + "/" + items.length + " this week";
   const focus = w.focus.join("; ");
   var hasReader = w.reader && w.reader.length;
-  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div><div id=\"reader-slot\"></div>" + recapHtml(w) + "<p class=\"question\"><strong>Bring:</strong> " + w.question + "</p><div class=\"read-list\"><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul></div><details class=\"room\"><summary>In the room</summary><p class=\"read\">" + focus + "</p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul></details>" + studyAppHtml(w);
+  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div>" + recapHtml(w) + "<div id=\"reader-slot\"></div><p class=\"question\"><strong>Bring:</strong> " + w.question + "</p><div class=\"read-list\"><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul></div><p class=\"read\"><strong>In the room:</strong> " + focus + "</p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>" + studyAppHtml(w);
   if (hasReader) document.getElementById("week").classList.add("has-reader");
   else document.getElementById("week").classList.remove("has-reader");
   const list = document.getElementById("list");
