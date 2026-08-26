@@ -51,6 +51,8 @@
 
 /* Scripture mode */
 .reader-root[data-mode="scripture"] .il-verse-words{display:none}
+.reader-root[data-mode="scripture"] .il-verse.open .il-verse-words{display:flex}
+.reader-root[data-mode="scripture"] .il-verse{cursor:pointer}
 .reader-root[data-mode="interlinear"] .il-en-text{display:none}
 .il-verse{
   display:grid;gap:8px;padding:.7rem 0;
@@ -88,3 +90,15 @@ html[data-size="90"] body{font-size:16px}
 html[data-size="100"] body{font-size:17px}
 html[data-size="110"] body{font-size:18.5px}
 html[data-size="125"] body{font-size:20px}
+
+.passage summary{display:flex;align-items:center;gap:10px}
+.passage-title{flex:1}
+.mark-read{
+  display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;
+  font:600 .72rem "Source Sans 3",system-ui,sans-serif;
+  color:var(--r-muted);letter-spacing:.04em;cursor:pointer;
+}
+.mark-read input{width:16px;height:16px;accent-color:#d4b36a}
+.passage.read{border-color:rgba(212,179,106,.45)}
+.passage.read .passage-title{color:#e8eee9}
+.passage.read .mark-read{color:var(--r-gold)}
