@@ -70,29 +70,25 @@
     "theme": "seed / Watchers / Nephilim / giant clans / covenant remnant",
     "spine": "Genesis 6:1-8",
     "big": "Rebellion spreads from Eden through bloodshed and through transgression of the heavenly/earthly boundary. Yahweh judges the world by flood and preserves a seed through Noah.",
-    "student": "Genesis 4-9; Genesis 18-19; Numbers 13:25-33; Deuteronomy 2:10-12; Deuteronomy 3:1-11; Joshua 11:21-22; 1 Samuel 17; 2 Samuel 21:15-22; Matthew 4; Luke 17:26-30; Jude 6-7; 2 Peter 2:4-10; 1 Peter 3:18-22",
+    "student": "Genesis 4:1-16; Genesis 6:1-22; Genesis 8:20-9:17; Genesis 19:1-29; Numbers 13:32-33; Deuteronomy 3:1-11; 1 Samuel 17:1-11 and 45-51; Matthew 4:1-11; Jude 6-7; 1 Peter 3:18-22",
     "focus": [
       "Genesis 6:1-8",
-      "Genesis 18:16-33",
       "Genesis 19:1-29",
       "Numbers 13:32-33",
-      "Deuteronomy 3:1-11",
       "Matthew 4:1-11",
       "Jude 6-7",
       "1 Peter 3:18-22"
     ],
     "question": "How does rebellion spread, and what does Yahweh preserve?",
     "observe": [
-      "Track two lines after Eden: violence (Cain) and the named seed that still calls on Yahweh.",
-      "Read Genesis 6:1-4 with Job 1:6, 2:1, and 38:7: bene ha-elohim is the same phrase. Divine beings, not Sethite men.",
-      "Mark the Hebrew: nephilim from n-p-l (fallen ones), gibborim (mighty ones), and the clause and also afterward (6:4).",
-      "Genesis 6:3’s 120 years: hold both a countdown to the flood and the later human lifespan. People after the flood still live past 120 for a time.",
-      "Read Numbers 13:32-33: the spies call the Anakim descendants of the Nephilim. That is why “afterward” matters. Og (Deut 3) and Goliath (1 Sam 17; 2 Sam 21) are Scripture, not a side hobby.",
-      "Lot: Genesis 18-19. Jude 6-7 stacks the Watchers and Sodom. Luke 17:26-30 stacks the days of Noah and the days of Lot.",
-      "Matthew 4: the adversary offers the kingdoms. Treat the offer as real. Same rebel as Eden and Job.",
-      "Noah after the flood (Gen 8-9): the world is judged, a seed is kept, Yahweh binds himself by covenant.",
-      "1 Peter 3:18-22: Messiah proclaims victory; baptism corresponds to being brought safely through water.",
-      "1 Enoch 6-16 describes that same Watcher event. It is extra-biblical. Label it. It cannot overrule Genesis."
+      "Genesis 4: two lines. Violence, and a seed that still calls on Yahweh.",
+      "Genesis 6:1-4 with Job 1:6 and 38:7: bene ha-elohim is the same phrase. Divine beings, not Sethite men.",
+      "Mark 6:4: and also afterward. Numbers 13:32-33 is that payoff. Og and Goliath are Scripture, not a side hobby.",
+      "Genesis 6:3’s 120 years: hold both a countdown to the flood and the later human lifespan.",
+      "Lot in Genesis 19. Jude 6-7 stacks the Watchers and Sodom.",
+      "Matthew 4: the adversary offers the kingdoms. Treat the offer as real.",
+      "Noah after: a seed kept, Yahweh binds himself. 1 Peter 3: Messiah is the greater ark.",
+      "Nimrod and Babel are next week. 1 Enoch is extra-biblical. Label it. It cannot overrule Genesis."
     ],
     "teacherMoves": [
       "Honor the group request: spend real time on Watchers, Nephilim, and later giant clans without turning class into folklore hour.",
@@ -109,8 +105,72 @@
     "studyApp": {
       "href": "https://seaverhall10.github.io/ancient-texts-app/#book/nephilim_giants",
       "label": "Nephilim & Giants in the study app",
-      "note": "Scripture first. Second Temple chapters (1 Enoch, Book of Giants, Jubilees) are labeled extra-biblical and cannot overrule Genesis. Worldwide traditions and physical-evidence chapters are Seaver’s deeper file, not this week’s homework."
-    }
+      "note": "Hebrew and the Nephilim file are here if you want them. Scripture on this page is enough for Sunday. 1 Enoch is labeled extra-biblical."
+    },
+    "reader": [
+      {
+        "title": "Two lines after Eden",
+        "keys": [
+          "Genesis 4:1-16"
+        ]
+      },
+      {
+        "title": "Watchers, 120 years, Nephilim, the ark",
+        "keys": [
+          "Genesis 6:1-22"
+        ]
+      },
+      {
+        "title": "Noah after the flood",
+        "keys": [
+          "Genesis 8:20-22",
+          "Genesis 9:1-17"
+        ]
+      },
+      {
+        "title": "Lot",
+        "keys": [
+          "Genesis 19:1-29"
+        ]
+      },
+      {
+        "title": "Afterward: the spies",
+        "keys": [
+          "Numbers 13:32-33"
+        ]
+      },
+      {
+        "title": "Og of Bashan",
+        "keys": [
+          "Deuteronomy 3:1-11"
+        ]
+      },
+      {
+        "title": "Goliath",
+        "keys": [
+          "1 Samuel 17:1-11",
+          "1 Samuel 17:45-51"
+        ]
+      },
+      {
+        "title": "The adversary offers the kingdoms",
+        "keys": [
+          "Matthew 4:1-11"
+        ]
+      },
+      {
+        "title": "Watchers and Sodom stacked",
+        "keys": [
+          "Jude 6-7"
+        ]
+      },
+      {
+        "title": "Messiah, the greater ark",
+        "keys": [
+          "1 Peter 3:18-22"
+        ]
+      }
+    ]
   },
   {
     "n": 3,
