@@ -17,6 +17,16 @@ function recapHtml(w) {
   w.recap.forEach(function(b){
     if (b.h) html += "<h3>" + esc(b.h) + "</h3>";
     (b.p || []).forEach(function(t){ html += "<p>" + esc(t) + "</p>"; });
+    if (b.items && b.items.length) {
+      html += "<ul class=\"recap-items\">";
+      b.items.forEach(function(it){
+        html += "<li>";
+        if (it.b) html += "<p class=\"lead\">" + esc(it.b) + "</p>";
+        (it.p || []).forEach(function(t){ html += "<p>" + esc(t) + "</p>"; });
+        html += "</li>";
+      });
+      html += "</ul>";
+    }
   });
   if (w.recapLink) html += "<p class=\"recap-link\"><a href=\"" + esc(w.recapLink.href) + "\">" + esc(w.recapLink.label) + "</a></p>";
   html += "</section>";
