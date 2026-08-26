@@ -31,8 +31,10 @@ function studyAppHtml(w) {
   return html;
 }
 function getRS(){
-  try { return Object.assign({font:"serif", size:"110", lines:"on", mode:"interlinear"}, JSON.parse(localStorage.getItem("bnei-reader") || "{}")); }
-  catch (e) { return {font:"serif", size:"110", lines:"on", mode:"interlinear"}; }
+  var d = {font:"serif", size:"110", lines:"on", mode:"scripture"};
+  try { Object.assign(d, JSON.parse(localStorage.getItem("bnei-reader") || "{}")); } catch (e) {}
+  if (!d.modeSet) d.mode = "scripture";
+  return d;
 }
 function putRS(s){ localStorage.setItem("bnei-reader", JSON.stringify(s)); applyRS(s); }
 function applyRS(s){
@@ -66,7 +68,9 @@ function bindReaderBar(root){
   root.querySelectorAll(".reader-bar button").forEach(function(b){
     b.addEventListener("click", function(){
       var s = getRS();
-      s[b.getAttribute("data-k")] = b.getAttribute("data-v");
+      var k = b.getAttribute("data-k");
+      s[k] = b.getAttribute("data-v");
+      if (k === "mode") s.modeSet = true;
       putRS(s);
     });
   });
@@ -91,8 +95,9 @@ function readerHtml(w, pack, il) {
   html += "<button type=\"button\" data-k=\"lines\" data-v=\"on\">Lines</button>";
   html += "<button type=\"button\" data-k=\"lines\" data-v=\"off\">Open</button>";
   html += "</div>";
-  html += "<p class=\"reader-note\">Hebrew and Greek first, from our study app interlinear. Hover a word for morphology. Your own Bible is still first.</p>";
-  w.reader.forEach(function(block){
+  html += "<p class=\"reader-note\">Tap a section to open it. Tap a verse for Hebrew or Greek. Mark Read when you finish that section.</p>";
+  var done = weekChecks(w.n, (w.reader || []).length);
+  w.reader.forEach(function(block, i){
     var body = "";
     (block.keys || []).forEach(function(k){
       var web = webBy[k];
@@ -111,7 +116,7 @@ function readerHtml(w, pack, il) {
       }
     });
     if (!body) return;
-    html += "<details class=\"passage\" open><summary>" + esc(block.title) + "</summary><div class=\"passage-body\">" + body + "</div></details>";
+    html += "<details class=\"passage" + (done[i] ? " read" : "") + "\"><summary><label class=\"mark-read\"><input type=\"checkbox\" data-i=\"" + i + "\"" + (done[i] ? " checked" : "") + "><span>Read</span></label><span class=\"passage-title\">" + esc(block.title) + "</span></summary><div class=\"passage-body\">" + body + "</div></details>";
   });
   html += "</section>";
   return html;
@@ -132,6 +137,37 @@ async function loadInterlinear(n) {
     interlinearPack = await (await fetch("interlinear-week2.json")).json();
     return interlinearPack;
   } catch (e) { return null; }
+}
+function bindReader(root, w){
+  root.querySelectorAll(".il-verse").forEach(function(v){
+    v.addEventListener("click", function(e){
+      if (e.target.closest(".il-word")) return;
+      if (root.dataset.mode !== "scripture") return;
+      v.classList.toggle("open");
+    });
+  });
+  var items = itemsFor(w);
+  root.querySelectorAll(".mark-read").forEach(function(lab){
+    var box = lab.querySelector("input");
+    async function mark(on){
+      var i = Number(box.getAttribute("data-i"));
+      var arr = weekChecks(w.n, items.length);
+      arr[i] = on;
+      checks[String(w.n)] = arr;
+      box.checked = on;
+      var det = lab.closest(".passage");
+      if (det) det.classList.toggle("read", on);
+      var top = document.getElementById("w" + w.n + "-" + i);
+      if (top) top.checked = on;
+      document.getElementById("progress").textContent = arr.filter(Boolean).length + "/" + items.length + " this week";
+      await saveRemote();
+    }
+    lab.addEventListener("click", function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      mark(!box.checked);
+    });
+  });
 }
 function itemsFor(w) { return w.student.split(";").map(function(s){return s.trim();}).filter(Boolean); }
 function weekChecks(n, len) { const rec = checks[n] || checks[String(n)]; const base = rec && rec.items ? rec.items : rec; const arr = Array.isArray(base) ? base.slice() : []; while (arr.length < len) arr.push(false); return arr; }
@@ -165,7 +201,13 @@ function render() {
     if (!slot) return;
     slot.innerHTML = readerHtml(w, pair[0], pair[1]);
     var root = slot.querySelector(".reader-root");
-    if (root) { applyRS(getRS()); bindReaderBar(root); }
+    if (root) {
+      applyRS(getRS());
+      bindReaderBar(root);
+      bindReader(root, w);
+    }
+    var list = document.getElementById("list");
+    if (list && w.reader && w.reader.length) list.parentNode.querySelector("h3").textContent = "Read this week";
   });
 }
 async function boot() {
