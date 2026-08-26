@@ -5,29 +5,39 @@
 <title>Bnei Haberit Study</title>
 <link rel="icon" href="seal.png">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="reader.css">
 </head><body>
 <header class="mast">
 <div class="mast-bar">
-<a class="brand" href="index.html"><img class="seal" src="seal.png" alt=""><span class="brand-text"><span class="he-title">בְּנֵי הַבְּרִית</span><span class="kicker">Weekly reading</span></span></a>
-<nav class="pills nav"><a class="here" href="index.html">Reading</a><a href="map.html">Map</a><a href="job.html">Job</a></nav>
+<a class="brand" href="index.html"><img class="seal" src="seal.png" alt=""><span class="brand-text"><span class="he-title">בְּנֵי הַבְּרִית</span><span class="kicker">Sons of the Covenant</span></span></a>
+<nav class="pills nav"><a class="here" href="index.html">Home</a><a href="week.html?week=2">This week</a><a href="map.html">Map</a><a href="job.html">Job</a></nav>
 </div>
 </header>
 <main class="wrap">
-<div class="toolbar">
-<label>Week <select id="pick"></select></label>
-<span class="progress" id="progress"></span>
-<span class="auth-slim" id="auth-card">
-<button class="ghost" id="signin">Save</button>
-<button class="ghost" id="signout" hidden>Sign out</button>
-<span class="muted" id="who"></span>
-</span>
-</div>
-<article class="card" id="week"></article>
+
+<article class="card home-now">
+<p class="recap-kicker">This week</p>
+<h1>Week 2 · Seed Line, Watchers, and Flood</h1>
+<p>Rebellion spreads from Eden. The sons of God, the Nephilim, the flood, and the remnant through Noah. The passages are on the next page, tap to read.</p>
+<p class="doors"><a class="btn" href="week.html?week=2">Open Week 2 reading</a></p>
+</article>
+
+<article class="card">
+<p class="recap-kicker">Last session</p>
+<h2>Week 1 · Creation, Eden, and the Human Calling</h2>
+<p>Yahweh alone creates. The morning stars were already there when the earth was laid. Humans in his image: represent his rule. Eden is real sacred space.</p>
+<p>The nachash is a spiritual rebel. Genesis 3:15 is the load-bearing verse. Hebrew <em>zera</em> is masculine. He crushes the head.</p>
+<p>We opened Job because the council is already there. Not a wedding. The eldest brother’s house. Yahweh remained God.</p>
+<p class="doors">
+<a class="btn" href="week.html?week=1">Week 1 recap</a>
+<a class="btn" href="job.html">The book of Job</a>
+</p>
+</article>
+
+<article class="card">
+<h2>Story so far</h2>
+<p class="muted">Eden is done. Flood is up. Twelve stations on the map.</p>
+<p class="doors"><a class="btn" href="map.html">Open the map</a></p>
+</article>
+
 </main>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="app.js"></script>
 </body></html>
