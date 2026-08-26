@@ -30,35 +30,107 @@ function studyAppHtml(w) {
   html += "</div>";
   return html;
 }
-function verseHtml(verses) {
-  return verses.map(function(v){
-    return "<p class=\"verse\"><sup>" + esc(String(v.v)) + "</sup> " + esc(v.t) + "</p>";
-  }).join("");
+function getRS(){
+  try { return Object.assign({font:"serif", size:"110", lines:"on", mode:"interlinear"}, JSON.parse(localStorage.getItem("bnei-reader") || "{}")); }
+  catch (e) { return {font:"serif", size:"110", lines:"on", mode:"interlinear"}; }
 }
-function readerHtml(w, pack) {
-  if (!w.reader || !w.reader.length || !pack) return "";
-  var byKey = {};
-  (pack.passages || []).forEach(function(p){ byKey[p.refKey] = p; });
-  var html = "<section class=\"reader\"><h3>Read it here</h3><p class=\"muted\">" + esc(pack.note || "Your own Bible is still first.") + "</p>";
+function putRS(s){ localStorage.setItem("bnei-reader", JSON.stringify(s)); applyRS(s); }
+function applyRS(s){
+  document.documentElement.dataset.font = s.font;
+  document.documentElement.dataset.size = s.size;
+  var el = document.querySelector(".reader-root");
+  if (!el) return;
+  el.dataset.font = s.font;
+  el.dataset.size = s.size;
+  el.dataset.lines = s.lines;
+  el.dataset.mode = s.mode;
+  el.querySelectorAll(".reader-bar button").forEach(function(b){
+    var k = b.getAttribute("data-k"); var v = b.getAttribute("data-v");
+    b.classList.toggle("on", s[k] === v);
+  });
+}
+function ilLookup(k){
+  if (k === "Jude 6-7") return "Jude 1:6-7";
+  return k;
+}
+function wordHtml(w, lang){
+  var title = [w.m, w.s].filter(Boolean).join(" · ");
+  return "<span class=\"il-word\" title=\"" + esc(title) + "\"><span class=\"il-h\">" + esc(w.h || "") + "</span>" + (w.g ? "<span class=\"il-g\">" + esc(w.g) + "</span>" : "") + (w.s ? "<span class=\"il-s\">" + esc(w.s) + "</span>" : "") + "</span>";
+}
+function englishByVerse(web){
+  var map = {};
+  (web && web.verses || []).forEach(function(v){ map[v.v] = v.t; });
+  return map;
+}
+function bindReaderBar(root){
+  root.querySelectorAll(".reader-bar button").forEach(function(b){
+    b.addEventListener("click", function(){
+      var s = getRS();
+      s[b.getAttribute("data-k")] = b.getAttribute("data-v");
+      putRS(s);
+    });
+  });
+}
+function readerHtml(w, pack, il) {
+  if (!w.reader || !w.reader.length) return "";
+  var webBy = {};
+  ((pack && pack.passages) || []).forEach(function(p){ webBy[p.refKey] = p; });
+  var ilBy = {};
+  ((il && il.passages) || []).forEach(function(p){ ilBy[p.ref] = p; });
+  var s = getRS();
+  var html = "<section class=\"reader-root\" data-font=\"" + s.font + "\" data-size=\"" + s.size + "\" data-lines=\"" + s.lines + "\" data-mode=\"" + s.mode + "\">";
+  html += "<div class=\"reader-bar\">";
+  html += "<button type=\"button\" data-k=\"mode\" data-v=\"scripture\">Scripture</button>";
+  html += "<button type=\"button\" data-k=\"mode\" data-v=\"interlinear\">Interlinear</button>";
+  html += "<span class=\"grow\"></span>";
+  html += "<button type=\"button\" data-k=\"font\" data-v=\"serif\">Serif</button>";
+  html += "<button type=\"button\" data-k=\"font\" data-v=\"sans\">Sans</button>";
+  html += "<button type=\"button\" data-k=\"size\" data-v=\"90\">A-</button>";
+  html += "<button type=\"button\" data-k=\"size\" data-v=\"110\">A</button>";
+  html += "<button type=\"button\" data-k=\"size\" data-v=\"125\">A+</button>";
+  html += "<button type=\"button\" data-k=\"lines\" data-v=\"on\">Lines</button>";
+  html += "<button type=\"button\" data-k=\"lines\" data-v=\"off\">Open</button>";
+  html += "</div>";
+  html += "<p class=\"reader-note\">Hebrew and Greek first, from our study app interlinear. Hover a word for morphology. Your own Bible is still first.</p>";
   w.reader.forEach(function(block){
     var body = "";
     (block.keys || []).forEach(function(k){
-      var p = byKey[k];
-      if (!p) return;
-      body += "<h4>" + esc(p.ref) + "</h4>" + verseHtml(p.verses || []);
+      var web = webBy[k];
+      var inter = ilBy[ilLookup(k)] || ilBy[k];
+      var enMap = englishByVerse(web);
+      body += "<h4>" + esc((inter && inter.ref) || (web && web.ref) || k) + "</h4>";
+      if (inter && inter.verses && inter.verses.length){
+        inter.verses.forEach(function(v){
+          var en = enMap[v.n] || "";
+          body += "<div class=\"il-verse\" data-lang=\"" + esc(inter.lang || "he") + "\"><div class=\"il-en\"><span class=\"il-num\">" + esc(String(v.n)) + "</span><span class=\"il-en-text\">" + esc(en) + "</span></div><div class=\"il-verse-words\">" + (v.words || []).map(function(wrd){ return wordHtml(wrd, inter.lang); }).join("") + "</div></div>";
+        });
+      } else if (web){
+        (web.verses || []).forEach(function(v){
+          body += "<div class=\"il-verse\" data-lang=\"en\"><div class=\"il-en\"><span class=\"il-num\">" + esc(String(v.v)) + "</span><span class=\"il-en-text\">" + esc(v.t) + "</span></div></div>";
+        });
+      }
     });
     if (!body) return;
-    html += "<details class=\"passage\"><summary>" + esc(block.title) + "</summary><div class=\"passage-body\">" + body + "</div></details>";
+    html += "<details class=\"passage\" open><summary>" + esc(block.title) + "</summary><div class=\"passage-body\">" + body + "</div></details>";
   });
   html += "</section>";
   return html;
 }
+let interlinearPack = null;
 async function loadReadings(n) {
   if (readingsByWeek[n]) return readingsByWeek[n];
   try {
     var pack = await (await fetch("readings-week" + n + ".json")).json();
     readingsByWeek[n] = pack;
     return pack;
+  } catch (e) { return null; }
+}
+async function loadInterlinear(n) {
+  if (interlinearPack) return interlinearPack;
+  if (n !== 2) return null;
+  try {
+    interlinearPack = await (await fetch("interlinear-week2.json")).json();
+    return interlinearPack;
   } catch (e) { return null; }
 }
 function itemsFor(w) { return w.student.split(";").map(function(s){return s.trim();}).filter(Boolean); }
@@ -88,9 +160,12 @@ function render() {
     });
     list.appendChild(li);
   });
-  loadReadings(w.n).then(function(pack){
+  Promise.all([loadReadings(w.n), loadInterlinear(w.n)]).then(function(pair){
     var slot = document.getElementById("reader-slot");
-    if (slot) slot.innerHTML = readerHtml(w, pack);
+    if (!slot) return;
+    slot.innerHTML = readerHtml(w, pair[0], pair[1]);
+    var root = slot.querySelector(".reader-root");
+    if (root) { applyRS(getRS()); bindReaderBar(root); }
   });
 }
 async function boot() {
@@ -115,6 +190,7 @@ async function boot() {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
   };
   document.getElementById("signout").onclick = function() { firebase.auth().signOut(); };
+  applyRS(getRS());
   render();
 }
 boot();
