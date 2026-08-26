@@ -205,3 +205,12 @@ select{padding:9px;border:1px solid #d8d3c7;font:1rem "Source Serif 4",serif;bac
 .teacher-only .recap-kicker{color:#e7c56a}
 .teacher-only h3{margin:18px 0 8px;font:700 1.05rem Cinzel,serif;color:#e7c56a}
 .teacher-only p{margin:0 0 12px;font-size:1.08rem;color:#f3ead7}
+
+.home-now h1{
+  margin:6px 0 10px;
+  font:700 1.45rem Cinzel,serif;
+  color:#173d39;
+  letter-spacing:.02em;
+}
+.doors{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.doors .btn{margin:0}
