@@ -13,13 +13,13 @@ async function saveRemote() { saveLocal(); if (!firebaseReady || !uid) return; c
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function recapHtml(w) {
   if (!w.recap || !w.recap.length) return "";
-  var html = "<section class=\"recap\"><p class=\"recap-kicker\">Session recap</p>";
+  var html = "<details class=\"recap\"><summary class=\"recap-kicker\">Last session</summary>";
   w.recap.forEach(function(b){
     if (b.h) html += "<h3>" + esc(b.h) + "</h3>";
     (b.p || []).forEach(function(t){ html += "<p>" + esc(t) + "</p>"; });
   });
   if (w.recapLink) html += "<p class=\"recap-link\"><a href=\"" + esc(w.recapLink.href) + "\">" + esc(w.recapLink.label) + "</a></p>";
-  html += "</section>";
+  html += "</details>";
   return html;
 }
 function studyAppHtml(w) {
@@ -95,7 +95,7 @@ function readerHtml(w, pack, il) {
   html += "<button type=\"button\" data-k=\"lines\" data-v=\"on\">Lines</button>";
   html += "<button type=\"button\" data-k=\"lines\" data-v=\"off\">Open</button>";
   html += "</div>";
-  html += "<p class=\"reader-note\">Tap a section to open it. Tap a verse for Hebrew or Greek. Mark Read when you finish that section.</p>";
+  
   var done = weekChecks(w.n, (w.reader || []).length);
   w.reader.forEach(function(block, i){
     var body = "";
@@ -181,7 +181,10 @@ function render() {
   const count = done.filter(Boolean).length;
   document.getElementById("progress").textContent = count + "/" + items.length + " this week";
   const focus = w.focus.join("; ");
-  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div>" + recapHtml(w) + "<p class=\"question\"><strong>Bring this question:</strong> " + w.question + "</p><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul><div id=\"reader-slot\"></div><p class=\"read\"><strong>In the room we will sit on:</strong> " + focus + "</p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>" + studyAppHtml(w);
+  var hasReader = w.reader && w.reader.length;
+  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div><div id=\"reader-slot\"></div>" + recapHtml(w) + "<p class=\"question\"><strong>Bring:</strong> " + w.question + "</p><div class=\"read-list\"><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul></div><details class=\"room\"><summary>In the room</summary><p class=\"read\">" + focus + "</p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul></details>" + studyAppHtml(w);
+  if (hasReader) document.getElementById("week").classList.add("has-reader");
+  else document.getElementById("week").classList.remove("has-reader");
   const list = document.getElementById("list");
   items.forEach(function(item, i) {
     const li = document.createElement("li");
@@ -226,7 +229,11 @@ async function boot() {
       document.getElementById("signout").hidden = !user;
       if (user) await loadRemote(); else { loadLocal(); render(); }
     });
-  } else { loadLocal(); }
+  } else {
+    loadLocal();
+    var saveBtn = document.getElementById("signin");
+    if (saveBtn) saveBtn.hidden = true;
+  }
   document.getElementById("signin").onclick = function() {
     if (!firebaseReady) { alert("Firebase is not connected yet. Checks save on this device. Add your Firebase web config to public/firebase-config.js, then deploy."); return; }
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
