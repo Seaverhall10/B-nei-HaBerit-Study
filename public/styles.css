@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif+Hebrew:wght@500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&family=Noto+Serif+Hebrew:wght@500;700&family=Noto+Serif:wght@400;600&display=swap");
 
 :root{
   --void:#0b1211;
@@ -22,7 +22,7 @@ body{
     radial-gradient(900px 420px at 50% -8%, #1f3d36 0%, transparent 58%),
     repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(201,162,74,.03) 3px, rgba(201,162,74,.03) 4px),
     var(--void);
-  font: 19px/1.65 "Cormorant Garamond", Georgia, serif;
+  font: 18.5px/1.7 "Source Serif 4", Georgia, serif;
 }
 
 .he, .he-title, .stop .he, .word .he{
@@ -131,7 +131,7 @@ button, a.btn, a.button{
 }
 button.primary, a.btn, a.button{background:#173d39;color:#f6eedc;border-color:#173d39}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0}
-select{padding:9px;border:1px solid #d8d3c7;font:1rem "Cormorant Garamond",serif;background:#fff}
+select{padding:9px;border:1px solid #d8d3c7;font:1rem "Source Serif 4",serif;background:#fff}
 .checklist{list-style:none;padding:0}
 .checklist li{display:flex;gap:10px;margin:8px 0;padding:8px 10px;border:1px solid #d8d3c7;background:#fffdf8}
 .checklist input{width:18px;height:18px}
