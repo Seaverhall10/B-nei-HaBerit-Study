@@ -179,3 +179,15 @@ select{padding:9px;border:1px solid #d8d3c7;font:1rem "Cormorant Garamond",serif
 .study-app h3{margin:0 0 8px;font:700 .9rem Cinzel,serif;color:#e7c56a;letter-spacing:.04em}
 .study-app a{color:#e7c56a;font-weight:700}
 .study-app .muted{color:#cde7df}
+
+.reader{margin:22px 0}
+.reader h3{margin:0 0 6px;font:700 1.05rem Cinzel,serif;color:#173d39}
+.passage{margin:8px 0;background:#fffdf6;border:1px solid #e2d3a8}
+.passage summary{cursor:pointer;padding:12px 14px;font:700 .95rem Cinzel,serif;color:#173d39;list-style:none}
+.passage summary::-webkit-details-marker{display:none}
+.passage summary:after{content:" +";float:right;color:#c9a24a}
+.passage[open] summary:after{content:" –"}
+.passage-body{padding:4px 16px 16px;border-top:1px solid #e2d3a8}
+.passage-body h4{margin:14px 0 8px;font:700 .8rem Cinzel,serif;letter-spacing:.06em;color:#aa7625}
+.verse{margin:0 0 8px;font-size:1.08rem;line-height:1.55}
+.verse sup{color:#c9a24a;font-weight:700;padding-right:4px}
