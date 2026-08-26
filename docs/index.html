@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bnei Haberit Study</title>
+<link rel="icon" href="seal.png">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="reader.css">
+</head><body>
+<header class="mast">
+<div class="mast-bar">
+<a class="brand" href="index.html"><img class="seal" src="seal.png" alt=""><span class="brand-text"><span class="he-title">בְּנֵי הַבְּרִית</span><span class="kicker">Weekly reading</span></span></a>
+<nav class="pills nav"><a class="here" href="index.html">Reading</a><a href="map.html">Map</a><a href="job.html">Job</a></nav>
+</div>
+</header>
+<main class="wrap">
+<div class="toolbar">
+<label>Week <select id="pick"></select></label>
+<span class="progress" id="progress"></span>
+<span class="auth-slim" id="auth-card">
+<button class="ghost" id="signin">Save</button>
+<button class="ghost" id="signout" hidden>Sign out</button>
+<span class="muted" id="who"></span>
+</span>
+</div>
+<article class="card" id="week"></article>
+</main>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="app.js"></script>
+</body></html>
