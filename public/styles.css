@@ -191,3 +191,8 @@ select{padding:9px;border:1px solid #d8d3c7;font:1rem "Cormorant Garamond",serif
 .passage-body h4{margin:14px 0 8px;font:700 .8rem Cinzel,serif;letter-spacing:.06em;color:#aa7625}
 .verse{margin:0 0 8px;font-size:1.08rem;line-height:1.55}
 .verse sup{color:#c9a24a;font-weight:700;padding-right:4px}
+
+.teacher-only{margin:22px 0 8px;padding:18px 16px 8px;background:#2a1612;color:#f6eedc;border-left:4px solid #c45a2a}
+.teacher-only .recap-kicker{color:#e7c56a}
+.teacher-only h3{margin:18px 0 8px;font:700 1.05rem Cinzel,serif;color:#e7c56a}
+.teacher-only p{margin:0 0 12px;font-size:1.08rem;color:#f3ead7}
