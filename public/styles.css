@@ -32,89 +32,98 @@ body{
 }
 
 header.mast{
-  text-align:center;
-  padding:48px 22px 36px;
-  background:linear-gradient(180deg,#0b1211 0%,#12211e 100%);
+  padding:8px 14px;
+  background:#0b1211;
   border-bottom:1px solid var(--line);
-  position:relative;
 }
-header.mast:after{
-  content:"";
-  display:block;
-  width:min(420px,70%);
-  height:1px;
-  margin:28px auto 0;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+.mast-bar{
+  width:min(880px,100%);
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
-.seal{width:96px;height:96px;display:block;margin:0 auto 14px;filter:drop-shadow(0 8px 18px #0008)}
-.he-title{margin:0;color:var(--gold-soft);font-size:1.7rem;letter-spacing:.08em}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;color:inherit;min-width:0;
+}
+.seal{width:36px;height:36px;display:block;margin:0;flex:none;filter:drop-shadow(0 2px 6px #0008)}
+.brand-text{display:flex;flex-direction:column;gap:1px;min-width:0}
+.he-title{margin:0;color:var(--gold-soft);font-size:1.05rem;letter-spacing:.04em;line-height:1.2}
 .kicker{
-  margin:8px 0 0;
-  letter-spacing:.32em;
+  margin:0;
+  letter-spacing:.18em;
   text-transform:uppercase;
-  font:700 .68rem Cinzel,serif;
+  font:700 .58rem Cinzel,serif;
   color:#cde7df;
 }
-header.mast h1{
-  margin:10px 0 0;
-  font:700 clamp(1.8rem,4.4vw,3.1rem)/1.15 Cinzel,serif;
-  color:#f7f1e2;
-}
-header.mast .lede{margin:12px auto 0;max-width:38em;color:#d7e7e1}
+header.mast h1, header.mast .lede{display:none}
 
-.pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;margin:0}
 .pills a{
   display:inline-block;
-  padding:8px 14px;
+  padding:6px 11px;
   border-radius:999px;
   border:1px solid var(--line);
   color:#f3ead7;
   text-decoration:none;
-  font:700 .72rem Cinzel,serif;
-  letter-spacing:.08em;
+  font:700 .68rem Cinzel,serif;
+  letter-spacing:.06em;
 }
 .pills a.here{background:var(--gold);border-color:var(--gold);color:#102b2a}
 
-.wrap{width:min(880px,calc(100% - 32px));margin:auto;padding:28px 0 72px}
+.wrap{width:min(880px,calc(100% - 24px));margin:auto;padding:10px 0 56px}
+
+.toolbar{
+  display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;
+  margin:0 0 8px;color:#cfc6b0;font-size:.95rem;
+}
+.toolbar .progress{color:var(--gold-soft);margin:0}
+.toolbar label{color:#e7efe9}
+.auth-slim{margin-left:auto;display:flex;align-items:center;gap:8px}
+button.ghost{
+  background:transparent;color:#e7c56a;border-color:var(--line);
+  padding:6px 10px;font-size:.68rem;
+}
 
 .card{
   background:var(--paper);
   color:var(--ink);
   border:1px solid var(--line);
-  padding:26px 26px 22px;
-  margin:22px 0;
-  box-shadow:0 22px 40px #0005;
+  padding:14px 16px 12px;
+  margin:8px 0 16px;
+  box-shadow:0 10px 24px #0004;
   position:relative;
 }
-.card:before{
-  content:"";
-  position:absolute;inset:8px;
-  border:1px solid rgba(201,162,74,.28);
-  pointer-events:none;
-}
 .card h2{
-  margin:0 0 10px;
-  font:700 1.15rem Cinzel,serif;
+  margin:0;
+  font:700 1.02rem Cinzel,serif;
   color:#173d39;
-  letter-spacing:.04em;
+  letter-spacing:.03em;
 }
 .card p{margin:0 0 12px}
 .card .muted, .muted{color:var(--muted)}
 
-.week-head{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center}
+.week-head{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center;margin:0 0 8px}
 .number{
   display:grid;place-items:center;
-  width:52px;height:52px;border-radius:50%;
+  width:40px;height:40px;border-radius:50%;
   background:var(--gold);color:#102b2a;
-  font:700 1.05rem Cinzel,serif;
+  font:700 .9rem Cinzel,serif;
 }
-.theme{margin:6px 0 0;color:var(--muted);font:.95rem Cinzel,serif;letter-spacing:.04em}
-.recap{margin:22px 0 8px;padding:18px 16px 8px;background:#fffdf6;border-left:4px solid var(--gold)}
+.theme{margin:2px 0 0;color:var(--muted);font:.82rem Cinzel,serif;letter-spacing:.04em}
+.recap{margin:10px 0 6px;padding:8px 12px;background:#fffdf6;border-left:4px solid var(--gold)}
+.recap > summary{cursor:pointer}
+.room{margin:10px 0 4px;padding:8px 12px;background:#edf3ed;border-left:4px solid #4d796d}
+.room > summary{cursor:pointer;font:700 .78rem Cinzel,serif;color:#173d39}
+.has-reader .read-list{display:none}
+.card h3{margin:12px 0 6px;font:700 .9rem Cinzel,serif;color:#173d39}
 .recap-kicker{margin:0 0 10px;letter-spacing:.28em;text-transform:uppercase;font:700 .68rem Cinzel,serif;color:#aa7625}
 .recap h3{margin:18px 0 8px;font:700 1.05rem Cinzel,serif;color:#173d39;letter-spacing:.03em}
 .recap p{margin:0 0 12px;font-size:1.08rem}
 .recap-link a{color:#173d39;font:700 .78rem Cinzel,serif;letter-spacing:.04em}
-.question{margin:16px 0;padding:12px 14px;background:#fff7e6;border-left:4px solid var(--gold)}
+.question{margin:8px 0;padding:8px 12px;background:#fff7e6;border-left:4px solid var(--gold);font-size:.98rem}
 .read{padding:12px 14px;background:#edf3ed;border-left:4px solid #4d796d}
 
 button, a.btn, a.button{
@@ -130,7 +139,7 @@ button, a.btn, a.button{
   display:inline-block;
 }
 button.primary, a.btn, a.button{background:#173d39;color:#f6eedc;border-color:#173d39}
-.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
 select{padding:9px;border:1px solid #d8d3c7;font:1rem "Source Serif 4",serif;background:#fff}
 .checklist{list-style:none;padding:0}
 .checklist li{display:flex;gap:10px;margin:8px 0;padding:8px 10px;border:1px solid #d8d3c7;background:#fffdf8}
@@ -139,8 +148,8 @@ select{padding:9px;border:1px solid #d8d3c7;font:1rem "Source Serif 4",serif;bac
 .note{font-size:.95rem;color:#cfc6b0}
 
 /* Job story */
-.story{width:min(720px,calc(100% - 32px));margin:auto;padding:8px 0 80px}
-.scene{padding:34px 0;border-bottom:1px solid var(--line)}
+.story{width:min(720px,calc(100% - 24px));margin:auto;padding:4px 0 64px}
+.scene{padding:18px 0;border-bottom:1px solid var(--line)}
 .scene .n{
   margin:0 0 8px;
   font:700 .68rem Cinzel,serif;
