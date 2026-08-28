@@ -5,25 +5,18 @@
 <title>Story map | Bnei Haberit</title>
 <link rel="icon" href="seal.png">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="map.css">
+<script src="router.js"></script>
+<script src="shim.js"></script>
 </head><body>
-<header class="mast">
-<div class="mast-bar">
-<a class="brand" href="index.html"><img class="seal" src="seal.png" alt=""><span class="brand-text"><span class="he-title">בְּנֵי הַבְּרִית</span><span class="kicker">Story map</span></span></a>
-<nav class="pills nav"><a href="index.html">Home</a><a href="week.html?week=2">This week</a><a class="here" href="map.html">Map</a><a href="job.html">Job</a></nav>
-</div>
-</header>
-<main class="wrap">
-<section class="card"><h2>Twelve stations</h2><p class="muted">Gold is done. Dark is next. Tap a station.</p><div class="rail" id="rail"></div></section>
-<section class="card">
-<h2 id="week-title">Week</h2>
-<p class="muted" id="week-blurb"></p>
-<p><a class="btn" id="week-read" href="index.html">Open this week reading</a></p>
-<div class="flow" id="flow"></div>
-</section>
-<section class="card"><h2>Load-bearing words</h2><p class="muted">Hebrew first. English walks around it.</p><div class="words" id="words"></div></section>
-<section class="card"><h2>What we can now say</h2><ol class="learned" id="learned"></ol></section>
-<section class="card"><h2>The long arc</h2><p class="muted">From sacred space lost to sacred space restored.</p><div class="arc" id="arc"></div></section>
-</main>
-<script src="map.js"></script>
+<main class="wrap"><article class="card">
+<p>Opening the map…</p>
+<p><a id="shim-continue" href="index.html?view=map">Continue</a></p>
+</article></main>
+<script>
+(function(){
+  var a = document.getElementById("shim-continue");
+  var t = window.BneiRoute && BneiRoute.shimTarget(location);
+  if (a && t) a.href = t;
+})();
+</script>
 </body></html>
