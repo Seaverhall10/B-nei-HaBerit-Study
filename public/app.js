@@ -16,7 +16,6 @@ function recapHtml(w) {
   var html = "<section class=\"recap\"><p class=\"recap-kicker\">Session recap</p>";
   w.recap.forEach(function(b){
     if (b.h) html += "<h3>" + esc(b.h) + "</h3>";
-    (b.p || []).forEach(function(t){ html += "<p>" + esc(t) + "</p>"; });
     if (b.items && b.items.length) {
       html += "<ul class=\"recap-items\">";
       b.items.forEach(function(it){
@@ -26,6 +25,8 @@ function recapHtml(w) {
         html += "</li>";
       });
       html += "</ul>";
+    } else {
+      (b.p || []).forEach(function(t){ html += "<p>" + esc(t) + "</p>"; });
     }
   });
   if (w.recapLink) html += "<p class=\"recap-link\"><a href=\"" + esc(w.recapLink.href) + "\">" + esc(w.recapLink.label) + "</a></p>";
@@ -225,7 +226,7 @@ function render() {
   });
 }
 async function boot() {
-  weeks = await (await fetch("weeks.json")).json();
+  weeks = await (await fetch("weeks.json?v=week1items")).json();
   const sel = document.getElementById("pick");
   sel.innerHTML = weeks.map(function(w){ return "<option value=\"" + w.n + "\">" + w.n + "</option>"; }).join("");
   var q=Number(new URLSearchParams(location.search).get("week"));
