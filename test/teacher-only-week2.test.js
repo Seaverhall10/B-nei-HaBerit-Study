@@ -14,13 +14,19 @@ function read(dir, file) {
   return fs.readFileSync(path.join(dir, file), "utf8");
 }
 
-function loadTeacher(dir) {
+function loadTeacherApi(dir) {
   var src = read(dir, "teacher.js");
   var sandbox = { module: { exports: {} }, exports: {}, console: console };
   sandbox.globalThis = sandbox;
   sandbox.window = sandbox;
   vm.runInNewContext(src, sandbox, { filename: path.join(dir, "teacher.js") });
-  return sandbox.module.exports.teacherOnlyHtml || (sandbox.BneiTeacher && sandbox.BneiTeacher.teacherOnlyHtml);
+  return sandbox.module.exports.teacherOnlyHtml
+    ? sandbox.module.exports
+    : sandbox.BneiTeacher;
+}
+
+function loadTeacher(dir) {
+  return loadTeacherApi(dir).teacherOnlyHtml;
 }
 
 ["public", "docs"].forEach(function (copy) {
@@ -34,7 +40,7 @@ function loadTeacher(dir) {
   var appSrc = read(dir, "app.js");
 
   assert.ok(week2, copy + ": week 2 exists");
-  assert.ok(Array.isArray(week2.teacherOnly) && week2.teacherOnly.length >= 6, copy + ": week 2 keeps teacherOnly blocks plus Qumran and translation origin");
+  assert.ok(Array.isArray(week2.teacherOnly) && week2.teacherOnly.length >= 7, copy + ": week 2 keeps teacherOnly blocks plus Qumran, translation origin, and canon pointer");
 
   var headings = week2.teacherOnly.map(function (b) { return b.h || ""; });
   assert.ok(headings.some(function (h) { return /Do not send this block to the group/i.test(h); }), copy + ": keep do-not-send heading");
@@ -43,8 +49,10 @@ function loadTeacher(dir) {
   assert.ok(headings.some(function (h) { return /SHINING NOAH/i.test(h); }), copy + ": shining-Noah heading");
   assert.ok(headings.some(function (h) { return /QUMRAN AND ANCIENT TRANSLATIONS/i.test(h); }), copy + ": Qumran/translations heading");
   assert.ok(headings.some(function (h) { return /WHERE OUR CURRENT TRANSLATION COMES FROM/i.test(h); }), copy + ": translation-origin heading");
+  assert.ok(headings.some(function (h) { return /FULL CANON AND VERSIONS BRIEF/i.test(h); }), copy + ": canon/versions pointer heading");
   assert.ok(headings.indexOf("WATCHER IN SCRIPTURE") < headings.findIndex(function (h) { return /QUMRAN/i.test(h); }), copy + ": Qumran block after existing Watcher notes");
   assert.ok(headings.findIndex(function (h) { return /QUMRAN/i.test(h); }) < headings.findIndex(function (h) { return /CURRENT TRANSLATION/i.test(h); }), copy + ": translation-origin follows Qumran");
+  assert.ok(headings.findIndex(function (h) { return /CURRENT TRANSLATION/i.test(h); }) < headings.findIndex(function (h) { return /FULL CANON/i.test(h); }), copy + ": canon pointer follows translation-origin");
 
   var blob = JSON.stringify(week2.teacherOnly);
   assert.ok(blob.indexOf("עִיר") !== -1, copy + ": Aramaic Watcher word עִיר");
@@ -99,6 +107,14 @@ function loadTeacher(dir) {
   assert.ok(/Never treat NIV, ESV, or KJV as equivalent to the Hebrew/i.test(blob), copy + ": English ≠ Hebrew");
   assert.ok(/Babel’s split already made every later tongue thinner/i.test(blob) || /Babel's split already made every later tongue thinner/i.test(blob), copy + ": later tongues are thinner");
   assert.ok(/Do not send this chain in GroupMe/i.test(blob), copy + ": translation chain stays off GroupMe");
+  assert.ok(/FULL CANON AND VERSIONS BRIEF/.test(blob), copy + ": pointer block present");
+  assert.ok(/teacher-week2-canon\.md/.test(blob), copy + ": pointer names the brief file");
+  assert.ok(/Why these books \/ where English comes from/.test(blob), copy + ": pointer names the teacher heading");
+  assert.ok(/Genesis 3:15/.test(blob) && /ipsa/.test(blob) && /ipse/.test(blob), copy + ": 3:15 Vulgate trap restored compact");
+  assert.ok(/Nova Vulgata/.test(blob) && /Douay-Rheims/.test(blob), copy + ": Nova Vulgata and Douay named");
+  assert.ok(/If time is short, say this/.test(blob), copy + ": oral script in teacherOnly");
+  assert.ok(/Romans 11 still stands/.test(blob), copy + ": oral script keeps Romans 11");
+  assert.ok(/Israel is not un-Jewed/.test(blob), copy + ": oral script blocks un-Jewing");
 
   var watcher = week2.teacherOnly.find(function (b) { return /WATCHER IN SCRIPTURE/i.test(b.h || ""); });
   var shining = week2.teacherOnly.find(function (b) { return /SHINING NOAH/i.test(b.h || ""); });
@@ -132,7 +148,8 @@ function loadTeacher(dir) {
   assert.ok(/\.teacher-only \.source-label[\s\S]{0,400}var\(--gold/.test(styles), copy + ": source-label uses gold");
   assert.ok(styles.indexOf(".teacher-only{") !== -1 && /border-left:4px solid var\(--gold\)/.test(styles), copy + ": teacher-only gold rail");
 
-  var teacherHtml = loadTeacher(dir);
+  var teacherApi = loadTeacherApi(dir);
+  var teacherHtml = teacherApi.teacherOnlyHtml;
   assert.equal(typeof teacherHtml, "function", copy + ": teacherOnlyHtml is exportable");
   var rendered = teacherHtml(week2);
   assert.ok(rendered.indexOf("teacher-only") !== -1, copy + ": wraps teacher-only section");
@@ -152,6 +169,78 @@ function loadTeacher(dir) {
   assert.ok(/Deuteronomy 32:8/.test(rendered), copy + ": rendered Deut 32:8 as next week's case");
   assert.ok(/Biblia Hebraica Stuttgartensia/.test(rendered), copy + ": rendered BHS");
   assert.ok(/teacher method/.test(rendered), copy + ": rendered method labels");
+  assert.ok(/FULL CANON AND VERSIONS BRIEF/.test(rendered), copy + ": rendered canon pointer heading");
+  assert.ok(/Why these books \/ where English comes from/.test(rendered), copy + ": Week 2 surfaces canon/versions door");
+  assert.ok(rendered.indexOf("teacher-week2-canon.md") !== -1, copy + ": teacher view links the markdown brief");
+  assert.ok(rendered.indexOf("canon-brief") !== -1, copy + ": expandable canon brief on Week 2");
+  assert.ok(teacherJs.indexOf("teacher-week2-canon.md") !== -1, copy + ": teacher.js loads the markdown brief");
+  assert.ok(teacherJs.indexOf("mdToHtml") !== -1, copy + ": markdown renderer exists");
+  assert.equal(typeof teacherApi.mdToHtml, "function", copy + ": mdToHtml is exportable");
+
+  var week1 = weeks.find(function (w) { return w.n === 1; });
+  var week1Html = teacherHtml(week1 || {});
+  assert.ok(week1Html.indexOf("teacher-week2-canon.md") === -1, copy + ": canon brief is Week 2 only");
+
+  var mdPath = path.join(dir, "teacher-week2-canon.md");
+  assert.ok(fs.existsSync(mdPath), copy + ": teacher-week2-canon.md exists");
+  var md = fs.readFileSync(mdPath, "utf8");
+  assert.ok(md.split(/\s+/).filter(Boolean).length > 2500, copy + ": brief is headed meat, not a card");
+  [
+    "Teacher only",
+    "Genesis 3:15",
+    "zera",
+    "ipsa",
+    "ipse",
+    "Nova Vulgata",
+    "Douay-Rheims",
+    "autos",
+    "Tanakh",
+    "Tobit",
+    "Judith",
+    "Sirach",
+    "Baruch",
+    "Maccabees",
+    "Trent",
+    "Athanasius",
+    "Festal",
+    "Hippo",
+    "Carthage",
+    "two piles",
+    "1Q20",
+    "Jubilees",
+    "Ethiopian",
+    "Daniel 4",
+    "Alexandrinus",
+    "Onkelos",
+    "H430",
+    "Aleppo",
+    "Leningrad",
+    "Tyndale",
+    "Geneva",
+    "Bomberg",
+    "Ben Hayyim",
+    "Textus Receptus",
+    "Crossway",
+    "Nestle-Aland",
+    "4QDeut",
+    "Romans 11"
+  ].forEach(function (needle) {
+    assert.ok(md.indexOf(needle) !== -1, copy + ": brief keeps " + needle);
+  });
+  assert.ok(/Do not say Catholics added books in the Middle Ages/i.test(md), copy + ": do not smear the deuterocanon timeline");
+  assert.ok(/KJV 1611 printed the Apocrypha/i.test(md) || /1611 King James printed the Apocrypha/i.test(md), copy + ": 1611 Apocrypha between testaments");
+  assert.ok(/Revelation 2:9 or 3:9/.test(md), copy + ": do not un-Jew from Rev 2:9/3:9");
+  assert.ok(!/Wyatt/i.test(md), copy + ": no Ron Wyatt");
+  assert.ok(!/fossil/i.test(md), copy + ": no fossils");
+  assert.ok(!/Esther-is-dubious/i.test(md) && !/Esther is dubious/i.test(md), copy + ": no Esther-is-dubious");
+  assert.ok(!/breath-sound/i.test(md) && !/breath sound of the Name/i.test(md), copy + ": no breath-sound-of-the-Name");
+  var beats = md.match(/^## /gm) || [];
+  assert.ok(beats.length === 9, copy + ": nine headed beats, got " + beats.length);
+  var renderedMd = teacherApi.mdToHtml(md);
+  assert.ok(renderedMd.indexOf("<h3>") !== -1, copy + ": markdown beats render");
+  assert.ok(renderedMd.indexOf("ipsa") !== -1, copy + ": rendered brief keeps ipsa");
+  assert.ok(renderedMd.indexOf("<script") === -1, copy + ": escaped canon markdown");
+  assert.ok(renderedMd.indexOf("class=\"he\"") !== -1, copy + ": Hebrew wrapped in canon brief");
 
   var homeStart = indexHtml.indexOf('id="view-home"');
   var weekStart = indexHtml.indexOf('id="view-week"');
@@ -178,6 +267,8 @@ function loadTeacher(dir) {
   ].forEach(function (needle) {
     assert.ok(home.toLowerCase().indexOf(needle.toLowerCase()) === -1, copy + ": student home must not contain " + needle);
   });
+  assert.ok(home.indexOf("teacher-week2-canon") === -1, copy + ": student home has no canon brief");
+  assert.ok(home.indexOf("ipsa") === -1, copy + ": student home has no Vulgate ipsa");
 
   assert.ok(weekPage.indexOf("1Q20") === -1, copy + ": week.html shim has no Apocryphon");
   assert.ok(weekPage.indexOf("teacherOnly") === -1, copy + ": week.html shim has no teacherOnly");
@@ -212,6 +303,10 @@ function loadTeacher(dir) {
   ].forEach(function (needle) {
     assert.ok(studentBlob.indexOf(needle) === -1, copy + ": student week fields have no versions lecture (" + needle + ")");
   });
+  assert.ok(studentBlob.indexOf("ipsa") === -1, copy + ": student week fields have no Vulgate ipsa");
+  assert.ok(studentBlob.indexOf("teacher-week2-canon") === -1, copy + ": student week fields have no canon brief file");
+  assert.ok(weekPage.indexOf("teacher-week2-canon") === -1, copy + ": week.html shim has no canon brief");
+  assert.ok(appSrc.indexOf("teacher-week2-canon") === -1, copy + ": app.js never loads the teacher brief");
   assert.ok(!/1Q20/.test(studentBlob), copy + ": student observe stays off 1Q20");
   assert.ok((week2.observe || []).filter(function (line) {
     return /desert/.test(line) || /cave books/.test(line);

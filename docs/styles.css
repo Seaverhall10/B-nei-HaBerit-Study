@@ -272,6 +272,19 @@ select{
   border-color:var(--gold-soft);
 }
 .teacher-only .he{color:var(--gold-soft);font-size:1.12em}
+.teacher-only .canon-brief-shell{margin:8px 0 16px}
+.teacher-only a.canon-file{color:var(--gold-soft);font-weight:700}
+.teacher-only details.canon-brief{margin:8px 0 16px}
+.teacher-only details.canon-brief summary{
+  cursor:pointer;
+  color:var(--gold-soft);
+  font:700 1rem Cinzel,serif;
+}
+.teacher-only .canon-body h2{margin:18px 0 8px;font:700 1.12rem Cinzel,serif;color:var(--gold-soft)}
+.teacher-only .canon-body h3{margin:16px 0 8px}
+.teacher-only .canon-body h4{margin:14px 0 8px;font:700 .95rem Cinzel,serif;color:var(--gold-soft)}
+.teacher-only .canon-body ul{margin:0 0 12px;padding-left:1.2em}
+.teacher-only .canon-body li{margin:0 0 6px}
 
 .home-now h1{
   margin:6px 0 10px;
