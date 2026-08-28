@@ -1,9 +1,10 @@
-const DEFAULT_WEEK = 2;
+const DEFAULT_WEEK = WeekWindow.DEFAULT_WEEK;
 let weeks = [];
 let uid = null;
 let checks = {};
 let firebaseReady = false;
 let readingsByWeek = {};
+let urlLocked = false;
 function configLooksReal() { const c = window.FIREBASE_CONFIG; return c && c.apiKey && String(c.apiKey).indexOf("REPLACE") === -1; }
 function localKey() { return "bnei-checks-" + (uid || "local"); }
 function loadLocal() { try { checks = JSON.parse(localStorage.getItem(localKey()) || "{}"); } catch (e) { checks = {}; } }
@@ -33,106 +34,6 @@ function recapHtml(w) {
   html += "</section>";
   return html;
 }
-function studyAppHtml(w) {
-  if (!w.studyApp) return "";
-  var a = w.studyApp;
-  var html = "<div class=\"study-app\"><h3>Study app</h3><p><a href=\"" + esc(a.href) + "\" target=\"_blank\" rel=\"noopener\">" + esc(a.label) + "</a></p>";
-  if (a.note) html += "<p class=\"muted\">" + esc(a.note) + "</p>";
-  html += "</div>";
-  return html;
-}
-function getRS(){
-  var d = {font:"serif", size:"110", lines:"on", mode:"scripture"};
-  try { Object.assign(d, JSON.parse(localStorage.getItem("bnei-reader") || "{}")); } catch (e) {}
-  if (!d.modeSet) d.mode = "scripture";
-  return d;
-}
-function putRS(s){ localStorage.setItem("bnei-reader", JSON.stringify(s)); applyRS(s); }
-function applyRS(s){
-  document.documentElement.dataset.font = s.font;
-  document.documentElement.dataset.size = s.size;
-  var el = document.querySelector(".reader-root");
-  if (!el) return;
-  el.dataset.font = s.font;
-  el.dataset.size = s.size;
-  el.dataset.lines = s.lines;
-  el.dataset.mode = s.mode;
-  el.querySelectorAll(".reader-bar button").forEach(function(b){
-    var k = b.getAttribute("data-k"); var v = b.getAttribute("data-v");
-    b.classList.toggle("on", s[k] === v);
-  });
-}
-function ilLookup(k){
-  if (k === "Jude 6-7") return "Jude 1:6-7";
-  return k;
-}
-function wordHtml(w, lang){
-  var title = [w.m, w.s].filter(Boolean).join(" · ");
-  return "<span class=\"il-word\" title=\"" + esc(title) + "\"><span class=\"il-h\">" + esc(w.h || "") + "</span>" + (w.g ? "<span class=\"il-g\">" + esc(w.g) + "</span>" : "") + (w.s ? "<span class=\"il-s\">" + esc(w.s) + "</span>" : "") + "</span>";
-}
-function englishByVerse(web){
-  var map = {};
-  (web && web.verses || []).forEach(function(v){ map[v.v] = v.t; });
-  return map;
-}
-function bindReaderBar(root){
-  root.querySelectorAll(".reader-bar button").forEach(function(b){
-    b.addEventListener("click", function(){
-      var s = getRS();
-      var k = b.getAttribute("data-k");
-      s[k] = b.getAttribute("data-v");
-      if (k === "mode") s.modeSet = true;
-      putRS(s);
-    });
-  });
-}
-function readerHtml(w, pack, il) {
-  if (!w.reader || !w.reader.length) return "";
-  var webBy = {};
-  ((pack && pack.passages) || []).forEach(function(p){ webBy[p.refKey] = p; });
-  var ilBy = {};
-  ((il && il.passages) || []).forEach(function(p){ ilBy[p.ref] = p; });
-  var s = getRS();
-  var html = "<section class=\"reader-root\" data-font=\"" + s.font + "\" data-size=\"" + s.size + "\" data-lines=\"" + s.lines + "\" data-mode=\"" + s.mode + "\">";
-  html += "<div class=\"reader-bar\">";
-  html += "<button type=\"button\" data-k=\"mode\" data-v=\"scripture\">Scripture</button>";
-  html += "<button type=\"button\" data-k=\"mode\" data-v=\"interlinear\">Interlinear</button>";
-  html += "<span class=\"grow\"></span>";
-  html += "<button type=\"button\" data-k=\"font\" data-v=\"serif\">Serif</button>";
-  html += "<button type=\"button\" data-k=\"font\" data-v=\"sans\">Sans</button>";
-  html += "<button type=\"button\" data-k=\"size\" data-v=\"90\">A-</button>";
-  html += "<button type=\"button\" data-k=\"size\" data-v=\"110\">A</button>";
-  html += "<button type=\"button\" data-k=\"size\" data-v=\"125\">A+</button>";
-  html += "<button type=\"button\" data-k=\"lines\" data-v=\"on\">Lines</button>";
-  html += "<button type=\"button\" data-k=\"lines\" data-v=\"off\">Open</button>";
-  html += "</div>";
-  
-  var done = weekChecks(w.n, (w.reader || []).length);
-  w.reader.forEach(function(block, i){
-    var body = "";
-    (block.keys || []).forEach(function(k){
-      var web = webBy[k];
-      var inter = ilBy[ilLookup(k)] || ilBy[k];
-      var enMap = englishByVerse(web);
-      body += "<h4>" + esc((inter && inter.ref) || (web && web.ref) || k) + "</h4>";
-      if (inter && inter.verses && inter.verses.length){
-        inter.verses.forEach(function(v){
-          var en = enMap[v.n] || "";
-          body += "<div class=\"il-verse\" data-lang=\"" + esc(inter.lang || "he") + "\"><div class=\"il-en\"><span class=\"il-num\">" + esc(String(v.n)) + "</span><span class=\"il-en-text\">" + esc(en) + "</span></div><div class=\"il-verse-words\">" + (v.words || []).map(function(wrd){ return wordHtml(wrd, inter.lang); }).join("") + "</div></div>";
-        });
-      } else if (web){
-        (web.verses || []).forEach(function(v){
-          body += "<div class=\"il-verse\" data-lang=\"en\"><div class=\"il-en\"><span class=\"il-num\">" + esc(String(v.v)) + "</span><span class=\"il-en-text\">" + esc(v.t) + "</span></div></div>";
-        });
-      }
-    });
-    if (!body) return;
-    html += "<details class=\"passage" + (done[i] ? " read" : "") + "\"><summary><label class=\"mark-read\"><input type=\"checkbox\" data-i=\"" + i + "\"" + (done[i] ? " checked" : "") + "><span>Read</span></label><span class=\"passage-title\">" + esc(block.title) + "</span></summary><div class=\"passage-body\">" + body + "</div></details>";
-  });
-  html += "</section>";
-  return html;
-}
-let interlinearPack = null;
 async function loadReadings(n) {
   if (readingsByWeek[n]) return readingsByWeek[n];
   try {
@@ -141,22 +42,7 @@ async function loadReadings(n) {
     return pack;
   } catch (e) { return null; }
 }
-async function loadInterlinear(n) {
-  if (interlinearPack) return interlinearPack;
-  if (n !== 2) return null;
-  try {
-    interlinearPack = await (await fetch("interlinear-week2.json")).json();
-    return interlinearPack;
-  } catch (e) { return null; }
-}
 function bindReader(root, w){
-  root.querySelectorAll(".il-verse").forEach(function(v){
-    v.addEventListener("click", function(e){
-      if (e.target.closest(".il-word")) return;
-      if (root.dataset.mode !== "scripture") return;
-      v.classList.toggle("open");
-    });
-  });
   var items = itemsFor(w);
   root.querySelectorAll(".mark-read").forEach(function(lab){
     var box = lab.querySelector("input");
@@ -182,11 +68,23 @@ function bindReader(root, w){
 }
 function itemsFor(w) { return w.student.split(";").map(function(s){return s.trim();}).filter(Boolean); }
 function weekChecks(n, len) { const rec = checks[n] || checks[String(n)]; const base = rec && rec.items ? rec.items : rec; const arr = Array.isArray(base) ? base.slice() : []; while (arr.length < len) arr.push(false); return arr; }
-function gw(refs) { return "https://www.biblegateway.com/passage/?search=" + encodeURIComponent(refs) + "&version=NIV"; }
+function renderLocked() {
+  document.getElementById("progress").textContent = "";
+  var article = document.getElementById("week");
+  article.classList.remove("has-reader");
+  article.innerHTML = WeekWindow.notYetHtml();
+}
 function render() {
   const sel = document.getElementById("pick");
+  if (urlLocked) {
+    renderLocked();
+    return;
+  }
   const w = weeks.find(function(x){ return x.n === Number(sel.value); });
-  if (!w) return;
+  if (!w || !WeekWindow.isStudentWeek(w.n)) {
+    renderLocked();
+    return;
+  }
   const items = itemsFor(w);
   const done = weekChecks(w.n, items.length);
   const count = done.filter(Boolean).length;
@@ -194,7 +92,7 @@ function render() {
   const focus = w.focus.join("; ");
   var hasReader = w.reader && w.reader.length;
   var jumpTarget = hasReader ? "reader-slot" : "read-this-week";
-  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div><p class=\"jump-row\"><a href=\"#" + jumpTarget + "\">Read this week</a></p>" + recapHtml(w) + "<div id=\"reader-slot\"></div><p class=\"question\"><strong>Bring:</strong> " + w.question + "</p><div class=\"read-list\" id=\"read-this-week\"><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul></div><p class=\"read\"><strong>In the room:</strong> " + focus + "</p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>" + studyAppHtml(w);
+  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div><p class=\"jump-row\"><a href=\"#" + jumpTarget + "\">Read this week</a></p>" + recapHtml(w) + "<div id=\"reader-slot\"></div><p class=\"question\"><strong>Bring:</strong> " + w.question + "</p><div class=\"read-list\" id=\"read-this-week\"><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul></div><p class=\"read\"><strong>In the room:</strong> " + focus + "</p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>";
   if (hasReader) document.getElementById("week").classList.add("has-reader");
   else document.getElementById("week").classList.remove("has-reader");
   const list = document.getElementById("list");
@@ -211,27 +109,29 @@ function render() {
     });
     list.appendChild(li);
   });
-  Promise.all([loadReadings(w.n), loadInterlinear(w.n)]).then(function(pair){
+  loadReadings(w.n).then(function(pack){
     var slot = document.getElementById("reader-slot");
     if (!slot) return;
-    slot.innerHTML = readerHtml(w, pair[0], pair[1]);
-    var root = slot.querySelector(".reader-root");
-    if (root) {
-      applyRS(getRS());
-      bindReaderBar(root);
-      bindReader(root, w);
-    }
-    var list = document.getElementById("list");
-    if (list && w.reader && w.reader.length) list.parentNode.querySelector("h3").textContent = "Read this week";
+    slot.innerHTML = WeekWindow.creamReaderHtml(w, pack, weekChecks(w.n, (w.reader || []).length));
+    bindReader(slot, w);
   });
 }
 async function boot() {
-  weeks = await (await fetch("weeks.json?v=week1items")).json();
+  weeks = await (await fetch("weeks.json?v=sendhome")).json();
   const sel = document.getElementById("pick");
-  sel.innerHTML = weeks.map(function(w){ return "<option value=\"" + w.n + "\">" + w.n + "</option>"; }).join("");
-  var q=Number(new URLSearchParams(location.search).get("week"));
-  sel.value = String(q || DEFAULT_WEEK);
-  sel.addEventListener("change", render);
+  sel.innerHTML = WeekWindow.pickerWeeks(weeks).map(function(w){
+    return "<option value=\"" + w.n + "\">" + esc(WeekWindow.optionLabel(w)) + "</option>";
+  }).join("");
+  var raw = new URLSearchParams(location.search).get("week");
+  var q = Number(raw);
+  urlLocked = raw != null && raw !== "" && !WeekWindow.isStudentWeek(q);
+  if (!urlLocked && WeekWindow.isStudentWeek(q)) sel.value = String(q);
+  else sel.value = String(DEFAULT_WEEK);
+  sel.addEventListener("change", function() {
+    urlLocked = false;
+    if (history.replaceState) history.replaceState(null, "", "week.html?week=" + sel.value);
+    render();
+  });
   if (configLooksReal() && window.firebase) {
     firebase.initializeApp(window.FIREBASE_CONFIG);
     firebaseReady = true;
@@ -252,7 +152,6 @@ async function boot() {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
   };
   document.getElementById("signout").onclick = function() { firebase.auth().signOut(); };
-  applyRS(getRS());
   render();
 }
 boot();
