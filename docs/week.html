@@ -6,16 +6,14 @@
 <link rel="icon" href="seal.png">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="reader.css">
-</head><body>
+</head><body class="week-page">
 <header class="mast">
 <div class="mast-bar">
 <a class="brand" href="index.html"><img class="seal" src="seal.png" alt=""><span class="brand-text"><span class="he-title">בְּנֵי הַבְּרִית</span><span class="kicker">Weekly reading</span></span></a>
 <nav class="pills nav"><a href="index.html">Home</a><a class="here" href="week.html?week=2">This week</a><a href="map.html">Map</a><a href="job.html">Job</a></nav>
 </div>
-</header>
-<main class="wrap">
 <div class="toolbar">
-<label>Week <select id="pick"></select></label>
+<label class="week-pick">Week <select id="pick"></select></label>
 <span class="progress" id="progress"></span>
 <span class="auth-slim" id="auth-card">
 <button class="ghost" id="signin">Save</button>
@@ -23,6 +21,8 @@
 <span class="muted" id="who"></span>
 </span>
 </div>
+</header>
+<main class="wrap">
 <article class="card" id="week"></article>
 </main>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
