@@ -1,11 +1,11 @@
-/* Dark lined reader — matches Ancient Texts interlinear chrome */
+/* Dark lined reader — cream type on near-black, ember accents */
 .reader-root{
-  --r-bg:#0e1412;
-  --r-text:#e8eee9;
-  --r-muted:#9aaba3;
-  --r-gold:#d4b36a;
-  --r-line:rgba(212,179,106,.16);
-  --r-word:rgba(212,179,106,.07);
+  --r-bg:#150600;
+  --r-text:#f6eedc;
+  --r-muted:#c9b4a8;
+  --r-gold:#fe5836;
+  --r-line:rgba(224,64,32,.22);
+  --r-word:rgba(224,64,32,.08);
   margin:18px 0 8px;
   padding:14px 12px 18px;
   background:var(--r-bg);
@@ -25,12 +25,12 @@
 }
 .reader-bar button{
   min-height:36px;padding:6px 10px;border-radius:0;
-  border:1px solid rgba(212,179,106,.35);
+  border:1px solid rgba(224,64,32,.35);
   background:transparent;color:var(--r-muted);
   font:600 .72rem "Source Sans 3",system-ui,sans-serif;
   letter-spacing:.04em;cursor:pointer;
 }
-.reader-bar button.on{background:var(--r-gold);color:#102b2a;border-color:var(--r-gold)}
+.reader-bar button.on{background:var(--r-gold);color:#0d0500;border-color:var(--r-gold)}
 .reader-bar .grow{flex:1}
 .reader-note{margin:0 0 12px;color:var(--r-muted);font-size:.85rem}
 .passage{
@@ -79,7 +79,7 @@
 }
 .il-h{
   font-family:"Noto Serif Hebrew","Noto Serif","Source Serif 4",serif;
-  font-size:1.22em;line-height:1.3;color:#f4f7f4;
+  font-size:1.22em;line-height:1.3;color:#f6eedc;
 }
 .il-verse[data-lang="el"] .il-h{font-family:"Noto Serif","Source Serif 4",serif}
 .il-g{font-size:.62em;color:var(--r-gold);text-align:center;line-height:1.2;margin-top:3px}
@@ -98,7 +98,7 @@ html[data-size="125"] body{font-size:20px}
   font:600 .72rem "Source Sans 3",system-ui,sans-serif;
   color:var(--r-muted);letter-spacing:.04em;cursor:pointer;
 }
-.mark-read input{width:16px;height:16px;accent-color:#d4b36a}
-.passage.read{border-color:rgba(212,179,106,.45)}
+.mark-read input{width:16px;height:16px;accent-color:#e04020}
+.passage.read{border-color:rgba(224,64,32,.45)}
 .passage.read .passage-title{color:#e8eee9}
 .passage.read .mark-read{color:var(--r-gold)}

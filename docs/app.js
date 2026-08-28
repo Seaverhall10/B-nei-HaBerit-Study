@@ -21,7 +21,7 @@ function recapHtml(w) {
       html += "<ul class=\"recap-items\">";
       b.items.forEach(function(it){
         html += "<li>";
-        if (it.b) html += "<p class=\"lead\">" + esc(it.b) + "</p>";
+        if (it.b) html += "<h4 class=\"lead\">" + esc(it.b) + "</h4>";
         (it.p || []).forEach(function(t){ html += "<p>" + esc(t) + "</p>"; });
         html += "</li>";
       });
@@ -169,7 +169,7 @@ function bindReader(root, w){
       if (det) det.classList.toggle("read", on);
       var top = document.getElementById("w" + w.n + "-" + i);
       if (top) top.checked = on;
-      document.getElementById("progress").textContent = arr.filter(Boolean).length + "/" + items.length + " this week";
+      document.getElementById("progress").textContent = arr.filter(Boolean).length + "/" + items.length;
       await saveRemote();
     }
     lab.addEventListener("click", function(e){
@@ -189,10 +189,11 @@ function render() {
   const items = itemsFor(w);
   const done = weekChecks(w.n, items.length);
   const count = done.filter(Boolean).length;
-  document.getElementById("progress").textContent = count + "/" + items.length + " this week";
+  document.getElementById("progress").textContent = count + "/" + items.length;
   const focus = w.focus.join("; ");
   var hasReader = w.reader && w.reader.length;
-  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div>" + recapHtml(w) + "<div id=\"reader-slot\"></div><p class=\"question\"><strong>Bring:</strong> " + w.question + "</p><div class=\"read-list\"><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul></div><p class=\"read\"><strong>In the room:</strong> " + focus + "</p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>" + studyAppHtml(w);
+  var jumpTarget = hasReader ? "reader-slot" : "read-this-week";
+  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div><p class=\"jump-row\"><a href=\"#" + jumpTarget + "\">Read this week</a></p>" + recapHtml(w) + "<div id=\"reader-slot\"></div><p class=\"question\"><strong>Bring:</strong> " + w.question + "</p><div class=\"read-list\" id=\"read-this-week\"><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul></div><p class=\"read\"><strong>In the room:</strong> " + focus + "</p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>" + studyAppHtml(w);
   if (hasReader) document.getElementById("week").classList.add("has-reader");
   else document.getElementById("week").classList.remove("has-reader");
   const list = document.getElementById("list");
@@ -204,7 +205,7 @@ function render() {
       const arr = weekChecks(w.n, items.length);
       arr[i] = e.target.checked;
       checks[String(w.n)] = arr;
-      document.getElementById("progress").textContent = arr.filter(Boolean).length + "/" + items.length + " this week";
+      document.getElementById("progress").textContent = arr.filter(Boolean).length + "/" + items.length;
       await saveRemote();
     });
     list.appendChild(li);
@@ -226,7 +227,7 @@ function render() {
 async function boot() {
   weeks = await (await fetch("weeks.json")).json();
   const sel = document.getElementById("pick");
-  sel.innerHTML = weeks.map(function(w){ return "<option value=\"" + w.n + "\">Week " + w.n + ": " + w.title + "</option>"; }).join("");
+  sel.innerHTML = weeks.map(function(w){ return "<option value=\"" + w.n + "\">" + w.n + "</option>"; }).join("");
   var q=Number(new URLSearchParams(location.search).get("week"));
   sel.value = String(q || DEFAULT_WEEK);
   sel.addEventListener("change", render);
@@ -237,6 +238,7 @@ async function boot() {
       uid = user ? user.uid : null;
       document.getElementById("who").textContent = user ? (user.displayName || user.email) : "";
       document.getElementById("signout").hidden = !user;
+      document.getElementById("signin").hidden = !!user;
       if (user) await loadRemote(); else { loadLocal(); render(); }
     });
   } else {
