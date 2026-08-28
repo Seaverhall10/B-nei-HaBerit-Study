@@ -316,6 +316,8 @@ function loadTeacher(dir) {
   assert.ok(home.indexOf("Hollywood timeline") === -1, copy + ": student home has no Hollywood-timeline note");
   assert.ok(home.indexOf("Acts 21") === -1, copy + ": student home has no Acts 21 dump");
   assert.ok(home.indexOf("why Paul takes the vow") === -1, copy + ": student home has no Paul-vow card");
+  assert.ok(home.indexOf("Big Board") === -1, copy + ": student home has no Big Board");
+  assert.ok(home.indexOf("salvationIssue") === -1, copy + ": student home has no salvationIssue dump");
 
   var qPath = path.join(dir, "teacher-questions.json");
   assert.ok(fs.existsSync(qPath), copy + ": teacher-questions.json exists");
@@ -342,6 +344,17 @@ function loadTeacher(dir) {
   assert.ok(/EXTRA_BIBLICAL/.test(qNotes), copy + ": Enoch stays labeled");
   assert.ok(/200 Watchers/.test(qNotes) || /third of the stars/.test(qNotes), copy + ": Enoch stars/Watchers named as extra");
   assert.ok(/Do not mash Lucifer/.test(qNotes), copy + ": do not mash Lucifer’s fall with Genesis 6");
+  ["salvationIssue", "inScripture", "historicalDebate", "earlierDecisions", "newEvidence"].forEach(function (field) {
+    assert.ok(Object.prototype.hasOwnProperty.call(fall, field), copy + ": fall-timing has " + field);
+  });
+  assert.strictEqual(String(fall.salvationIssue).toLowerCase(), "no", copy + ": fall timing is not a salvation issue");
+  assert.ok(/gospel does not hang/.test(fall.salvationWhy || ""), copy + ": fall timing has a one-line why");
+  assert.strictEqual(String(fall.inScripture).toLowerCase(), "yes", copy + ": fall timing is in Scripture");
+  assert.ok(/Ezekiel 28/.test(fall.inScriptureNote) && /Isaiah 14/.test(fall.inScriptureNote) && /Genesis 3/.test(fall.inScriptureNote) && /Job 1/.test(fall.inScriptureNote), copy + ": fall timing names the texts");
+  assert.ok(/3:24/.test(fall.inScriptureNote), copy + ": in-Scripture note keeps 3:24 settled");
+  assert.ok(/fall-before-Eden/.test(fall.historicalDebate) && /garden-as-the-moment/.test(fall.historicalDebate), copy + ": fall historical debate named");
+  assert.ok(/pre-Eden fall/.test(fall.earlierDecisions) && /not locking/.test(fall.earlierDecisions), copy + ": earlier church sequence labeled, not locked");
+  assert.ok(/None that timestamps/.test(fall.newEvidence) && /Qumran does not date it/.test(fall.newEvidence), copy + ": no invented fall-date find");
   var acts = qPack.questions[1];
   assert.ok(acts, copy + ": second card exists");
   assert.strictEqual(acts.id, "acts-21-vow", copy + ": second card is acts-21-vow");
@@ -359,6 +372,16 @@ function loadTeacher(dir) {
   assert.ok(/Do not sand the tension away/.test(acts.tension), copy + ": do not sand the tension away");
   var actsNotes = (acts.notes || []).join(" ") + (acts.tension || "");
   assert.ok(/The text says he did it/.test(actsHold + actsNotes + acts.tension), copy + ": the text says he did it");
+  ["salvationIssue", "inScripture", "historicalDebate", "earlierDecisions", "newEvidence"].forEach(function (field) {
+    assert.ok(Object.prototype.hasOwnProperty.call(acts, field), copy + ": acts-21-vow has " + field);
+  });
+  assert.strictEqual(String(acts.salvationIssue).toLowerCase(), "no", copy + ": Acts 21 is not a salvation issue");
+  assert.ok(/gospel does not hang/.test(acts.salvationWhy || ""), copy + ": Acts 21 has a one-line why");
+  assert.strictEqual(String(acts.inScripture).toLowerCase(), "yes", copy + ": Acts 21 is in Scripture");
+  assert.ok(/Acts 21:17-26/.test(acts.inScriptureNote) && /21:21/.test(acts.inScriptureNote) && /21:27/.test(acts.inScriptureNote) && /Galatians 2/.test(acts.inScriptureNote), copy + ": Acts 21 in-Scripture names the texts");
+  assert.ok(/Paul and Torah|Judaizing/.test(acts.historicalDebate), copy + ": Acts 21 historical debate named");
+  assert.ok(/accommodation/.test(acts.earlierDecisions) && /Nazarite/.test(acts.earlierDecisions) && /not locking a motive/.test(acts.earlierDecisions), copy + ": earlier Paul-and-law readings labeled, not locked");
+  assert.ok(/None required/.test(acts.newEvidence), copy + ": Acts 21 needs no invented find");
   assert.ok(teacherJs.indexOf("deepQuestionsHtml") !== -1, copy + ": Deep Questions renderer exists");
   assert.ok(teacherJs.indexOf("teacher-questions.json") !== -1, copy + ": teacher.js fetches the tracker");
   assert.ok(styles.indexOf("deep-questions") !== -1, copy + ": Deep Questions is styled teacher-only");
@@ -372,6 +395,11 @@ function loadTeacher(dir) {
   assert.ok(/Acts 21 — why Paul takes the vow and offering/.test(dq), copy + ": second card title renders");
   assert.ok(dq.indexOf("Acts 21:17-26") !== -1, copy + ": rendered Acts 21:17-26");
   assert.ok(/Do not lock a motive/.test(dq), copy + ": rendered motive stays unlocked");
+  assert.ok(/Big Board/.test(dq), copy + ": Deep Questions is a board");
+  assert.ok(dq.indexOf("board-table") !== -1 && dq.indexOf("board-chip") !== -1, copy + ": cards show chips and a category table");
+  assert.ok(/Salvation issue/.test(dq) && /In Scripture/.test(dq) && /Historical debate/.test(dq) && /Earlier decisions/.test(dq) && /New evidence/.test(dq), copy + ": five board questions visible on cards");
+  assert.ok(/gospel does not hang on dating/.test(dq), copy + ": fall-timing salvation why renders");
+  assert.ok(/gospel does not hang on why Paul/.test(dq), copy + ": Acts 21 salvation why renders");
   var week1View = weeks.find(function (w) { return w.n === 1; }) || { n: 1, title: "Week 1", teacherMoves: [] };
   var view1 = teacherApi.teacherViewHtml(week1View, qPack);
   var view2 = teacherApi.teacherViewHtml(week2, qPack);

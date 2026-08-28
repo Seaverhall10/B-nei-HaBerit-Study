@@ -85,6 +85,25 @@ function loadWeek2Canon(root) {
     body.innerHTML = "<p>Could not load the brief. Use the file link.</p>";
   });
 }
+function boardChip(kind, value) {
+  var v = String(value || "open").toLowerCase().replace(/[^a-z0-9-]+/g, "-");
+  return "<span class=\"board-chip chip-" + v + "\">" + esc(kind) + ": " + esc(value || "") + "</span>";
+}
+function boardTable(q) {
+  var rows = [
+    ["Salvation issue", String(q.salvationIssue || "no") + (q.salvationWhy ? " — " + q.salvationWhy : "")],
+    ["In Scripture", String(q.inScripture || "") + (q.inScriptureNote ? " — " + q.inScriptureNote : "")],
+    ["Historical debate", q.historicalDebate || ""],
+    ["Earlier decisions", q.earlierDecisions || ""],
+    ["New evidence", q.newEvidence || "None."]
+  ];
+  var html = "<table class=\"board-table\"><tbody>";
+  rows.forEach(function(r){
+    html += "<tr><th scope=\"row\">" + esc(r[0]) + "</th><td dir=\"auto\">" + withHe(r[1]) + "</td></tr>";
+  });
+  html += "</tbody></table>";
+  return html;
+}
 function deepQuestionsHtml(pack) {
   if (!pack || !pack.questions || !pack.questions.length) return "";
   var html = "<section class=\"teacher-only deep-questions\" id=\"deep-questions\">";
@@ -93,8 +112,13 @@ function deepQuestionsHtml(pack) {
   if (pack.intro) html += "<p dir=\"auto\">" + withHe(pack.intro) + "</p>";
   pack.questions.forEach(function(q){
     html += "<article class=\"deep-q\" id=\"dq-" + esc(q.id || "") + "\">";
-    html += "<p class=\"source-label\">" + esc(q.status || "open") + "</p>";
+    html += "<p class=\"board-chips\">";
+    html += boardChip("status", q.status || "open");
+    html += boardChip("salvation", q.salvationIssue || "no");
+    html += boardChip("in Scripture", q.inScripture || "");
+    html += "</p>";
     html += "<h4>" + esc(q.title || "") + "</h4>";
+    html += boardTable(q);
     if (q.firstRaised) html += "<p dir=\"auto\"><strong>First raised:</strong> " + withHe(q.firstRaised) + "</p>";
     if (q.raisedNote) html += "<p dir=\"auto\">" + withHe(q.raisedNote) + "</p>";
     if (q.notLocking) html += "<p dir=\"auto\"><strong>What we are not locking:</strong> " + withHe(q.notLocking) + "</p>";
@@ -135,7 +159,7 @@ async function boot(selectedWeek) {
   const weeks = await (await fetch("weeks.json?v=dq1")).json();
   var questionsPack = { questions: [] };
   try {
-    questionsPack = await (await fetch("teacher-questions.json?v=dq2")).json();
+    questionsPack = await (await fetch("teacher-questions.json?v=board1")).json();
   } catch (e) { questionsPack = { questions: [] }; }
   const sel = document.getElementById("teacher-pick");
   if (!sel.dataset.filled) {

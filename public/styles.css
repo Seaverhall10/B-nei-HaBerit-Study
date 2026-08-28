@@ -290,6 +290,45 @@ select{
 .teacher-only .deep-q h4{margin:8px 0 10px;font:700 1.05rem Cinzel,serif;color:var(--gold-soft)}
 .teacher-only .deep-q ul{margin:0 0 12px;padding-left:1.2em}
 .teacher-only .deep-q li{margin:0 0 8px}
+.teacher-only .board-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.teacher-only .board-chip{
+  display:inline-block;
+  padding:3px 8px;
+  font:700 .68rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--gold-soft);
+  border:1px solid var(--gold);
+  background:transparent;
+}
+.teacher-only .board-chip.chip-open,
+.teacher-only .board-chip.chip-no,
+.teacher-only .board-chip.chip-yes{
+  color:var(--on-gold);
+  background:var(--gold);
+  border-color:var(--gold-soft);
+}
+.teacher-only .board-table{
+  width:100%;
+  margin:0 0 14px;
+  border-collapse:collapse;
+  font-size:.98rem;
+}
+.teacher-only .board-table th{
+  width:9.5rem;
+  padding:6px 10px 6px 0;
+  text-align:left;
+  vertical-align:top;
+  color:var(--gold-soft);
+  font:700 .72rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.teacher-only .board-table td{
+  padding:6px 0;
+  color:#f3ead7;
+  vertical-align:top;
+}
 
 .home-now h1{
   margin:6px 0 10px;

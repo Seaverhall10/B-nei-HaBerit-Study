@@ -55,6 +55,7 @@ assert.ok(home.indexOf("Deep Questions") === -1, "student home has no Deep Quest
 assert.ok(home.indexOf("Timing of the fall") === -1, "student home has no fall-timing card");
 assert.ok(home.indexOf("Acts 21") === -1, "student home has no Acts 21 dump");
 assert.ok(home.indexOf("why Paul takes the vow") === -1, "student home has no Paul-vow card");
+assert.ok(home.indexOf("Big Board") === -1, "student home has no Big Board");
 assert.ok(indexHtml.indexOf("id=\"view-teacher\"") !== -1, "teacher view stays on the one-page shell");
 assert.ok(home.indexOf("Story so far") === -1);
 assert.ok(home.indexOf("map.html") === -1, "no Map on student home");
