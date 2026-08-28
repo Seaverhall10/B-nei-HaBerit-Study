@@ -314,11 +314,13 @@ function loadTeacher(dir) {
   assert.ok(home.indexOf("Timing of the fall event") === -1, copy + ": student home has no fall-timing card");
   assert.ok(home.indexOf("Ezekiel 28") === -1, copy + ": student home has no Ezekiel 28 dump");
   assert.ok(home.indexOf("Hollywood timeline") === -1, copy + ": student home has no Hollywood-timeline note");
+  assert.ok(home.indexOf("Acts 21") === -1, copy + ": student home has no Acts 21 dump");
+  assert.ok(home.indexOf("why Paul takes the vow") === -1, copy + ": student home has no Paul-vow card");
 
   var qPath = path.join(dir, "teacher-questions.json");
   assert.ok(fs.existsSync(qPath), copy + ": teacher-questions.json exists");
   var qPack = JSON.parse(fs.readFileSync(qPath, "utf8"));
-  assert.ok(Array.isArray(qPack.questions) && qPack.questions.length >= 1, copy + ": Deep Questions tracker has items");
+  assert.ok(Array.isArray(qPack.questions) && qPack.questions.length >= 2, copy + ": Deep Questions tracker has items");
   var fall = qPack.questions[0];
   assert.strictEqual(fall.id, "fall-timing", copy + ": first card is fall-timing");
   assert.strictEqual(fall.title, "Timing of the fall event", copy + ": fall-timing title");
@@ -340,6 +342,23 @@ function loadTeacher(dir) {
   assert.ok(/EXTRA_BIBLICAL/.test(qNotes), copy + ": Enoch stays labeled");
   assert.ok(/200 Watchers/.test(qNotes) || /third of the stars/.test(qNotes), copy + ": Enoch stars/Watchers named as extra");
   assert.ok(/Do not mash Lucifer/.test(qNotes), copy + ": do not mash Lucifer’s fall with Genesis 6");
+  var acts = qPack.questions[1];
+  assert.ok(acts, copy + ": second card exists");
+  assert.strictEqual(acts.id, "acts-21-vow", copy + ": second card is acts-21-vow");
+  assert.strictEqual(acts.title, "Acts 21 — why Paul takes the vow and offering", copy + ": Acts 21 title");
+  assert.strictEqual(String(acts.status).toLowerCase(), "open", copy + ": Acts 21 motive stays open");
+  assert.ok(/Seaver/.test(acts.firstRaised) && /Granola/.test(acts.firstRaised), copy + ": raised as Seaver’s prep question, not a class dump");
+  assert.ok(/Do not lock a motive/.test(acts.notLocking), copy + ": do not lock a motive");
+  assert.ok(/please men/.test(acts.notLocking) && /God beat him/.test(acts.notLocking), copy + ": hunches named, not verdicts");
+  var actsHold = (acts.scriptureHold || []).join(" ");
+  assert.ok(/Acts 21:17-26/.test(actsHold), copy + ": hold Acts 21:17-26");
+  assert.ok(/21:21/.test(actsHold), copy + ": hold the rumor that Paul teaches Jews to abandon Moses");
+  assert.ok(/Galatians 2/.test(actsHold) && /Antioch/.test(actsHold), copy + ": hold Galatians 2 / Antioch as earlier tension");
+  assert.ok(/21:27/.test(actsHold), copy + ": hold the riot that follows");
+  assert.ok(/Do not use this to throw Paul out/.test(acts.tension) || /Do not use this to throw Paul out/.test((acts.notes || []).join(" ")), copy + ": do not throw Paul out");
+  assert.ok(/Do not sand the tension away/.test(acts.tension), copy + ": do not sand the tension away");
+  var actsNotes = (acts.notes || []).join(" ") + (acts.tension || "");
+  assert.ok(/The text says he did it/.test(actsHold + actsNotes + acts.tension), copy + ": the text says he did it");
   assert.ok(teacherJs.indexOf("deepQuestionsHtml") !== -1, copy + ": Deep Questions renderer exists");
   assert.ok(teacherJs.indexOf("teacher-questions.json") !== -1, copy + ": teacher.js fetches the tracker");
   assert.ok(styles.indexOf("deep-questions") !== -1, copy + ": Deep Questions is styled teacher-only");
@@ -350,6 +369,9 @@ function loadTeacher(dir) {
   assert.ok(/deep-questions/.test(dq) && /teacher-only/.test(dq), copy + ": Deep Questions uses teacher-only class");
   assert.ok(dq.indexOf("Ezekiel 28:12-19") !== -1, copy + ": rendered Ezekiel 28");
   assert.ok(/SETTLED/.test(dq), copy + ": rendered 3:24 settled");
+  assert.ok(/Acts 21 — why Paul takes the vow and offering/.test(dq), copy + ": second card title renders");
+  assert.ok(dq.indexOf("Acts 21:17-26") !== -1, copy + ": rendered Acts 21:17-26");
+  assert.ok(/Do not lock a motive/.test(dq), copy + ": rendered motive stays unlocked");
   var week1View = weeks.find(function (w) { return w.n === 1; }) || { n: 1, title: "Week 1", teacherMoves: [] };
   var view1 = teacherApi.teacherViewHtml(week1View, qPack);
   var view2 = teacherApi.teacherViewHtml(week2, qPack);
@@ -359,6 +381,8 @@ function loadTeacher(dir) {
   assert.ok(/QUMRAN AND ANCIENT TRANSLATIONS/.test(view2), copy + ": Qumran block still on week 2");
   assert.ok(studentBlob.indexOf("fall-timing") === -1, copy + ": student week fields have no fall-timing id");
   assert.ok(studentBlob.indexOf("Ezekiel 28") === -1, copy + ": student week fields have no Ezekiel 28 dump");
+  assert.ok(studentBlob.indexOf("Acts 21") === -1, copy + ": student week fields have no Acts 21 dump");
+  assert.ok(studentBlob.indexOf("acts-21-vow") === -1, copy + ": student week fields have no acts-21-vow id");
   assert.ok(!/1Q20/.test(studentBlob), copy + ": student observe stays off 1Q20");
   assert.ok((week2.observe || []).filter(function (line) {
     return /desert/.test(line) || /cave books/.test(line);

@@ -135,7 +135,7 @@ async function boot(selectedWeek) {
   const weeks = await (await fetch("weeks.json?v=dq1")).json();
   var questionsPack = { questions: [] };
   try {
-    questionsPack = await (await fetch("teacher-questions.json?v=dq1")).json();
+    questionsPack = await (await fetch("teacher-questions.json?v=dq2")).json();
   } catch (e) { questionsPack = { questions: [] }; }
   const sel = document.getElementById("teacher-pick");
   if (!sel.dataset.filled) {

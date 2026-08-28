@@ -53,6 +53,8 @@ assert.ok(home.indexOf("week.html?week=1") !== -1);
 assert.ok(home.indexOf("job.html") !== -1, "optional Job door");
 assert.ok(home.indexOf("Deep Questions") === -1, "student home has no Deep Questions tracker");
 assert.ok(home.indexOf("Timing of the fall") === -1, "student home has no fall-timing card");
+assert.ok(home.indexOf("Acts 21") === -1, "student home has no Acts 21 dump");
+assert.ok(home.indexOf("why Paul takes the vow") === -1, "student home has no Paul-vow card");
 assert.ok(indexHtml.indexOf("id=\"view-teacher\"") !== -1, "teacher view stays on the one-page shell");
 assert.ok(home.indexOf("Story so far") === -1);
 assert.ok(home.indexOf("map.html") === -1, "no Map on student home");
