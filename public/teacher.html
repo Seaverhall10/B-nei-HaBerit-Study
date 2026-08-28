@@ -5,16 +5,18 @@
 <title>Teacher | Bnei Haberit Study</title>
 <link rel="icon" href="seal.png">
 <link rel="stylesheet" href="styles.css">
+<script src="router.js"></script>
+<script src="shim.js"></script>
 </head><body>
-<header class="mast">
-<div class="mast-bar">
-<a class="brand" href="index.html"><img class="seal" src="seal.png" alt=""><span class="brand-text"><span class="he-title">בְּנֵי הַבְּרִית</span><span class="kicker">Teacher</span></span></a>
-<nav class="pills nav"><a href="index.html">Home</a><a href="week.html?week=2">This week</a><a href="map.html">Map</a><a href="job.html">Job</a></nav>
-</div>
-</header>
-<main class="wrap">
-<div class="row"><label>Week <select id="pick"></select></label></div>
-<article class="card" id="week"></article>
-</main>
-<script src="teacher.js"></script>
+<main class="wrap"><article class="card">
+<p>Opening teacher notes…</p>
+<p><a id="shim-continue" href="index.html?view=teacher">Continue</a></p>
+</article></main>
+<script>
+(function(){
+  var a = document.getElementById("shim-continue");
+  var t = window.BneiRoute && BneiRoute.shimTarget(location);
+  if (a && t) a.href = t;
+})();
+</script>
 </body></html>
