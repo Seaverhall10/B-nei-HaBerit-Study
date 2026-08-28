@@ -255,6 +255,168 @@ select{
 .doors{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
 .doors .btn{margin:0}
 
+/* Gathering home — not cream homework cards */
+body.home-page{
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(720px 380px at 50% -12%, #1a332e 0%, transparent 62%),
+    var(--void);
+}
+.home-page .mast{
+  padding:12px 16px;
+  background:transparent;
+  border-bottom:1px solid var(--line);
+}
+.home-page .mast-bar{
+  width:min(38rem,100%);
+  flex-wrap:nowrap;
+  gap:10px;
+  min-width:0;
+}
+.home-page .brand{flex:1 1 auto;min-width:0}
+.home-page .seal{width:48px;height:48px}
+.home-page .he-title{font-size:1.28rem;letter-spacing:.02em;line-height:1.15;white-space:nowrap}
+.home-page .kicker{
+  font:600 .62rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.12em;
+  color:#cde7df;
+}
+.home-nav{
+  display:flex;
+  flex-wrap:nowrap;
+  align-items:center;
+  justify-content:flex-end;
+  gap:2px;
+  margin:0;
+  min-width:0;
+  flex:none;
+}
+.home-nav a{
+  color:#f6eedc;
+  text-decoration:none;
+  font:600 .82rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.02em;
+  padding:6px 8px;
+  white-space:nowrap;
+  border-bottom:2px solid transparent;
+}
+.home-nav a.here{
+  color:var(--gold-soft);
+  border-bottom-color:var(--gold);
+}
+.home-wrap{
+  width:min(38rem,calc(100% - 32px));
+  margin:0 auto;
+  padding:28px 0 20px;
+  flex:1 0 auto;
+}
+.home-page .eyebrow{
+  margin:0 0 10px;
+  color:var(--gold-soft);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font:700 .72rem "Source Sans 3",system-ui,sans-serif;
+}
+.home-page .hero{
+  padding:8px 0 28px;
+  border-bottom:1px solid var(--line);
+}
+.home-page .hero h1{
+  margin:0 0 14px;
+  font:700 2.15rem/1.18 Cinzel,serif;
+  color:var(--gold-soft);
+  letter-spacing:.01em;
+}
+.home-page .lede{
+  margin:0 0 22px;
+  color:#efe6d2;
+  font-size:1.16rem;
+  line-height:1.5;
+  max-width:34rem;
+}
+.home-page .cta{
+  display:inline-block;
+  background:var(--gold);
+  color:var(--on-gold);
+  border:1px solid var(--gold);
+  border-radius:0;
+  padding:14px 26px;
+  font:700 1.2rem/1.2 "Source Serif 4",Georgia,serif;
+  letter-spacing:0;
+  text-decoration:none;
+}
+.home-page .last{
+  padding:22px 0 8px;
+}
+.home-page .last h2{
+  margin:0 0 14px;
+  font:700 1.28rem/1.25 "Source Serif 4",Georgia,serif;
+  color:#f6eedc;
+  letter-spacing:0;
+}
+.home-page .beats{
+  list-style:none;
+  padding:0;
+  margin:0 0 18px;
+}
+.home-page .beats li{
+  margin:0 0 12px;
+  padding:0 0 10px;
+  border-bottom:1px solid rgba(201,162,74,.18);
+  color:#efe6d2;
+  font-size:1.05rem;
+  line-height:1.45;
+}
+.home-page .beats li:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.home-page .beats strong{
+  display:block;
+  margin:0 0 2px;
+  font:700 1.08rem "Source Serif 4",Georgia,serif;
+  color:var(--gold-soft);
+}
+.home-page .text-door{
+  color:var(--gold-soft);
+  font:600 1.02rem "Source Serif 4",Georgia,serif;
+  text-decoration:none;
+  border-bottom:1px solid var(--gold);
+  padding-bottom:2px;
+  margin-right:18px;
+}
+.home-foot{
+  width:min(38rem,calc(100% - 32px));
+  margin:auto  auto 0;
+  padding:18px 0 24px;
+  border-top:1px solid var(--line);
+  text-align:center;
+}
+.home-foot .he-title{
+  font-size:1.05rem;
+  color:var(--gold);
+}
+@media (max-width:430px){
+  .home-page .mast{padding:8px 10px}
+  .home-page .mast-bar{gap:8px}
+  .home-page .seal{width:40px;height:40px}
+  .home-page .he-title{font-size:1rem}
+  .home-page .brand-text .kicker{display:none}
+  .home-nav a{padding:4px 5px;font-size:.7rem}
+  .home-page .hero h1{font-size:1.72rem}
+  .home-page .cta{font-size:1.12rem;padding:13px 20px;width:100%;text-align:center;box-sizing:border-box}
+}
+
+.passage summary{display:flex;align-items:center;gap:10px}
+.passage-title{flex:1}
+.mark-read{
+  display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;
+  font:600 .72rem "Source Sans 3",system-ui,sans-serif;
+  color:var(--muted);letter-spacing:.04em;cursor:pointer;
+}
+.mark-read input{width:16px;height:16px;accent-color:var(--gold)}
+.passage.read{border-color:var(--gold)}
+.passage.read .passage-title{color:var(--heading)}
+
 .recap-items{list-style:none;padding:0;margin:0 0 8px}
 .recap-items > li{
   margin:0 0 18px;padding:0 0 14px;
