@@ -255,6 +255,58 @@ select{
 .doors{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
 .doors .btn{margin:0}
 
+.home-page .wrap{width:min(720px,calc(100% - 24px));padding:14px 0 64px}
+.pane{
+  background:var(--deep);
+  color:#f6eedc;
+  border:1px solid var(--line);
+  padding:22px 22px 18px;
+  margin:0 0 14px;
+}
+.pane .pane-kicker{
+  margin:0 0 10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  font:700 .68rem Cinzel,serif;
+  color:var(--gold);
+}
+.pane h1, .pane h2{
+  margin:0 0 12px;
+  font:700 1.42rem Cinzel,serif;
+  color:var(--gold-soft);
+  letter-spacing:.02em;
+  line-height:1.25;
+}
+.pane h2{font-size:1.18rem;color:#f6eedc}
+.pane p{margin:0 0 12px;color:#efe6d2;font-size:1.12rem;line-height:1.55}
+.pane p:last-child{margin-bottom:0}
+.pane.now{
+  border-color:var(--gold);
+  box-shadow:0 0 0 1px rgba(201,162,74,.18);
+}
+.pane.now h1{font-size:1.55rem}
+.pane .btn{
+  background:transparent;
+  color:var(--gold-soft);
+  border-color:var(--gold);
+}
+.pane .btn.gold, a.btn.gold{
+  background:var(--gold);
+  color:var(--on-gold);
+  border-color:var(--gold);
+}
+
+.passage summary{display:flex;align-items:center;gap:10px}
+.passage-title{flex:1}
+.mark-read{
+  display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;
+  font:600 .72rem "Source Sans 3",system-ui,sans-serif;
+  color:var(--muted);letter-spacing:.04em;cursor:pointer;
+}
+.mark-read input{width:16px;height:16px;accent-color:var(--gold)}
+.passage.read{border-color:var(--gold)}
+.passage.read .passage-title{color:var(--heading)}
+
 .recap-items{list-style:none;padding:0;margin:0 0 8px}
 .recap-items > li{
   margin:0 0 18px;padding:0 0 14px;
