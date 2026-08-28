@@ -116,21 +116,94 @@ function render() {
     bindReader(slot, w);
   });
 }
+function go(route, replace, hash) {
+  var href = BneiRoute.hrefFor(route) + (hash || "");
+  if (replace) history.replaceState(route, "", href);
+  else history.pushState(route, "", href);
+  applyRoute(route);
+}
+function applyChrome(route) {
+  var home = route.view === "home";
+  var week = route.view === "week";
+  document.body.classList.toggle("home-page", home);
+  document.body.classList.toggle("week-page", week);
+  var nav = document.getElementById("shell-nav");
+  if (nav) nav.className = home ? "home-nav" : "pills nav";
+  var toolbar = document.getElementById("week-toolbar");
+  if (toolbar) toolbar.hidden = !week;
+  var he = document.getElementById("he-title");
+  var kicker = document.getElementById("kicker");
+  if (route.view === "job") {
+    if (he) he.textContent = "אִיּוֹב";
+    if (kicker) kicker.textContent = "The book of Job";
+    document.title = "Job | Bnei Haberit";
+  } else if (route.view === "map") {
+    if (he) he.textContent = "בְּנֵי הַבְּרִית";
+    if (kicker) kicker.textContent = "Story map";
+    document.title = "Story map | Bnei Haberit";
+  } else if (route.view === "teacher") {
+    if (he) he.textContent = "בְּנֵי הַבְּרִית";
+    if (kicker) kicker.textContent = "Teacher";
+    document.title = "Teacher | Bnei Haberit Study";
+  } else if (week) {
+    if (he) he.textContent = "בְּנֵי הַבְּרִית";
+    if (kicker) kicker.textContent = "Weekly reading";
+    document.title = "This week | Bnei Haberit";
+  } else {
+    if (he) he.textContent = "בְּנֵי הַבְּרִית";
+    if (kicker) kicker.textContent = "Sons of the Covenant";
+    document.title = "Bnei Haberit Study";
+  }
+  document.querySelectorAll("#shell-nav a").forEach(function(a){
+    var v = a.getAttribute("data-view");
+    a.classList.toggle("here", v === route.view);
+  });
+  ["home", "week", "job", "map", "teacher"].forEach(function(v){
+    var el = document.getElementById("view-" + v);
+    if (el) el.hidden = v !== route.view;
+  });
+}
+function applyRoute(route) {
+  applyChrome(route);
+  if (route.view === "week") {
+    var raw = route.week;
+    urlLocked = raw != null && raw !== "" && !WeekWindow.isStudentWeek(raw);
+    var sel = document.getElementById("pick");
+    if (sel && !urlLocked && WeekWindow.isStudentWeek(raw)) sel.value = String(raw);
+    else if (sel) sel.value = String(DEFAULT_WEEK);
+    render();
+  }
+  if (route.view === "map" && window.BneiMap) BneiMap.boot(route.week);
+  if (route.view === "teacher" && window.BneiTeacher) BneiTeacher.boot(route.week);
+  if (location.hash && route.view === "week") {
+    var jump = document.getElementById(location.hash.slice(1));
+    if (jump) jump.scrollIntoView();
+  } else if (!location.hash) {
+    window.scrollTo(0, 0);
+  }
+}
+function onAppClick(e) {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  var a = e.target.closest("a");
+  if (!a || (a.target && a.target !== "_self")) return;
+  var href = a.getAttribute("href") || "";
+  if (!href || href.charAt(0) === "#") return;
+  var u;
+  try { u = new URL(href, location.href); } catch (err) { return; }
+  if (u.origin !== location.origin) return;
+  if (!BneiRoute.isAppPath(u.pathname)) return;
+  e.preventDefault();
+  go(BneiRoute.parseRoute(u), false, u.hash);
+}
 async function boot() {
   weeks = await (await fetch("weeks.json?v=sendhome")).json();
   const sel = document.getElementById("pick");
   sel.innerHTML = WeekWindow.pickerWeeks(weeks).map(function(w){
     return "<option value=\"" + w.n + "\">" + esc(WeekWindow.optionLabel(w)) + "</option>";
   }).join("");
-  var raw = new URLSearchParams(location.search).get("week");
-  var q = Number(raw);
-  urlLocked = raw != null && raw !== "" && !WeekWindow.isStudentWeek(q);
-  if (!urlLocked && WeekWindow.isStudentWeek(q)) sel.value = String(q);
-  else sel.value = String(DEFAULT_WEEK);
   sel.addEventListener("change", function() {
     urlLocked = false;
-    if (history.replaceState) history.replaceState(null, "", "week.html?week=" + sel.value);
-    render();
+    go({ view: "week", week: Number(sel.value) }, true);
   });
   if (configLooksReal() && window.firebase) {
     firebase.initializeApp(window.FIREBASE_CONFIG);
@@ -140,7 +213,7 @@ async function boot() {
       document.getElementById("who").textContent = user ? (user.displayName || user.email) : "";
       document.getElementById("signout").hidden = !user;
       document.getElementById("signin").hidden = !!user;
-      if (user) await loadRemote(); else { loadLocal(); render(); }
+      if (user) await loadRemote(); else { loadLocal(); if (BneiRoute.parseRoute(location).view === "week") render(); }
     });
   } else {
     loadLocal();
@@ -152,6 +225,11 @@ async function boot() {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
   };
   document.getElementById("signout").onclick = function() { firebase.auth().signOut(); };
-  render();
+  document.addEventListener("click", onAppClick);
+  window.addEventListener("popstate", function() {
+    applyRoute(BneiRoute.parseRoute(location));
+  });
+  applyRoute(BneiRoute.parseRoute(location));
 }
+window.BneiApp = { go: go, applyRoute: applyRoute };
 boot();
