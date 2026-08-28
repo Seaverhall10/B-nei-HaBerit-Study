@@ -126,6 +126,11 @@ button.ghost{
   font:700 .9rem Cinzel,serif;
 }
 .theme{margin:2px 0 0;color:var(--muted);font:.82rem Cinzel,serif;letter-spacing:.04em}
+.this-week{margin:4px 0 0;color:var(--ink);font:600 1.02rem "Source Serif 4",Georgia,serif;letter-spacing:0;text-transform:none}
+.open-bible{margin:8px 0 12px;padding:12px 14px;background:#fffdf6;border-left:4px solid var(--gold)}
+.open-bible ul{list-style:none;padding:0;margin:0 0 8px}
+.open-bible li{margin:0 0 4px;font:700 1.05rem "Source Serif 4",Georgia,serif;color:var(--heading)}
+.open-bible .in-room{margin:0;color:var(--ink)}
 .recap{margin:10px 0 6px;padding:10px 14px 12px;background:#fffdf6;border-left:4px solid var(--gold)}
 .recap > summary{cursor:pointer}
 .room{margin:10px 0 4px;padding:8px 12px;background:#f7efe4;border-left:4px solid var(--gold)}
@@ -330,11 +335,32 @@ body.home-page{
   letter-spacing:.01em;
 }
 .home-page .lede{
-  margin:0 0 22px;
+  margin:0 0 18px;
   color:#efe6d2;
   font-size:1.16rem;
   line-height:1.5;
   max-width:34rem;
+}
+.home-page .open-bible{
+  margin:0 0 22px;
+  padding:0;
+  background:transparent;
+  border:0;
+}
+.home-page .open-bible ul{
+  list-style:none;
+  padding:0;
+  margin:0 0 8px;
+}
+.home-page .open-bible li{
+  margin:0 0 4px;
+  color:var(--gold-soft);
+  font:700 1.08rem "Source Serif 4",Georgia,serif;
+}
+.home-page .open-bible .in-room{
+  margin:0;
+  color:#efe6d2;
+  font-size:1rem;
 }
 .home-page .cta{
   display:inline-block;

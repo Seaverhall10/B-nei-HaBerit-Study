@@ -24,13 +24,25 @@ var home = indexHtml.slice(homeStart, weekStart);
 assert.ok(home.indexOf("בְּנֵי הַבְּרִית") !== -1, "Hebrew title stays");
 assert.ok(home.indexOf("This week") !== -1);
 assert.ok(home.indexOf("Week 2") !== -1);
-assert.ok(home.indexOf("sons of God") !== -1);
-assert.ok(home.indexOf("Nephilim") !== -1);
+assert.ok(home.indexOf("Rebellion spreads past Eden. Yahweh judges the world by flood. He keeps a seed through Noah.") !== -1, "one-line this-week point under the title");
 assert.ok(home.indexOf("flood") !== -1 || home.indexOf("Flood") !== -1);
 assert.ok(home.indexOf("Noah") !== -1);
+assert.ok(home.indexOf("Open your Bible") !== -1, "name the refs at the top so guys can open paper Bibles");
+assert.ok(home.indexOf("Genesis 4:1-16") !== -1);
+assert.ok(home.indexOf("Genesis 6:1-22") !== -1);
+assert.ok(home.indexOf("Job 1:6") !== -1 && home.indexOf("Job 38:4-7") !== -1);
+assert.ok(home.indexOf("Genesis 8:20-9:17") !== -1);
+assert.ok(home.indexOf("Genesis 6:1-8") !== -1, "in the room named at the top");
+var heroCta = home.indexOf('class="cta"');
+var openBibleAt = home.indexOf("Open your Bible");
+var ledePoint = home.indexOf("Rebellion spreads past Eden");
+assert.ok(ledePoint !== -1 && openBibleAt !== -1 && ledePoint < openBibleAt, "Open your Bible comes after the one-line point");
+assert.ok(heroCta !== -1 && openBibleAt < heroCta, "Open your Bible is before the Week 2 CTA, not a scavenger hunt");
+assert.ok(home.indexOf("Week 2 reading") !== -1, "CTA stays Week 2 reading");
 assert.ok(home.indexOf("week.html?week=2") !== -1, "gold door to week 2");
 assert.ok(home.indexOf("tap to read") === -1, "do not say tap to read on the next page");
 assert.ok(home.indexOf("next page") === -1);
+assert.ok(!/\beasy\b/i.test(home), "do not call the work easy");
 assert.ok(home.indexOf("Last week") !== -1);
 assert.ok(home.indexOf("Yahweh alone creates") !== -1);
 assert.ok(home.indexOf("council") !== -1);
@@ -95,20 +107,83 @@ assert.ok(locked.indexOf(week9.title) === -1, "do not leak week 9 title");
 assert.ok(locked.indexOf(week9.student) === -1, "do not leak week 9 reading list");
 assert.ok(locked.indexOf("500") === -1);
 
-assert.ok(week2.reader && week2.reader.length === 10, "keep 10 load-bearing blocks");
+assert.strictEqual(week2.thisWeek, "Rebellion spreads past Eden. Yahweh judges the world by flood. He keeps a seed through Noah.");
+assert.deepStrictEqual(week2.openBible, [
+  "Genesis 4:1-16",
+  "Genesis 6:1-22",
+  "Job 1:6 and Job 38:4-7",
+  "Genesis 8:20-9:17"
+]);
+assert.deepStrictEqual(week2.focus, ["Genesis 6:1-8"]);
+assert.ok(week2.student.indexOf("Genesis 4:1-16") !== -1);
+assert.ok(week2.student.indexOf("Genesis 6:1-22") !== -1);
+assert.ok(week2.student.indexOf("Job 1:6") !== -1);
+assert.ok(week2.student.indexOf("Job 38:4-7") !== -1);
+assert.ok(week2.student.indexOf("Genesis 8:20-9:17") !== -1);
 
-var html = WeekWindow.creamReaderHtml(week2, pack, [false, false, false, false, false, false, false, false, false, false]);
+var laterHouses = [
+  "Genesis 19",
+  "Numbers 13",
+  "Deuteronomy 3",
+  "1 Samuel 17",
+  "Matthew 4",
+  "Jude 6",
+  "1 Peter 3"
+];
+laterHouses.forEach(function (ref) {
+  assert.ok(week2.student.indexOf(ref) === -1, "student homework must not include later house " + ref);
+  assert.ok((week2.focus || []).join(" ").indexOf(ref) === -1, "focus must not include later house " + ref);
+  var readerBlob = JSON.stringify(week2.reader);
+  assert.ok(readerBlob.indexOf(ref) === -1, "reader must not include later house " + ref);
+  var observeBlob = (week2.observe || []).join(" ");
+  assert.ok(observeBlob.indexOf(ref) === -1, "observe must not send later house " + ref);
+});
+assert.ok((week2.observe || []).some(function (line) {
+  return line.indexOf("and also afterward") !== -1 && line.indexOf("when Scripture brings it") !== -1;
+}), "one sentence defers afterward; do not tour later houses");
+assert.ok((week2.observe || []).some(function (line) {
+  return /Nimrod|Babel/.test(line) && /next week/i.test(line);
+}), "Nimrod/Babel is next week");
+assert.ok((week2.teacherMoves || []).join(" ").indexOf("Numbers 13") !== -1, "keep later houses in teacher notes");
+assert.ok(week2.teacherOnly && week2.teacherOnly.length, "keep teacher-only notes");
+
+assert.ok(week2.reader && week2.reader.length === 4, "four Scripture blocks, not a world tour");
+
+var bible = WeekWindow.openBibleHtml(week2);
+assert.ok(bible.indexOf("Open your Bible") !== -1);
+assert.ok(bible.indexOf("Genesis 4:1-16") !== -1);
+assert.ok(bible.indexOf("Genesis 6:1-22") !== -1);
+assert.ok(bible.indexOf("Job 1:6") !== -1);
+assert.ok(bible.indexOf("Job 38:4-7") !== -1);
+assert.ok(bible.indexOf("Genesis 8:20-9:17") !== -1);
+assert.ok(bible.indexOf("Genesis 6:1-8") !== -1, "in the room sits with the open-Bible list");
+assert.ok(bible.indexOf("Genesis 19") === -1);
+assert.strictEqual(WeekWindow.openBibleHtml(weeks[0]), "", "Open your Bible pin is this week only");
+
+var html = WeekWindow.creamReaderHtml(week2, pack, [false, false, false, false]);
 assert.ok(html.indexOf("Interlinear") === -1, "no Interlinear toggle");
 assert.ok(html.indexOf("reader-bar") === -1, "no Ancient Texts reader bar");
 assert.ok(html.indexOf("il-word") === -1, "no Strong's dump");
 assert.ok(html.indexOf("il-verse") === -1, "cream verses, not interlinear chrome");
-assert.strictEqual((html.match(/<details class="passage/g) || []).length, 10);
+assert.strictEqual((html.match(/<details class="passage/g) || []).length, 4);
 week2.reader.forEach(function (block) {
   assert.ok(html.indexOf(block.title) !== -1, "missing block " + block.title);
 });
-assert.ok(html.indexOf("class=\"verse\"") !== -1, "tap-to-read uses cream verse markup");
+assert.ok(html.indexOf("Job 1:6") !== -1, "Job 1:6 is in the cream reader");
+assert.ok(html.indexOf("Job 38:4-7") !== -1, "Job 38:4-7 is in the cream reader");
+assert.ok(html.indexOf("Genesis 19") === -1, "Lot is not this week's homework");
+assert.ok(html.indexOf("Numbers 13") === -1);
+assert.ok(html.indexOf("Deuteronomy 3") === -1);
+assert.ok(html.indexOf("1 Samuel 17") === -1);
+assert.ok(html.indexOf("Matthew 4") === -1);
+assert.ok(html.indexOf("Jude 6") === -1);
+assert.ok(html.indexOf("1 Peter 3") === -1);
+assert.ok(html.indexOf("class=\"verse\"") !== -1, "cream verse markup stays");
 assert.ok(fs.existsSync(path.join(publicDir, "readings-week2.json")));
 assert.ok(fs.existsSync(path.join(publicDir, "interlinear-week2.json")), "do not delete interlinear JSON");
+var packKeys = (pack.passages || []).map(function (p) { return p.refKey; });
+assert.ok(packKeys.indexOf("Job 1:6") !== -1, "WEB pack has Job 1:6");
+assert.ok(packKeys.indexOf("Job 38:4-7") !== -1, "WEB pack has Job 38:4-7");
 
 assert.ok(appSrc.indexOf("pickerWeeks") !== -1, "student picker uses the week window");
 assert.ok(appSrc.indexOf("creamReaderHtml") !== -1, "student tab uses cream reader");
@@ -117,6 +192,13 @@ assert.ok(appSrc.indexOf("recap-items") !== -1, "keep Week 1 recap items rendere
 assert.ok(appSrc.indexOf("it.b") !== -1, "recap items still render lead beats");
 assert.ok(appSrc.indexOf("studyAppHtml") === -1, "do not send ancient-texts-app on the student week page");
 assert.ok(appSrc.indexOf("ancient-texts-app") === -1);
+assert.ok(appSrc.indexOf("openBibleHtml") !== -1, "week view pins Open your Bible");
+var weekHtmlAt = appSrc.indexOf('getElementById("week").innerHTML');
+assert.ok(weekHtmlAt !== -1, "week article is rendered");
+var weekHtml = appSrc.slice(weekHtmlAt);
+assert.ok(weekHtml.indexOf("bible") !== -1 && weekHtml.indexOf("bible") < weekHtml.indexOf("recapHtml(w)"), "Open your Bible is before recap");
+assert.ok(weekHtml.indexOf("bible") < weekHtml.indexOf("reader-slot"), "Open your Bible is before the cream reader");
+assert.ok(appSrc.indexOf("thisWeek") !== -1, "week view names the one-line point under the title");
 
 assert.ok(weekPage.indexOf("reader.css") === -1, "do not load dark reader chrome on the student week page");
 assert.ok(weekPage.indexOf("map.html") === -1, "no Map on student week nav");

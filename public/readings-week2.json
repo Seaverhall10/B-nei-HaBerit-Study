@@ -205,6 +205,43 @@
       ]
     },
     {
+      "ref": "Job 1:6",
+      "refKey": "Job 1:6",
+      "verses": [
+        {
+          "c": 1,
+          "v": 6,
+          "t": "Now on the day when God’s sons came to present themselves before Yahweh, Satan also came among them."
+        }
+      ]
+    },
+    {
+      "ref": "Job 38:4-7",
+      "refKey": "Job 38:4-7",
+      "verses": [
+        {
+          "c": 38,
+          "v": 4,
+          "t": "Where were you when I laid the foundations of the earth? Declare, if you have understanding."
+        },
+        {
+          "c": 38,
+          "v": 5,
+          "t": "Who determined its measures, if you know? Or who stretched the line on it?"
+        },
+        {
+          "c": 38,
+          "v": 6,
+          "t": "What were its foundations fastened on? Or who laid its cornerstone,"
+        },
+        {
+          "c": 38,
+          "v": 7,
+          "t": "when the morning stars sang together, and all the sons of God shouted for joy?"
+        }
+      ]
+    },
+    {
       "ref": "Genesis 8:20-22",
       "refKey": "Genesis 8:20-22",
       "verses": [

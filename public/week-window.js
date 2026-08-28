@@ -35,6 +35,20 @@
     return "<section class=\"recap\"><p class=\"recap-kicker\">Not yet</p><p>That week is not open yet.</p><p class=\"doors\"><a class=\"btn\" href=\"week.html?week=" + DEFAULT_WEEK + "\">This week</a></p></section>";
   }
 
+  function openBibleHtml(w) {
+    if (!w || !w.openBible || !w.openBible.length) return "";
+    var html = "<section class=\"open-bible\"><p class=\"recap-kicker\">Open your Bible</p><ul>";
+    w.openBible.forEach(function (ref) {
+      html += "<li>" + esc(ref) + "</li>";
+    });
+    html += "</ul>";
+    if (w.focus && w.focus.length) {
+      html += "<p class=\"in-room\"><strong>In the room:</strong> " + esc(w.focus.join("; ")) + "</p>";
+    }
+    html += "</section>";
+    return html;
+  }
+
   function creamReaderHtml(w, pack, done) {
     if (!w.reader || !w.reader.length) return "";
     var webBy = {};
@@ -70,6 +84,7 @@
     pickerWeeks: pickerWeeks,
     optionLabel: optionLabel,
     notYetHtml: notYetHtml,
+    openBibleHtml: openBibleHtml,
     creamReaderHtml: creamReaderHtml
   };
 

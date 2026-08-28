@@ -133,27 +133,27 @@
   {
     "n": 2,
     "title": "Seed Line, Watchers, and Flood",
-    "theme": "seed / Watchers / Nephilim / giant clans / covenant remnant",
+    "theme": "seed / Watchers / flood / remnant",
     "spine": "Genesis 6:1-8",
-    "big": "Rebellion spreads from Eden through bloodshed and through transgression of the heavenly/earthly boundary. Yahweh judges the world by flood and preserves a seed through Noah.",
-    "student": "Genesis 4:1-16; Genesis 6:1-22; Genesis 8:20-9:17; Genesis 19:1-29; Numbers 13:32-33; Deuteronomy 3:1-11; 1 Samuel 17:1-11 and 45-51; Matthew 4:1-11; Jude 6-7; 1 Peter 3:18-22",
+    "thisWeek": "Rebellion spreads past Eden. Yahweh judges the world by flood. He keeps a seed through Noah.",
+    "big": "Rebellion spreads past Eden. Yahweh judges the world by flood. He keeps a seed through Noah.",
+    "student": "Genesis 4:1-16; Genesis 6:1-22; Job 1:6 and Job 38:4-7; Genesis 8:20-9:17",
+    "openBible": [
+      "Genesis 4:1-16",
+      "Genesis 6:1-22",
+      "Job 1:6 and Job 38:4-7",
+      "Genesis 8:20-9:17"
+    ],
     "focus": [
-      "Genesis 6:1-8",
-      "Genesis 19:1-29",
-      "Numbers 13:32-33",
-      "Matthew 4:1-11",
-      "Jude 6-7",
-      "1 Peter 3:18-22"
+      "Genesis 6:1-8"
     ],
     "question": "How does rebellion spread, and what does Yahweh preserve?",
     "observe": [
       "Genesis 4: two lines. Violence, and a seed that still calls on Yahweh.",
       "Genesis 6:1-4 with Job 1:6 and 38:7: bene ha-elohim is the same phrase. Divine beings, not Sethite men.",
-      "Mark 6:4: and also afterward. Numbers 13:32-33 is that payoff. Og and Goliath are Scripture, not a side hobby.",
+      "Genesis 6:4 says “and also afterward.” We will meet that when Scripture brings it.",
       "Genesis 6:3’s 120 years: hold both a countdown to the flood and the later human lifespan.",
-      "Lot in Genesis 19. Jude 6-7 stacks the Watchers and Sodom.",
-      "Matthew 4: the adversary offers the kingdoms. Treat the offer as real.",
-      "Noah after: a seed kept, Yahweh binds himself. 1 Peter 3: Messiah is the greater ark.",
+      "Noah after: a seed kept. Yahweh binds himself.",
       "Nimrod and Babel are next week. 1 Enoch is extra-biblical. Label it. It cannot overrule Genesis."
     ],
     "teacherMoves": [
@@ -176,65 +176,29 @@
     },
     "reader": [
       {
-        "title": "Two lines after Eden",
+        "title": "Genesis 4:1-16",
         "keys": [
           "Genesis 4:1-16"
         ]
       },
       {
-        "title": "Watchers, 120 years, Nephilim, the ark",
+        "title": "Genesis 6:1-22",
         "keys": [
           "Genesis 6:1-22"
         ]
       },
       {
-        "title": "Noah after the flood",
+        "title": "Job 1:6 and Job 38:4-7",
+        "keys": [
+          "Job 1:6",
+          "Job 38:4-7"
+        ]
+      },
+      {
+        "title": "Genesis 8:20-9:17",
         "keys": [
           "Genesis 8:20-22",
           "Genesis 9:1-17"
-        ]
-      },
-      {
-        "title": "Lot",
-        "keys": [
-          "Genesis 19:1-29"
-        ]
-      },
-      {
-        "title": "Afterward: the spies",
-        "keys": [
-          "Numbers 13:32-33"
-        ]
-      },
-      {
-        "title": "Og of Bashan",
-        "keys": [
-          "Deuteronomy 3:1-11"
-        ]
-      },
-      {
-        "title": "Goliath",
-        "keys": [
-          "1 Samuel 17:1-11",
-          "1 Samuel 17:45-51"
-        ]
-      },
-      {
-        "title": "The adversary offers the kingdoms",
-        "keys": [
-          "Matthew 4:1-11"
-        ]
-      },
-      {
-        "title": "Watchers and Sodom stacked",
-        "keys": [
-          "Jude 6-7"
-        ]
-      },
-      {
-        "title": "Messiah, the greater ark",
-        "keys": [
-          "1 Peter 3:18-22"
         ]
       }
     ],
