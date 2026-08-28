@@ -1,6 +1,26 @@
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function withHe(s) {
+  return esc(s).replace(/([\u0590-\u05FF\uFB1D-\uFB4F]+)/g, "<span class=\"he\" lang=\"he\">$1</span>");
+}
+function labelClass(label) {
+  var u = String(label || "").toUpperCase();
+  if (u.indexOf("EXTRA") !== -1) return "source-label extra-biblical";
+  if (u.indexOf("CANONICAL") !== -1) return "source-label canonical";
+  return "source-label";
+}
+function teacherOnlyHtml(w) {
+  if (!w.teacherOnly || !w.teacherOnly.length) return "";
+  var html = "<section class=\"teacher-only\"><p class=\"recap-kicker\">Teacher only. Do not paste this to the group.</p>";
+  w.teacherOnly.forEach(function(b){
+    if (b.label) html += "<p class=\"" + labelClass(b.label) + "\">" + esc(b.label) + "</p>";
+    if (b.h) html += "<h3>" + esc(b.h) + "</h3>";
+    (b.p || []).forEach(function(t){ html += "<p dir=\"auto\">" + withHe(t) + "</p>"; });
+  });
+  html += "</section>";
+  return html;
+}
 async function boot(selectedWeek) {
-  const weeks = await (await fetch("weeks.json")).json();
+  const weeks = await (await fetch("weeks.json?v=openbible2")).json();
   const sel = document.getElementById("teacher-pick");
   if (!sel.dataset.filled) {
     sel.innerHTML = weeks.map(function(w){ return "<option value=\""+w.n+"\">Week "+w.n+": "+w.title+"</option>"; }).join("");
@@ -9,16 +29,6 @@ async function boot(selectedWeek) {
   }
   if (selectedWeek) sel.value = String(selectedWeek);
   else if (!sel.value) sel.value = "2";
-  function teacherOnlyHtml(w) {
-    if (!w.teacherOnly || !w.teacherOnly.length) return "";
-    var html = "<section class=\"teacher-only\"><p class=\"recap-kicker\">Teacher only. Do not paste this to the group.</p>";
-    w.teacherOnly.forEach(function(b){
-      if (b.h) html += "<h3>" + esc(b.h) + "</h3>";
-      (b.p || []).forEach(function(t){ html += "<p>" + esc(t) + "</p>"; });
-    });
-    html += "</section>";
-    return html;
-  }
   function draw() {
     const w = weeks.find(function(x){ return x.n === Number(sel.value); });
     const moves = (w.teacherMoves||[]).map(function(x){ return "<li>"+esc(x)+"</li>"; }).join("");
@@ -26,4 +36,6 @@ async function boot(selectedWeek) {
   }
   draw();
 }
-window.BneiTeacher = { boot: boot };
+var api = { boot: boot, teacherOnlyHtml: teacherOnlyHtml, esc: esc, withHe: withHe };
+if (typeof module !== "undefined" && module.exports) module.exports = api;
+(typeof globalThis !== "undefined" ? globalThis : this).BneiTeacher = api;

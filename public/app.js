@@ -200,7 +200,7 @@ function onAppClick(e) {
   go(BneiRoute.parseRoute(u), false, u.hash);
 }
 async function boot() {
-  weeks = await (await fetch("weeks.json?v=openbible")).json();
+  weeks = await (await fetch("weeks.json?v=openbible2")).json();
   const sel = document.getElementById("pick");
   sel.innerHTML = WeekWindow.pickerWeeks(weeks).map(function(w){
     return "<option value=\"" + w.n + "\">" + esc(WeekWindow.optionLabel(w)) + "</option>";

@@ -250,6 +250,28 @@ select{
 .teacher-only .recap-kicker{color:var(--gold-soft)}
 .teacher-only h3{margin:18px 0 8px;font:700 1.05rem Cinzel,serif;color:var(--gold-soft)}
 .teacher-only p{margin:0 0 12px;font-size:1.08rem;color:#f3ead7}
+.teacher-only .source-label{
+  display:inline-block;
+  margin:16px 0 0;
+  padding:4px 9px;
+  font:700 .72rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--on-gold);
+  background:var(--gold);
+  border:1px solid var(--gold-soft);
+}
+.teacher-only .source-label.extra-biblical{
+  color:var(--gold-soft);
+  background:transparent;
+  border:1px solid var(--gold);
+}
+.teacher-only .source-label.canonical{
+  color:var(--on-gold);
+  background:var(--gold);
+  border-color:var(--gold-soft);
+}
+.teacher-only .he{color:var(--gold-soft);font-size:1.12em}
 
 .home-now h1{
   margin:6px 0 10px;
