@@ -34,13 +34,17 @@ function loadTeacher(dir) {
   var appSrc = read(dir, "app.js");
 
   assert.ok(week2, copy + ": week 2 exists");
-  assert.ok(Array.isArray(week2.teacherOnly) && week2.teacherOnly.length >= 4, copy + ": week 2 keeps teacherOnly blocks");
+  assert.ok(Array.isArray(week2.teacherOnly) && week2.teacherOnly.length >= 6, copy + ": week 2 keeps teacherOnly blocks plus Qumran and translation origin");
 
   var headings = week2.teacherOnly.map(function (b) { return b.h || ""; });
   assert.ok(headings.some(function (h) { return /Do not send this block to the group/i.test(h); }), copy + ": keep do-not-send heading");
   assert.ok(headings.some(function (h) { return /Two Lamechs/i.test(h); }), copy + ": keep two-Lamechs heading");
   assert.ok(headings.some(function (h) { return /WATCHER IN SCRIPTURE/i.test(h); }), copy + ": Watcher-in-Scripture heading");
   assert.ok(headings.some(function (h) { return /SHINING NOAH/i.test(h); }), copy + ": shining-Noah heading");
+  assert.ok(headings.some(function (h) { return /QUMRAN AND ANCIENT TRANSLATIONS/i.test(h); }), copy + ": Qumran/translations heading");
+  assert.ok(headings.some(function (h) { return /WHERE OUR CURRENT TRANSLATION COMES FROM/i.test(h); }), copy + ": translation-origin heading");
+  assert.ok(headings.indexOf("WATCHER IN SCRIPTURE") < headings.findIndex(function (h) { return /QUMRAN/i.test(h); }), copy + ": Qumran block after existing Watcher notes");
+  assert.ok(headings.findIndex(function (h) { return /QUMRAN/i.test(h); }) < headings.findIndex(function (h) { return /CURRENT TRANSLATION/i.test(h); }), copy + ": translation-origin follows Qumran");
 
   var blob = JSON.stringify(week2.teacherOnly);
   assert.ok(blob.indexOf("עִיר") !== -1, copy + ": Aramaic Watcher word עִיר");
@@ -73,12 +77,42 @@ function loadTeacher(dir) {
   assert.ok(/Sethite/i.test(blob), copy + ": fear only exists if sons of God are heavenly");
   assert.ok(/tamim/i.test(blob), copy + ": Noah tamim in his generations");
 
+  assert.ok(/two piles/i.test(blob), copy + ": Qumran two piles");
+  assert.ok(/Do not baptize pile two as Torah/i.test(blob), copy + ": do not baptize extra cave books");
+  assert.ok(/Leningrad Codex/i.test(blob) && blob.indexOf("1008") !== -1, copy + ": Leningrad 1008");
+  assert.ok(/We do not need Qumran to prove Genesis 6/i.test(blob), copy + ": Genesis 6 is not a DSS-vs-MT fight");
+  assert.ok(/Do not retell it here/i.test(blob), copy + ": shining Noah stays in its own block");
+  assert.ok(blob.indexOf("οἱ ἄγγελοι τοῦ θεοῦ") !== -1, copy + ": LXX angels of God at Gen 6:2");
+  assert.ok(/Targums/i.test(blob) && /nobles/i.test(blob), copy + ": Targum flattening named, not followed");
+  assert.ok(/Peshitta/i.test(blob) && /Vulgate/i.test(blob), copy + ": later versions are not the spine");
+  assert.ok(/Deuteronomy 32:8/.test(blob) && /Do not teach Babel tonight/i.test(blob), copy + ": Deut 32:8 is next week");
+  assert.ok(/how they read Moses, not Moses/i.test(blob), copy + ": extra books cannot overrule Moses");
+  assert.ok(/Crossway ESV/i.test(blob), copy + ": name the English in their hands");
+  assert.ok(/Ancient Texts Flow is KJV-keyed/i.test(blob), copy + ": Flow is KJV-keyed");
+  assert.ok(/English is a CHECK, not the source/i.test(blob), copy + ": English is a check");
+  assert.ok(/Tyndale/i.test(blob) && /Geneva/i.test(blob) && /KJV 1611/.test(blob), copy + ": Reformation English chain");
+  assert.ok(/Bomberg/i.test(blob) && /Ben Hayyim/i.test(blob), copy + ": KJV OT from Rabbinic/Bomberg Hebrew");
+  assert.ok(/Textus Receptus/i.test(blob), copy + ": KJV NT TR");
+  assert.ok(/Biblia Hebraica Stuttgartensia/i.test(blob), copy + ": ESV OT is BHS/Leningrad");
+  assert.ok(/Nestle-Aland/i.test(blob), copy + ": ESV NT NA");
+  assert.ok(/grandchild of the Masoretic Hebrew/i.test(blob), copy + ": English is a grandchild of MT");
+  assert.ok(/Never treat NIV, ESV, or KJV as equivalent to the Hebrew/i.test(blob), copy + ": English ≠ Hebrew");
+  assert.ok(/Babel’s split already made every later tongue thinner/i.test(blob) || /Babel's split already made every later tongue thinner/i.test(blob), copy + ": later tongues are thinner");
+  assert.ok(/Do not send this chain in GroupMe/i.test(blob), copy + ": translation chain stays off GroupMe");
+
   var watcher = week2.teacherOnly.find(function (b) { return /WATCHER IN SCRIPTURE/i.test(b.h || ""); });
   var shining = week2.teacherOnly.find(function (b) { return /SHINING NOAH/i.test(b.h || ""); });
+  var qumran = week2.teacherOnly.find(function (b) { return /QUMRAN AND ANCIENT TRANSLATIONS/i.test(b.h || ""); });
+  var versions = week2.teacherOnly.find(function (b) { return /CURRENT TRANSLATION COMES FROM/i.test(b.h || ""); });
   assert.ok(watcher && shining, copy + ": both new blocks present");
+  assert.ok(qumran && versions, copy + ": Qumran and translation-origin blocks present");
   assert.ok(!/EXTRA/i.test(String(watcher.label || "")), copy + ": Watcher block is not extra-biblical");
   assert.ok(/canonical/i.test(String(watcher.label || watcher.h)), copy + ": Watcher block labeled canonical");
   assert.strictEqual(String(shining.label).toUpperCase(), "EXTRA_BIBLICAL", copy + ": shining Noah labeled EXTRA_BIBLICAL");
+  assert.ok(!/EXTRA/i.test(String(qumran.label || "")), copy + ": Qumran trust-rule is method, not extra-biblical lore");
+  assert.ok(!/EXTRA/i.test(String(versions.label || "")), copy + ": translation-origin is method, not extra-biblical lore");
+  assert.ok(/teacher method/i.test(String(qumran.label || "")), copy + ": Qumran block labeled teacher method");
+  assert.ok(/English is a check/i.test(String(versions.label || "")), copy + ": translation block labeled English-as-check");
 
   var send = week2.teacherOnly.find(function (b) { return /Do not send this block/i.test(b.h || ""); });
   var lamechs = week2.teacherOnly.find(function (b) { return /Two Lamechs/i.test(b.h || ""); });
@@ -111,6 +145,13 @@ function loadTeacher(dir) {
   assert.ok(rendered.indexOf("source-label extra-biblical") !== -1, copy + ": extra-biblical class on shining block");
   assert.ok(rendered.indexOf("class=\"he\"") !== -1, copy + ": Aramaic wrapped for Hebrew font");
   assert.ok(rendered.indexOf("<script") === -1, copy + ": escaped teacher HTML");
+  assert.ok(/QUMRAN AND ANCIENT TRANSLATIONS/i.test(rendered), copy + ": rendered Qumran heading");
+  assert.ok(/WHERE OUR CURRENT TRANSLATION COMES FROM/i.test(rendered), copy + ": rendered translation-origin heading");
+  assert.ok(rendered.indexOf("Leningrad Codex") !== -1, copy + ": rendered Leningrad");
+  assert.ok(rendered.indexOf("οἱ ἄγγελοι τοῦ θεοῦ") !== -1, copy + ": rendered LXX Greek");
+  assert.ok(/Deuteronomy 32:8/.test(rendered), copy + ": rendered Deut 32:8 as next week's case");
+  assert.ok(/Biblia Hebraica Stuttgartensia/.test(rendered), copy + ": rendered BHS");
+  assert.ok(/teacher method/.test(rendered), copy + ": rendered method labels");
 
   var homeStart = indexHtml.indexOf('id="view-home"');
   var weekStart = indexHtml.indexOf('id="view-week"');
@@ -126,7 +167,14 @@ function loadTeacher(dir) {
     "Daniel 4:13",
     "1 Enoch 106",
     "teacherOnly",
-    "shining"
+    "shining",
+    "Leningrad",
+    "Tyndale",
+    "Crossway",
+    "Nestle-Aland",
+    "Bomberg",
+    "Stuttgartensia",
+    "Peshitta"
   ].forEach(function (needle) {
     assert.ok(home.toLowerCase().indexOf(needle.toLowerCase()) === -1, copy + ": student home must not contain " + needle);
   });
@@ -150,6 +198,30 @@ function loadTeacher(dir) {
   assert.ok(studentBlob.indexOf("עִיר") === -1, copy + ": student week fields have no Daniel Watcher lemma");
   assert.ok(studentBlob.indexOf("EXTRA_BIBLICAL") === -1, copy + ": student week fields have no EXTRA_BIBLICAL");
   assert.ok(!/Enoch 106/.test(studentBlob), copy + ": student week fields have no Enoch 106");
+  [
+    "Leningrad",
+    "Tyndale",
+    "Crossway",
+    "Nestle-Aland",
+    "Bomberg",
+    "Stuttgartensia",
+    "Textus Receptus",
+    "Peshitta",
+    "Vulgate",
+    "οἱ ἄγγελοι"
+  ].forEach(function (needle) {
+    assert.ok(studentBlob.indexOf(needle) === -1, copy + ": student week fields have no versions lecture (" + needle + ")");
+  });
+  assert.ok(!/1Q20/.test(studentBlob), copy + ": student observe stays off 1Q20");
+  assert.ok((week2.observe || []).filter(function (line) {
+    return /desert/.test(line) || /cave books/.test(line);
+  }).length <= 1, copy + ": at most one thin desert-copies observe");
+
+  var week3 = weeks.find(function (w) { return w.n === 3; });
+  assert.ok(week3, copy + ": week 3 exists");
+  assert.ok((week3.observe || []).some(function (line) {
+    return /Deuteronomy 32:8-9/.test(line) && /DSS\/LXX/.test(line);
+  }), copy + ": leave Week 3 student DSS/LXX observe as-is");
 });
 
 console.log("teacher-only week 2 tests passed");

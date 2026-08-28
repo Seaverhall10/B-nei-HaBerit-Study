@@ -115,6 +115,7 @@ assert.deepStrictEqual(week2.openBible, [
   "Genesis 8:20-9:17"
 ]);
 assert.deepStrictEqual(week2.focus, ["Genesis 6:1-8"]);
+assert.strictEqual(week2.student, "Genesis 4:1-16; Genesis 6:1-22; Job 1:6 and Job 38:4-7; Genesis 8:20-9:17");
 assert.ok(week2.student.indexOf("Genesis 4:1-16") !== -1);
 assert.ok(week2.student.indexOf("Genesis 6:1-22") !== -1);
 assert.ok(week2.student.indexOf("Job 1:6") !== -1);
@@ -144,8 +145,18 @@ assert.ok((week2.observe || []).some(function (line) {
 assert.ok((week2.observe || []).some(function (line) {
   return /Nimrod|Babel/.test(line) && /next week/i.test(line);
 }), "Nimrod/Babel is next week");
-assert.ok((week2.teacherMoves || []).join(" ").indexOf("Numbers 13") !== -1, "keep later houses in teacher notes");
+var teacherMoves = (week2.teacherMoves || []).join(" ");
+assert.ok(teacherMoves.indexOf("Numbers 13") === -1, "teacherMoves must not send the class through Numbers 13");
+assert.ok(teacherMoves.indexOf("Og") === -1 && teacherMoves.indexOf("Goliath") === -1, "teacherMoves must not tour Og or Goliath");
+assert.ok(teacherMoves.indexOf("Lot") === -1 && teacherMoves.indexOf("Matthew 4") === -1, "teacherMoves must not restore Lot / Matt 4 homework");
+assert.ok(/Hold up their English Bible/i.test(teacherMoves), "name where their English came from");
+assert.ok(/1 Peter 3:20-21/.test(teacherMoves), "1 Peter 3 names earth-through-water later");
+assert.ok(teacherMoves.indexOf("Messiah is the greater ark") !== -1 && /opening frame/.test(teacherMoves), "do not open with Messiah-as-ark");
+assert.ok(/two piles/i.test(teacherMoves), "Qumran two piles stays a teacher move");
 assert.ok(week2.teacherOnly && week2.teacherOnly.length, "keep teacher-only notes");
+assert.ok((week2.observe || []).some(function (line) {
+  return /desert/.test(line) && /labeled/.test(line) && /Torah/.test(line);
+}), "one thin desert-copies observe; no 1Q20 dump");
 
 assert.ok(week2.reader && week2.reader.length === 4, "four Scripture blocks, not a world tour");
 

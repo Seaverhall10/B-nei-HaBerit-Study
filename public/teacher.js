@@ -20,7 +20,7 @@ function teacherOnlyHtml(w) {
   return html;
 }
 async function boot(selectedWeek) {
-  const weeks = await (await fetch("weeks.json?v=openbible2")).json();
+  const weeks = await (await fetch("weeks.json?v=qumran2")).json();
   const sel = document.getElementById("teacher-pick");
   if (!sel.dataset.filled) {
     sel.innerHTML = weeks.map(function(w){ return "<option value=\""+w.n+"\">Week "+w.n+": "+w.title+"</option>"; }).join("");
