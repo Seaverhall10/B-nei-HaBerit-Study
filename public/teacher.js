@@ -20,7 +20,7 @@ function teacherOnlyHtml(w) {
   return html;
 }
 async function boot(selectedWeek) {
-  const weeks = await (await fetch("weeks.json?v=w2watch")).json();
+  const weeks = await (await fetch("weeks.json?v=w2watch2")).json();
   const sel = document.getElementById("teacher-pick");
   if (!sel.dataset.filled) {
     sel.innerHTML = weeks.map(function(w){ return "<option value=\""+w.n+"\">Week "+w.n+": "+w.title+"</option>"; }).join("");

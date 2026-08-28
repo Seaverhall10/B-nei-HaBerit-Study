@@ -49,6 +49,10 @@ function loadTeacher(dir) {
   assert.ok(blob.indexOf("Daniel 4:13") !== -1, copy + ": Daniel 4:13");
   assert.ok(blob.indexOf("Daniel 4:17") !== -1, copy + ": Daniel 4:17");
   assert.ok(blob.indexOf("Daniel 4:23") !== -1, copy + ": Daniel 4:23");
+  assert.ok(blob.indexOf("4:10") !== -1 && blob.indexOf("4:14") !== -1 && blob.indexOf("4:20") !== -1, copy + ": MT/app numbering trap 4:10, 4:14, 4:20");
+  assert.ok(/If you open the app to English 4:13 you will miss it/i.test(blob), copy + ": English 4:13 miss trap");
+  assert.ok(/wrongly treats 1 Enoch as a second Hebrew-Bible Watcher/i.test(blob), copy + ": do not copy the app’s Enoch-as-Bible error");
+  assert.ok(/Daniel 4 is the only biblical use of the word/i.test(blob), copy + ": Daniel 4 only biblical Watcher");
   assert.ok(blob.indexOf("עִיר וְקַדִּישׁ") !== -1, copy + ": Watcher and a holy one");
   assert.ok(blob.indexOf("בִּגְזֵרַת עִירִין") !== -1, copy + ": decree of the Watchers");
   assert.ok(blob.indexOf("בְּנֵי הָאֱלֹהִים") !== -1, copy + ": Genesis 6 phrase is not Watcher");
