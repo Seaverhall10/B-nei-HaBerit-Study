@@ -92,7 +92,11 @@ function render() {
   const focus = w.focus.join("; ");
   var hasReader = w.reader && w.reader.length;
   var jumpTarget = hasReader ? "reader-slot" : "read-this-week";
-  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"theme\">" + w.theme + "</p></div></div><p class=\"jump-row\"><a href=\"#" + jumpTarget + "\">Read this week</a></p>" + recapHtml(w) + "<div id=\"reader-slot\"></div><p class=\"question\"><strong>Bring:</strong> " + w.question + "</p><div class=\"read-list\" id=\"read-this-week\"><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul></div><p class=\"read\"><strong>In the room:</strong> " + focus + "</p><h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>";
+  var point = w.thisWeek || w.theme;
+  var bible = WeekWindow.openBibleHtml(w);
+  var jump = bible ? "" : "<p class=\"jump-row\"><a href=\"#" + jumpTarget + "\">Read this week</a></p>";
+  var room = bible ? "" : "<p class=\"read\"><strong>In the room:</strong> " + focus + "</p>";
+  document.getElementById("week").innerHTML = "<div class=\"week-head\"><div class=\"number\">" + w.n + "</div><div><h2>" + w.title + "</h2><p class=\"this-week\">" + esc(point) + "</p></div></div>" + bible + jump + recapHtml(w) + "<div id=\"reader-slot\"></div><p class=\"question\"><strong>Bring:</strong> " + w.question + "</p><div class=\"read-list\" id=\"read-this-week\"><h3>Read this week</h3><ul class=\"checklist\" id=\"list\"></ul></div>" + room + "<h3>Observe</h3><ul>" + w.observe.map(function(x){return "<li>"+x+"</li>";}).join("") + "</ul>";
   if (hasReader) document.getElementById("week").classList.add("has-reader");
   else document.getElementById("week").classList.remove("has-reader");
   const list = document.getElementById("list");
@@ -196,7 +200,7 @@ function onAppClick(e) {
   go(BneiRoute.parseRoute(u), false, u.hash);
 }
 async function boot() {
-  weeks = await (await fetch("weeks.json?v=sendhome")).json();
+  weeks = await (await fetch("weeks.json?v=openbible")).json();
   const sel = document.getElementById("pick");
   sel.innerHTML = WeekWindow.pickerWeeks(weeks).map(function(w){
     return "<option value=\"" + w.n + "\">" + esc(WeekWindow.optionLabel(w)) + "</option>";
