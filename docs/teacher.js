@@ -85,6 +85,36 @@ function loadWeek2Canon(root) {
     body.innerHTML = "<p>Could not load the brief. Use the file link.</p>";
   });
 }
+function deepQuestionsHtml(pack) {
+  if (!pack || !pack.questions || !pack.questions.length) return "";
+  var html = "<section class=\"teacher-only deep-questions\" id=\"deep-questions\">";
+  html += "<p class=\"recap-kicker\">" + esc(pack.kicker || "Teacher only. Do not paste this to the group.") + "</p>";
+  html += "<h3>" + esc(pack.heading || "Deep Questions") + "</h3>";
+  if (pack.intro) html += "<p dir=\"auto\">" + withHe(pack.intro) + "</p>";
+  pack.questions.forEach(function(q){
+    html += "<article class=\"deep-q\" id=\"dq-" + esc(q.id || "") + "\">";
+    html += "<p class=\"source-label\">" + esc(q.status || "open") + "</p>";
+    html += "<h4>" + esc(q.title || "") + "</h4>";
+    if (q.firstRaised) html += "<p dir=\"auto\"><strong>First raised:</strong> " + withHe(q.firstRaised) + "</p>";
+    if (q.raisedNote) html += "<p dir=\"auto\">" + withHe(q.raisedNote) + "</p>";
+    if (q.notLocking) html += "<p dir=\"auto\"><strong>What we are not locking:</strong> " + withHe(q.notLocking) + "</p>";
+    if (q.scriptureHold && q.scriptureHold.length) {
+      html += "<p><strong>Scripture to hold</strong></p><ul>";
+      q.scriptureHold.forEach(function(t){ html += "<li dir=\"auto\">" + withHe(t) + "</li>"; });
+      html += "</ul>";
+    }
+    if (q.options && q.options.length) {
+      html += "<p><strong>Options on the table</strong> (both still open)</p><ul>";
+      q.options.forEach(function(t){ html += "<li dir=\"auto\">" + withHe(t) + "</li>"; });
+      html += "</ul>";
+    }
+    if (q.tension) html += "<p dir=\"auto\"><strong>Tension to name, not solve:</strong> " + withHe(q.tension) + "</p>";
+    (q.notes || []).forEach(function(t){ html += "<p dir=\"auto\">" + withHe(t) + "</p>"; });
+    html += "</article>";
+  });
+  html += "</section>";
+  return html;
+}
 function teacherOnlyHtml(w) {
   if (!w.teacherOnly || !w.teacherOnly.length) return "";
   var html = "<section class=\"teacher-only\"><p class=\"recap-kicker\">Teacher only. Do not paste this to the group.</p>";
@@ -97,8 +127,16 @@ function teacherOnlyHtml(w) {
   html += "</section>";
   return html;
 }
+function teacherViewHtml(w, questionsPack) {
+  const moves = (w.teacherMoves||[]).map(function(x){ return "<li>"+esc(x)+"</li>"; }).join("");
+  return "<div class=\"week-head\"><div class=\"number\">"+w.n+"</div><div><h2>"+esc(w.title)+"</h2><p class=\"theme\">"+esc(w.theme)+"</p></div></div><p><strong>Spine:</strong> "+esc(w.spine)+"</p><p><strong>Big idea:</strong> "+esc(w.big)+"</p><p><strong>Participant reading:</strong> "+esc(w.student)+"</p><p><strong>In-room:</strong> "+esc((w.focus||[]).join("; "))+"</p><h3>Teaching moves</h3><ol>"+moves+"</ol>" + teacherOnlyHtml(w) + deepQuestionsHtml(questionsPack) + "<p class=\"read\"><strong>App moment:</strong> "+esc(w.app||"")+"</p><p class=\"question\"><strong>Guardrail:</strong> "+esc(w.guard||"")+"</p><p><strong>Response:</strong> "+esc(w.response||"")+"</p>";
+}
 async function boot(selectedWeek) {
-  const weeks = await (await fetch("weeks.json?v=canon1")).json();
+  const weeks = await (await fetch("weeks.json?v=dq1")).json();
+  var questionsPack = { questions: [] };
+  try {
+    questionsPack = await (await fetch("teacher-questions.json?v=dq1")).json();
+  } catch (e) { questionsPack = { questions: [] }; }
   const sel = document.getElementById("teacher-pick");
   if (!sel.dataset.filled) {
     sel.innerHTML = weeks.map(function(w){ return "<option value=\""+w.n+"\">Week "+w.n+": "+w.title+"</option>"; }).join("");
@@ -109,13 +147,12 @@ async function boot(selectedWeek) {
   else if (!sel.value) sel.value = "2";
   function draw() {
     const w = weeks.find(function(x){ return x.n === Number(sel.value); });
-    const moves = (w.teacherMoves||[]).map(function(x){ return "<li>"+esc(x)+"</li>"; }).join("");
     var root = document.getElementById("teacher-week");
-    root.innerHTML = "<div class=\"week-head\"><div class=\"number\">"+w.n+"</div><div><h2>"+esc(w.title)+"</h2><p class=\"theme\">"+esc(w.theme)+"</p></div></div><p><strong>Spine:</strong> "+esc(w.spine)+"</p><p><strong>Big idea:</strong> "+esc(w.big)+"</p><p><strong>Participant reading:</strong> "+esc(w.student)+"</p><p><strong>In-room:</strong> "+esc((w.focus||[]).join("; "))+"</p><h3>Teaching moves</h3><ol>"+moves+"</ol>" + teacherOnlyHtml(w) + "<p class=\"read\"><strong>App moment:</strong> "+esc(w.app||"")+"</p><p class=\"question\"><strong>Guardrail:</strong> "+esc(w.guard||"")+"</p><p><strong>Response:</strong> "+esc(w.response||"")+"</p>";
+    root.innerHTML = teacherViewHtml(w, questionsPack);
     if (Number(w.n) === 2) loadWeek2Canon(root);
   }
   draw();
 }
-var api = { boot: boot, teacherOnlyHtml: teacherOnlyHtml, esc: esc, withHe: withHe, mdToHtml: mdToHtml, week2CanonShell: week2CanonShell, loadWeek2Canon: loadWeek2Canon };
+var api = { boot: boot, teacherOnlyHtml: teacherOnlyHtml, deepQuestionsHtml: deepQuestionsHtml, teacherViewHtml: teacherViewHtml, esc: esc, withHe: withHe, mdToHtml: mdToHtml, week2CanonShell: week2CanonShell, loadWeek2Canon: loadWeek2Canon };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 (typeof globalThis !== "undefined" ? globalThis : this).BneiTeacher = api;

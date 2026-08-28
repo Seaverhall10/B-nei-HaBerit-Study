@@ -285,6 +285,11 @@ select{
 .teacher-only .canon-body h4{margin:14px 0 8px;font:700 .95rem Cinzel,serif;color:var(--gold-soft)}
 .teacher-only .canon-body ul{margin:0 0 12px;padding-left:1.2em}
 .teacher-only .canon-body li{margin:0 0 6px}
+.teacher-only.deep-questions{margin-top:28px}
+.teacher-only .deep-q{margin:8px 0 18px;padding-top:12px;border-top:1px solid rgba(201,162,74,.35)}
+.teacher-only .deep-q h4{margin:8px 0 10px;font:700 1.05rem Cinzel,serif;color:var(--gold-soft)}
+.teacher-only .deep-q ul{margin:0 0 12px;padding-left:1.2em}
+.teacher-only .deep-q li{margin:0 0 8px}
 
 .home-now h1{
   margin:6px 0 10px;
