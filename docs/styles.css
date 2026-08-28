@@ -1,18 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&family=Noto+Serif+Hebrew:wght@500;700&family=Noto+Serif:wght@400;600&display=swap");
 
-/* Ember on near-black. Sampled from Seaver's blood-moon JPEG: rim #fe5836, accent #e04020, dark #0d0500. */
+/* Ember on near-black. Palette from Seaver's blood-moon JPEG (color only, photo is not on the site):
+   rim/waterfall #fe5836, moon body #e04020, mid #b8341c / #ad250f, shade #6c1906, void #0d0500 / #150600. */
 :root{
   --void:#0d0500;
-  --deep:#1a0804;
-  --pine:#2a0c08; /* name kept; now ember-dark, not pine */
+  --deep:#150600;
+  --pine:#6c1906; /* name kept; now blood-moon shade, not pine */
   --gold:#e04020;
   --gold-soft:#fe5836;
+  --ember-mid:#ad250f;
   --ink:#1c1914;
   --heading:#150600;
   --muted:#5b5346;
   --paper:#f6eedc;
   --paper-2:#efe4c8;
-  --line:rgba(224,64,32,.38);
+  --line:rgba(224,64,32,.42);
   --on-ember:#0d0500;
 }
 
@@ -24,8 +26,7 @@ body{
   overflow-x:clip;
   color:var(--paper);
   background:
-    radial-gradient(900px 420px at 50% -8%, #2a0c08 0%, transparent 58%),
-    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(224,64,32,.04) 3px, rgba(224,64,32,.04) 4px),
+    radial-gradient(780px 520px at 50% -14%, #fe5836 0%, #e04020 16%, #ad250f 36%, #6c1906 58%, #150600 78%, #0d0500 100%),
     var(--void);
   font: 18.5px/1.7 "Source Serif 4", Georgia, serif;
 }
@@ -38,7 +39,7 @@ body{
 
 header.mast{
   padding:8px 14px;
-  background:var(--void);
+  background:rgba(13,5,0,.72);
   border-bottom:1px solid var(--line);
 }
 .mast-bar{
