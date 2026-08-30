@@ -19,11 +19,15 @@ assert.deepStrictEqual(R.parseRoute(loc("/docs/index.html", "?view=job")), { vie
 assert.deepStrictEqual(R.parseRoute(loc("/docs/map.html", "")), { view: "map" });
 assert.deepStrictEqual(R.parseRoute(loc("/docs/map.html", "?week=3")), { view: "map", week: 3 });
 assert.deepStrictEqual(R.parseRoute(loc("/docs/teacher.html", "")), { view: "teacher" });
+assert.deepStrictEqual(R.parseRoute(loc("/docs/deck.html", "")), { view: "deck", week: 2 });
+assert.deepStrictEqual(R.parseRoute(loc("/docs/deck.html", "?week=1")), { view: "deck", week: 1 });
+assert.deepStrictEqual(R.parseRoute(loc("/docs/index.html", "?view=deck&week=2")), { view: "deck", week: 2 });
 
 assert.strictEqual(R.hrefFor({ view: "home" }), "./");
 assert.strictEqual(R.hrefFor({ view: "week", week: 1 }), "?week=1");
 assert.strictEqual(R.hrefFor({ view: "job" }), "?view=job");
 assert.strictEqual(R.hrefFor({ view: "map", week: 3 }), "?view=map&week=3");
+assert.strictEqual(R.hrefFor({ view: "deck", week: 2 }), "?view=deck&week=2");
 
 assert.strictEqual(R.shimTarget(loc("/B-nei-HaBerit-Study/week.html", "?week=1")), "index.html?week=1");
 assert.strictEqual(
@@ -33,9 +37,11 @@ assert.strictEqual(
 assert.strictEqual(R.shimTarget(loc("/B-nei-HaBerit-Study/job.html", "")), "index.html?view=job");
 assert.strictEqual(R.shimTarget(loc("/B-nei-HaBerit-Study/map.html", "?week=3")), "index.html?view=map&week=3");
 assert.strictEqual(R.shimTarget(loc("/B-nei-HaBerit-Study/teacher.html", "")), "index.html?view=teacher");
+assert.strictEqual(R.shimTarget(loc("/B-nei-HaBerit-Study/deck.html", "?week=2")), "index.html?view=deck&week=2");
 assert.strictEqual(R.shimTarget(loc("/B-nei-HaBerit-Study/index.html", "?week=1")), null);
 
 assert.ok(R.isAppPath("/B-nei-HaBerit-Study/week.html"));
+assert.ok(R.isAppPath("/B-nei-HaBerit-Study/deck.html"));
 assert.ok(!R.isAppPath("/B-nei-HaBerit-Study/seal.png"));
 
 console.log("router tests ok");
