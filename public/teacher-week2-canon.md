@@ -8,7 +8,7 @@ If time is short, say the oral script at the end of beat 9 and sit down. If they
 
 Week 1 already named the war. Genesis 3:15 is the load-bearing verse: enmity between the nachash and the woman, between his seed and her seed. He will crush the head. The heel is struck. That war does not pause for a folklore hour. Week 2 is the next strike on the line: sons of God, daughters of men, Nephilim, flood, a remnant through Noah.
 
-You promised the room we would go to the words. English is a check. Hebrew and Aramaic are the source. Daniel 4’s Watcher is Aramaic. The study site reader has used Crossway ESV on Week 2 when it showed English. Ancient Texts Flow is KJV-keyed. Neither of those is Moses. The guys open their own Bibles. Your job is to send them back to the words, not to win a translation fight.
+You promised the room we would go to the words. English is a check. Hebrew and Aramaic are the source. Daniel 4’s Watcher is Aramaic. Student English on this site is the Job-page wording: sons of God / the adversary. It is not ESV. Ancient Texts Flow is KJV-keyed. Neither of those is Moses. Do not mash LXX into student Flow. The guys open their own Bibles. Your job is to send them back to the words, not to win a translation fight.
 
 This brief exists because “the Bible” in a man’s hand is not one simple object. It is a canon (which books), a base text (which Hebrew or Greek copy the translators sat on), a philosophy (word-for-word, thought-for-thought, paraphrase), and a house style (ESV reads like RSV; NIV smooths; The Message retells). If you skip that, they will hear “sons of God,” some of them will still have flattened English, and you will spend the night arguing English against English. Do not do that. Hold up the book. Name where it came from. Open Job 1:6 and Genesis 6:2 in Hebrew.
 
@@ -98,7 +98,19 @@ Do not let Enoch baptize Daniel’s holy Watcher as a demon. The Ancient Texts c
 
 ## 8. LXX, Targums, and the Masoretic base
 
-**LXX.** The Septuagint is a Jewish Greek translation of Hebrew Scripture, 3rd–2nd century BC, with later books and revisions. The early church’s Old Testament in Greek. Paul and the Gospels often sound like it. It is a check, not a replacement of Hebrew. Some LXX witnesses at Genesis 6:2 — Codex Alexandrinus among them — read angels of God (οἱ ἄγγελοι τοῦ θεοῦ) rather than sons of God. That is a translation that already heard heavenly beings. Name it. Do not throw out “sons of God.” The Hebrew stands. The Greek shows how they heard it.
+**LXX.** The Septuagint is a Jewish Greek translation of Hebrew Scripture, 3rd–2nd century BC, with later books and revisions. The early church’s Old Testament in Greek. Paul and the Gospels often sound like it. It is a check, not a replacement of Hebrew. Teach the mismatches from this brief and from the LXX WITNESS block. Do not mash the Greek into student Flow. Student English stays sons of God / the adversary.
+
+Job 1:6 LXX: οἱ ἄγγελοι τοῦ θεοῦ and ὁ διάβολος. Keep sons of God / the adversary on the page. The Greek is a witness, not a rewrite of הַשָּׂטָן.
+
+Job 38:7 LXX is NOT the MT pair. MT: morning stars sang / sons of God shouted. LXX: when the stars were made, all my angels praised me. Do not teach that verse off the Greek as if it matches.
+
+[C] Genesis 6:2: Göttingen/Rahlfs prints υἱοὶ τοῦ θεοῦ. ἄγγελοι τοῦ θεοῦ is a real variant — Codex Alexandrinus among them, also Philo and Josephus — not the whole LXX. Name the variant. Do not flatten to Sethites. Do not put Watcher on Genesis 6. Greek Genesis has no ἐγρήγοροι.
+
+[C] Genesis 6:4: γίγαντες covers both נפלים and גברים. One Greek word sits on two Hebrew words.
+
+[C] 1 Enoch stays labeled extra-biblical. It is a Second Temple reading of Genesis 6, not Genesis.
+
+Do not throw out “sons of God.” The Hebrew stands. The Greek shows how they heard it, and where they did not match.
 
 **Targums.** Aramaic synagogue translations, later than the LXX. Targum Onkelos at Genesis 6 sands sons of God to sons of nobles / great men. That is later human flattening. Name it. Do not follow it. The Sethite reading in English pews is the same habit in a different century: take the heavenly phrase and make it safe men.
 

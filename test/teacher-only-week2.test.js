@@ -40,7 +40,7 @@ function loadTeacher(dir) {
   var appSrc = read(dir, "app.js");
 
   assert.ok(week2, copy + ": week 2 exists");
-  assert.ok(Array.isArray(week2.teacherOnly) && week2.teacherOnly.length >= 7, copy + ": week 2 keeps teacherOnly blocks plus Qumran, translation origin, and canon pointer");
+  assert.ok(Array.isArray(week2.teacherOnly) && week2.teacherOnly.length >= 8, copy + ": week 2 keeps teacherOnly blocks plus Qumran, LXX witness, translation origin, and canon pointer");
 
   var headings = week2.teacherOnly.map(function (b) { return b.h || ""; });
   assert.ok(headings.some(function (h) { return /Do not send this block to the group/i.test(h); }), copy + ": keep do-not-send heading");
@@ -48,10 +48,12 @@ function loadTeacher(dir) {
   assert.ok(headings.some(function (h) { return /WATCHER IN SCRIPTURE/i.test(h); }), copy + ": Watcher-in-Scripture heading");
   assert.ok(headings.some(function (h) { return /SHINING NOAH/i.test(h); }), copy + ": shining-Noah heading");
   assert.ok(headings.some(function (h) { return /QUMRAN AND ANCIENT TRANSLATIONS/i.test(h); }), copy + ": Qumran/translations heading");
+  assert.ok(headings.some(function (h) { return /LXX WITNESS/i.test(h); }), copy + ": LXX witness heading");
   assert.ok(headings.some(function (h) { return /WHERE OUR CURRENT TRANSLATION COMES FROM/i.test(h); }), copy + ": translation-origin heading");
   assert.ok(headings.some(function (h) { return /FULL CANON AND VERSIONS BRIEF/i.test(h); }), copy + ": canon/versions pointer heading");
   assert.ok(headings.indexOf("WATCHER IN SCRIPTURE") < headings.findIndex(function (h) { return /QUMRAN/i.test(h); }), copy + ": Qumran block after existing Watcher notes");
-  assert.ok(headings.findIndex(function (h) { return /QUMRAN/i.test(h); }) < headings.findIndex(function (h) { return /CURRENT TRANSLATION/i.test(h); }), copy + ": translation-origin follows Qumran");
+  assert.ok(headings.findIndex(function (h) { return /QUMRAN/i.test(h); }) < headings.findIndex(function (h) { return /LXX WITNESS/i.test(h); }), copy + ": LXX witness follows Qumran");
+  assert.ok(headings.findIndex(function (h) { return /LXX WITNESS/i.test(h); }) < headings.findIndex(function (h) { return /CURRENT TRANSLATION/i.test(h); }), copy + ": translation-origin follows LXX witness");
   assert.ok(headings.findIndex(function (h) { return /CURRENT TRANSLATION/i.test(h); }) < headings.findIndex(function (h) { return /FULL CANON/i.test(h); }), copy + ": canon pointer follows translation-origin");
 
   var blob = JSON.stringify(week2.teacherOnly);
@@ -91,6 +93,24 @@ function loadTeacher(dir) {
   assert.ok(/We do not need Qumran to prove Genesis 6/i.test(blob), copy + ": Genesis 6 is not a DSS-vs-MT fight");
   assert.ok(/Do not retell it here/i.test(blob), copy + ": shining Noah stays in its own block");
   assert.ok(blob.indexOf("οἱ ἄγγελοι τοῦ θεοῦ") !== -1, copy + ": LXX angels of God at Gen 6:2");
+  assert.ok(blob.indexOf("ὁ διάβολος") !== -1, copy + ": Job 1:6 LXX has ὁ διάβολος");
+  assert.ok(blob.indexOf("הַשָּׂטָן") !== -1, copy + ": Greek is not a rewrite of הַשָּׂטָן");
+  assert.ok(/Job 38:7 LXX is NOT the MT pair/i.test(blob), copy + ": Job 38:7 LXX is not the MT pair");
+  assert.ok(/when the stars were made/i.test(blob) && /all my angels praised me/i.test(blob), copy + ": Job 38:7 LXX wording");
+  assert.ok(/Do not teach that verse off the Greek as if it matches/i.test(blob), copy + ": do not teach Job 38:7 off the Greek as if it matches");
+  assert.ok(/Göttingen/.test(blob) && /Rahlfs/.test(blob), copy + ": Göttingen/Rahlfs named at Gen 6:2");
+  assert.ok(blob.indexOf("υἱοὶ τοῦ θεοῦ") !== -1, copy + ": Göttingen/Rahlfs prints υἱοὶ τοῦ θεοῦ");
+  assert.ok(/not the whole LXX/i.test(blob), copy + ": angels-of-God is not the whole LXX");
+  assert.ok(/Philo/.test(blob) && /Josephus/.test(blob), copy + ": A/Philo/Josephus variant named");
+  assert.ok(/Do not flatten to Sethites/i.test(blob), copy + ": do not flatten Gen 6 to Sethites");
+  assert.ok(/Do not put Watcher on Genesis 6/i.test(blob), copy + ": do not put Watcher on Genesis 6");
+  assert.ok(/Greek Genesis has no/.test(blob), copy + ": Greek Genesis has no ἐγρήγοροι");
+  assert.ok(blob.indexOf("γίγαντες") !== -1, copy + ": Gen 6:4 γίγαντες");
+  assert.ok(blob.indexOf("נפלים") !== -1 && blob.indexOf("גברים") !== -1, copy + ": γίγαντες covers נפלים and גברים");
+  assert.ok(/\[C\] 1 Enoch stays labeled extra-biblical/.test(blob), copy + ": 1 Enoch stays extra-biblical / [C]");
+  assert.ok(/do not mash into student Flow/i.test(blob), copy + ": do not mash LXX into student Flow");
+  assert.ok(/Job-page wording/.test(blob), copy + ": student English is the Job-page wording");
+  assert.ok(!/study site reader has used Crossway ESV/i.test(blob), copy + ": do not claim the study site reader used ESV");
   assert.ok(/Targums/i.test(blob) && /nobles/i.test(blob), copy + ": Targum flattening named, not followed");
   assert.ok(/Peshitta/i.test(blob) && /Vulgate/i.test(blob), copy + ": later versions are not the spine");
   assert.ok(/Deuteronomy 32:8/.test(blob) && /Do not teach Babel tonight/i.test(blob), copy + ": Deut 32:8 is next week");
@@ -119,14 +139,19 @@ function loadTeacher(dir) {
   var watcher = week2.teacherOnly.find(function (b) { return /WATCHER IN SCRIPTURE/i.test(b.h || ""); });
   var shining = week2.teacherOnly.find(function (b) { return /SHINING NOAH/i.test(b.h || ""); });
   var qumran = week2.teacherOnly.find(function (b) { return /QUMRAN AND ANCIENT TRANSLATIONS/i.test(b.h || ""); });
+  var lxx = week2.teacherOnly.find(function (b) { return /LXX WITNESS/i.test(b.h || ""); });
   var versions = week2.teacherOnly.find(function (b) { return /CURRENT TRANSLATION COMES FROM/i.test(b.h || ""); });
   assert.ok(watcher && shining, copy + ": both new blocks present");
   assert.ok(qumran && versions, copy + ": Qumran and translation-origin blocks present");
+  assert.ok(lxx, copy + ": LXX witness block present");
   assert.ok(!/EXTRA/i.test(String(watcher.label || "")), copy + ": Watcher block is not extra-biblical");
   assert.ok(/canonical/i.test(String(watcher.label || watcher.h)), copy + ": Watcher block labeled canonical");
   assert.strictEqual(String(shining.label).toUpperCase(), "EXTRA_BIBLICAL", copy + ": shining Noah labeled EXTRA_BIBLICAL");
   assert.ok(!/EXTRA/i.test(String(qumran.label || "")), copy + ": Qumran trust-rule is method, not extra-biblical lore");
   assert.ok(!/EXTRA/i.test(String(versions.label || "")), copy + ": translation-origin is method, not extra-biblical lore");
+  assert.ok(!/EXTRA/i.test(String(lxx.label || "")), copy + ": Job LXX is a witness, not extra-biblical lore");
+  assert.ok(/LXX witness/i.test(String(lxx.label || "")), copy + ": LXX block labeled LXX witness");
+  assert.ok(/\[C\]/.test(String(lxx.label || "")), copy + ": LXX label marks [C] on Genesis 6 readings");
   assert.ok(/teacher method/i.test(String(qumran.label || "")), copy + ": Qumran block labeled teacher method");
   assert.ok(/English is a check/i.test(String(versions.label || "")), copy + ": translation block labeled English-as-check");
 
@@ -166,6 +191,13 @@ function loadTeacher(dir) {
   assert.ok(/WHERE OUR CURRENT TRANSLATION COMES FROM/i.test(rendered), copy + ": rendered translation-origin heading");
   assert.ok(rendered.indexOf("Leningrad Codex") !== -1, copy + ": rendered Leningrad");
   assert.ok(rendered.indexOf("οἱ ἄγγελοι τοῦ θεοῦ") !== -1, copy + ": rendered LXX Greek");
+  assert.ok(/LXX WITNESS/.test(rendered), copy + ": rendered LXX witness heading");
+  assert.ok(rendered.indexOf("ὁ διάβολος") !== -1, copy + ": rendered Job 1:6 διάβολος");
+  assert.ok(rendered.indexOf("υἱοὶ τοῦ θεοῦ") !== -1, copy + ": rendered Göttingen/Rahlfs sons of God");
+  assert.ok(rendered.indexOf("γίγαντες") !== -1, copy + ": rendered γίγαντες");
+  assert.ok(/Göttingen/.test(rendered) && /Rahlfs/.test(rendered), copy + ": rendered Göttingen/Rahlfs");
+  assert.ok(/Job-page wording/.test(rendered), copy + ": rendered Job-page wording, not ESV");
+  assert.ok(rendered.indexOf("study site reader has used Crossway ESV") === -1, copy + ": rendered teacher copy does not claim ESV on the reader");
   assert.ok(/Deuteronomy 32:8/.test(rendered), copy + ": rendered Deut 32:8 as next week's case");
   assert.ok(/Biblia Hebraica Stuttgartensia/.test(rendered), copy + ": rendered BHS");
   assert.ok(/teacher method/.test(rendered), copy + ": rendered method labels");
@@ -180,6 +212,7 @@ function loadTeacher(dir) {
   var week1 = weeks.find(function (w) { return w.n === 1; });
   var week1Html = teacherHtml(week1 || {});
   assert.ok(week1Html.indexOf("teacher-week2-canon.md") === -1, copy + ": canon brief is Week 2 only");
+  assert.ok(week1Html.indexOf("LXX WITNESS") === -1, copy + ": LXX witness is Week 2 only");
 
   var mdPath = path.join(dir, "teacher-week2-canon.md");
   assert.ok(fs.existsSync(mdPath), copy + ": teacher-week2-canon.md exists");
@@ -211,6 +244,8 @@ function loadTeacher(dir) {
     "Ethiopian",
     "Daniel 4",
     "Alexandrinus",
+    "Göttingen",
+    "Rahlfs",
     "Onkelos",
     "H430",
     "Aleppo",
@@ -228,6 +263,12 @@ function loadTeacher(dir) {
     assert.ok(md.indexOf(needle) !== -1, copy + ": brief keeps " + needle);
   });
   assert.ok(/Do not say Catholics added books in the Middle Ages/i.test(md), copy + ": do not smear the deuterocanon timeline");
+  assert.ok(!/study site reader has used Crossway ESV/i.test(md), copy + ": brief does not claim the reader used ESV");
+  assert.ok(/Job-page wording/i.test(md), copy + ": brief names Job-page wording");
+  assert.ok(md.indexOf("ὁ διάβολος") !== -1, copy + ": brief keeps Job 1:6 διάβολος");
+  assert.ok(/Job 38:7 LXX is NOT the MT pair/i.test(md), copy + ": brief keeps Job 38:7 mismatch");
+  assert.ok(md.indexOf("υἱοὶ τοῦ θεοῦ") !== -1 && md.indexOf("γίγαντες") !== -1, copy + ": brief keeps Gen 6 Greek");
+  assert.ok(/\[C\] 1 Enoch stays labeled extra-biblical/.test(md), copy + ": brief keeps Enoch as extra-biblical / [C]");
   assert.ok(/KJV 1611 printed the Apocrypha/i.test(md) || /1611 King James printed the Apocrypha/i.test(md), copy + ": 1611 Apocrypha between testaments");
   assert.ok(/Revelation 2:9 or 3:9/.test(md), copy + ": do not un-Jew from Rev 2:9/3:9");
   assert.ok(!/Wyatt/i.test(md), copy + ": no Ron Wyatt");
@@ -263,7 +304,13 @@ function loadTeacher(dir) {
     "Nestle-Aland",
     "Bomberg",
     "Stuttgartensia",
-    "Peshitta"
+    "Peshitta",
+    "Göttingen",
+    "Rahlfs",
+    "γίγαντες",
+    "διάβολος",
+    "LXX WITNESS",
+    "Job-page wording"
   ].forEach(function (needle) {
     assert.ok(home.toLowerCase().indexOf(needle.toLowerCase()) === -1, copy + ": student home must not contain " + needle);
   });
@@ -299,7 +346,12 @@ function loadTeacher(dir) {
     "Textus Receptus",
     "Peshitta",
     "Vulgate",
-    "οἱ ἄγγελοι"
+    "οἱ ἄγγελοι",
+    "Göttingen",
+    "Rahlfs",
+    "γίγαντες",
+    "διάβολος",
+    "υἱοὶ τοῦ θεοῦ"
   ].forEach(function (needle) {
     assert.ok(studentBlob.indexOf(needle) === -1, copy + ": student week fields have no versions lecture (" + needle + ")");
   });
@@ -408,6 +460,9 @@ function loadTeacher(dir) {
   assert.ok(view2.indexOf("deck.html") !== -1, copy + ": presentation slides door stays on teacher view");
   assert.ok(/WATCHER IN SCRIPTURE/.test(view2), copy + ": week 2 teacherOnly still on the teacher view");
   assert.ok(/QUMRAN AND ANCIENT TRANSLATIONS/.test(view2), copy + ": Qumran block still on week 2");
+  assert.ok(/LXX WITNESS/.test(view2), copy + ": LXX mismatch block on week 2 teacher view");
+  assert.ok(view2.indexOf("ὁ διάβολος") !== -1, copy + ": teacher view shows Job 1:6 διάβολος");
+  assert.ok(/Job 38:7 LXX is NOT the MT pair/.test(view2), copy + ": teacher view shows Job 38:7 mismatch");
   var week1 = weeks.find(function (w) { return w.n === 1; });
   assert.ok(week1 && week1.teacherOnly && week1.teacherOnly.length, copy + ": week 1 has a teacher-only nachash note");
   var w1Teacher = JSON.stringify(week1.teacherOnly);

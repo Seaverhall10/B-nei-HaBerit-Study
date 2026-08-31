@@ -159,6 +159,14 @@ assert.ok(/1 Peter 3:20-21/.test(teacherMoves), "1 Peter 3 names earth-through-w
 assert.ok(teacherMoves.indexOf("Messiah is the greater ark") !== -1 && /opening frame/.test(teacherMoves), "do not open with Messiah-as-ark");
 assert.ok(/two piles/i.test(teacherMoves), "Qumran two piles stays a teacher move");
 assert.ok(week2.teacherOnly && week2.teacherOnly.length, "keep teacher-only notes");
+assert.ok(week2.teacherOnly.some(function (b) { return /LXX WITNESS/i.test(b.h || ""); }), "teacher pack has the LXX witness block");
+assert.ok(!JSON.stringify({
+  student: week2.student,
+  observe: week2.observe,
+  reader: week2.reader,
+  question: week2.question,
+  focus: week2.focus
+}).match(/Göttingen|γίγαντες|διάβολος/), "student week fields stay off the LXX lecture");
 assert.ok((week2.observe || []).some(function (line) {
   return /desert/.test(line) && /labeled/.test(line) && /Torah/.test(line);
 }), "one thin desert-copies observe; no 1Q20 dump");
@@ -191,6 +199,9 @@ assert.ok(/sons of God/.test(html), "cream Job lines say sons of God");
 assert.ok(!/God['’]s sons/.test(html), "cream reader does not say God's sons");
 assert.ok(html.indexOf("the adversary") !== -1, "Job 1:6 on the student reader says the adversary");
 assert.ok(!/\bSatan\b/.test(html), "Job 1:6 on the student reader does not name Satan");
+assert.ok(html.indexOf("The sons of God saw that") !== -1, "Gen 6:2 student English stays sons of God");
+assert.ok(html.indexOf("The Nephilim were in the earth") !== -1, "Gen 6:4 student English stays Nephilim / sons of God");
+assert.ok(html.indexOf("ἄγγελοι") === -1 && html.indexOf("διάβολος") === -1 && html.indexOf("γίγαντες") === -1, "cream reader does not mash LXX into student English");
 assert.ok(html.indexOf("Watcher") === -1, "do not insert Watcher into the student week reader");
 assert.ok(html.indexOf("1 Enoch") === -1, "do not add 1 Enoch to the student week reader");
 assert.ok(html.indexOf("Genesis 19") === -1, "Lot is not this week's homework");
