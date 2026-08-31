@@ -104,11 +104,11 @@ Job 1:6 LXX: οἱ ἄγγελοι τοῦ θεοῦ and ὁ διάβολος. K
 
 Job 38:7 LXX is NOT the MT pair. MT: morning stars sang / sons of God shouted. LXX: when the stars were made, all my angels praised me. Do not teach that verse off the Greek as if it matches.
 
-[C] Genesis 6:2: Göttingen/Rahlfs prints υἱοὶ τοῦ θεοῦ. ἄγγελοι τοῦ θεοῦ is a real variant — Codex Alexandrinus among them, also Philo and Josephus — not the whole LXX. Name the variant. Do not flatten to Sethites. Do not put Watcher on Genesis 6. Greek Genesis has no ἐγρήγοροι.
+Genesis 6:2: Göttingen/Rahlfs prints υἱοὶ τοῦ θεοῦ. ἄγγελοι τοῦ θεοῦ is a real variant — Codex Alexandrinus among them, also Philo and Josephus — not the whole LXX. This is an LXX witness of Genesis, not extra-biblical. Do not call it [C]. Name the variant. Do not flatten to Sethites. Do not put Watcher on Genesis 6. Greek Genesis has no ἐγρήγοροι.
 
-[C] Genesis 6:4: γίγαντες covers both נפלים and גברים. One Greek word sits on two Hebrew words.
+Genesis 6:4: γίγαντες covers both נפלים and גברים. One Greek word sits on two Hebrew words. This is Greek Genesis, not [C].
 
-[C] 1 Enoch stays labeled extra-biblical. It is a Second Temple reading of Genesis 6, not Genesis.
+[C] 1 Enoch stays labeled extra-biblical. It is a Second Temple reading of Genesis 6, not Genesis. Qumran community / cave books stay [C] / extra-biblical. Do not put [C] on Greek manuscripts of Genesis.
 
 Do not throw out “sons of God.” The Hebrew stands. The Greek shows how they heard it, and where they did not match.
 

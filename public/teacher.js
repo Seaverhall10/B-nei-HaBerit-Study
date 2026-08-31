@@ -75,7 +75,7 @@ function loadWeek2Canon(root) {
     return Promise.resolve();
   }
   body.setAttribute("data-loaded", "pending");
-  return fetch("teacher-week2-canon.md?v=teach2lxx").then(function(r){
+  return fetch("teacher-week2-canon.md?v=teach2lxx2").then(function(r){
     if (!r.ok) throw new Error("missing brief");
     return r.text();
   }).then(function(md){
@@ -158,7 +158,7 @@ function teacherViewHtml(w, questionsPack) {
     "<p><strong>Spine:</strong> "+esc(w.spine)+"</p><p><strong>Big idea:</strong> "+esc(w.big)+"</p><p><strong>Participant reading:</strong> "+esc(w.student)+"</p><p><strong>In-room:</strong> "+esc((w.focus||[]).join("; "))+"</p><h3>Teaching moves</h3><ol>"+moves+"</ol>" + teacherOnlyHtml(w) + deepQuestionsHtml(questionsPack) + "<p class=\"read\"><strong>App moment:</strong> "+esc(w.app||"")+"</p><p class=\"question\"><strong>Guardrail:</strong> "+esc(w.guard||"")+"</p><p><strong>Response:</strong> "+esc(w.response||"")+"</p>";
 }
 async function boot(selectedWeek) {
-  const weeks = await (await fetch("weeks.json?v=teach2lxx")).json();
+  const weeks = await (await fetch("weeks.json?v=teach2lxx2")).json();
   var questionsPack = { questions: [] };
   try {
     questionsPack = await (await fetch("teacher-questions.json?v=teach2job")).json();
