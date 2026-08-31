@@ -75,7 +75,7 @@ function loadWeek2Canon(root) {
     return Promise.resolve();
   }
   body.setAttribute("data-loaded", "pending");
-  return fetch("teacher-week2-canon.md?v=canon1").then(function(r){
+  return fetch("teacher-week2-canon.md?v=teach2job").then(function(r){
     if (!r.ok) throw new Error("missing brief");
     return r.text();
   }).then(function(md){
@@ -153,13 +153,15 @@ function teacherOnlyHtml(w) {
 }
 function teacherViewHtml(w, questionsPack) {
   const moves = (w.teacherMoves||[]).map(function(x){ return "<li>"+esc(x)+"</li>"; }).join("");
-  return "<div class=\"week-head\"><div class=\"number\">"+w.n+"</div><div><h2>"+esc(w.title)+"</h2><p class=\"theme\">"+esc(w.theme)+"</p></div></div><p><strong>Spine:</strong> "+esc(w.spine)+"</p><p><strong>Big idea:</strong> "+esc(w.big)+"</p><p><strong>Participant reading:</strong> "+esc(w.student)+"</p><p><strong>In-room:</strong> "+esc((w.focus||[]).join("; "))+"</p><h3>Teaching moves</h3><ol>"+moves+"</ol>" + teacherOnlyHtml(w) + deepQuestionsHtml(questionsPack) + "<p class=\"read\"><strong>App moment:</strong> "+esc(w.app||"")+"</p><p class=\"question\"><strong>Guardrail:</strong> "+esc(w.guard||"")+"</p><p><strong>Response:</strong> "+esc(w.response||"")+"</p>";
+  return "<div class=\"week-head\"><div class=\"number\">"+w.n+"</div><div><h2>"+esc(w.title)+"</h2><p class=\"theme\">"+esc(w.theme)+"</p></div></div>" +
+    "<p style=\"margin:14px 0;\"><a class=\"btn\" href=\"deck.html?week="+w.n+"\" style=\"background:var(--gold); color:#0c1a19; font-weight:700;\">📽️ Launch Week "+w.n+" Presentation Slides</a></p>" +
+    "<p><strong>Spine:</strong> "+esc(w.spine)+"</p><p><strong>Big idea:</strong> "+esc(w.big)+"</p><p><strong>Participant reading:</strong> "+esc(w.student)+"</p><p><strong>In-room:</strong> "+esc((w.focus||[]).join("; "))+"</p><h3>Teaching moves</h3><ol>"+moves+"</ol>" + teacherOnlyHtml(w) + deepQuestionsHtml(questionsPack) + "<p class=\"read\"><strong>App moment:</strong> "+esc(w.app||"")+"</p><p class=\"question\"><strong>Guardrail:</strong> "+esc(w.guard||"")+"</p><p><strong>Response:</strong> "+esc(w.response||"")+"</p>";
 }
 async function boot(selectedWeek) {
-  const weeks = await (await fetch("weeks.json?v=dq1")).json();
+  const weeks = await (await fetch("weeks.json?v=teach2job")).json();
   var questionsPack = { questions: [] };
   try {
-    questionsPack = await (await fetch("teacher-questions.json?v=board1")).json();
+    questionsPack = await (await fetch("teacher-questions.json?v=teach2job")).json();
   } catch (e) { questionsPack = { questions: [] }; }
   const sel = document.getElementById("teacher-pick");
   if (!sel.dataset.filled) {

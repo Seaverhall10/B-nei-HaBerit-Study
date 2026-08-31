@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson Presentation | B'nei HaBerit</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="deck.css">
+</head>
+<body class="deck-mode">
+  <header class="deck-header">
+    <div class="deck-nav-group">
+      <span class="deck-title-badge">B'nei HaBerit</span>
+      <select id="deck-week-select" class="deck-select"></select>
+    </div>
+    <div class="deck-nav-group">
+      <button id="deck-fullscreen" class="deck-btn" title="Toggle Fullscreen">⛶ Fullscreen</button>
+      <a class="deck-btn" href="./">📖 Reading</a>
+      <a class="deck-btn" href="map.html">🗺️ Story Map</a>
+    </div>
+  </header>
+
+  <main class="deck-stage">
+    <article class="deck-slide" id="deck-slide-content">
+      <p>Loading slides...</p>
+    </article>
+  </main>
+
+  <footer class="deck-footer">
+    <button id="deck-prev" class="deck-btn">← Prev</button>
+    <div class="deck-dots" id="deck-dots"></div>
+    <span class="deck-counter" id="deck-counter"></span>
+    <button id="deck-next" class="deck-btn primary">Next →</button>
+  </footer>
+
+  <script src="deck.js"></script>
+</body>
+</html>
