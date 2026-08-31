@@ -108,6 +108,10 @@ function loadTeacher(dir) {
   assert.ok(blob.indexOf("γίγαντες") !== -1, copy + ": Gen 6:4 γίγαντες");
   assert.ok(blob.indexOf("נפלים") !== -1 && blob.indexOf("גברים") !== -1, copy + ": γίγαντες covers נפלים and גברים");
   assert.ok(/\[C\] 1 Enoch stays labeled extra-biblical/.test(blob), copy + ": 1 Enoch stays extra-biblical / [C]");
+  assert.ok(!/\[C\] Genesis 6:2/.test(blob), copy + ": Gen 6:2 angels variant is not [C]");
+  assert.ok(!/\[C\] Genesis 6:4/.test(blob), copy + ": Gen 6:4 γίγαντες is not [C]");
+  assert.ok(/This is an LXX witness of Genesis, not extra-biblical/.test(blob), copy + ": Gen 6 Greek is Scripture witness");
+  assert.ok(/This is Greek Genesis, not \[C\]/.test(blob), copy + ": Gen 6:4 is Greek Genesis, not [C]");
   assert.ok(/do not mash into student Flow/i.test(blob), copy + ": do not mash LXX into student Flow");
   assert.ok(/Job-page wording/.test(blob), copy + ": student English is the Job-page wording");
   assert.ok(!/study site reader has used Crossway ESV/i.test(blob), copy + ": do not claim the study site reader used ESV");
@@ -151,7 +155,12 @@ function loadTeacher(dir) {
   assert.ok(!/EXTRA/i.test(String(versions.label || "")), copy + ": translation-origin is method, not extra-biblical lore");
   assert.ok(!/EXTRA/i.test(String(lxx.label || "")), copy + ": Job LXX is a witness, not extra-biblical lore");
   assert.ok(/LXX witness/i.test(String(lxx.label || "")), copy + ": LXX block labeled LXX witness");
-  assert.ok(/\[C\]/.test(String(lxx.label || "")), copy + ": LXX label marks [C] on Genesis 6 readings");
+  assert.ok(/Genesis Greek is Scripture, not \[C\]/.test(String(lxx.label || "")), copy + ": LXX label does not mark Genesis Greek as [C]");
+  var lxxBody = (lxx.p || []).join("\n");
+  assert.ok(!/\[C\] Genesis 6:2/.test(lxxBody), copy + ": Gen 6:2 line has no [C]");
+  assert.ok(!/\[C\] Genesis 6:4/.test(lxxBody), copy + ": Gen 6:4 line has no [C]");
+  assert.ok(/\[C\] 1 Enoch/.test(lxxBody), copy + ": 1 Enoch in LXX block stays [C]");
+  assert.ok(/cave books/.test(lxxBody), copy + ": cave books stay in the [C] class");
   assert.ok(/teacher method/i.test(String(qumran.label || "")), copy + ": Qumran block labeled teacher method");
   assert.ok(/English is a check/i.test(String(versions.label || "")), copy + ": translation block labeled English-as-check");
 
@@ -195,6 +204,9 @@ function loadTeacher(dir) {
   assert.ok(rendered.indexOf("ὁ διάβολος") !== -1, copy + ": rendered Job 1:6 διάβολος");
   assert.ok(rendered.indexOf("υἱοὶ τοῦ θεοῦ") !== -1, copy + ": rendered Göttingen/Rahlfs sons of God");
   assert.ok(rendered.indexOf("γίγαντες") !== -1, copy + ": rendered γίγαντες");
+  assert.ok(rendered.indexOf("[C] Genesis 6:2") === -1, copy + ": rendered Gen 6:2 angels variant has no [C]");
+  assert.ok(rendered.indexOf("[C] Genesis 6:4") === -1, copy + ": rendered Gen 6:4 γίγαντες has no [C]");
+  assert.ok(/\[C\] 1 Enoch stays labeled extra-biblical/.test(rendered), copy + ": rendered 1 Enoch still [C]");
   assert.ok(/Göttingen/.test(rendered) && /Rahlfs/.test(rendered), copy + ": rendered Göttingen/Rahlfs");
   assert.ok(/Job-page wording/.test(rendered), copy + ": rendered Job-page wording, not ESV");
   assert.ok(rendered.indexOf("study site reader has used Crossway ESV") === -1, copy + ": rendered teacher copy does not claim ESV on the reader");
@@ -269,6 +281,9 @@ function loadTeacher(dir) {
   assert.ok(/Job 38:7 LXX is NOT the MT pair/i.test(md), copy + ": brief keeps Job 38:7 mismatch");
   assert.ok(md.indexOf("υἱοὶ τοῦ θεοῦ") !== -1 && md.indexOf("γίγαντες") !== -1, copy + ": brief keeps Gen 6 Greek");
   assert.ok(/\[C\] 1 Enoch stays labeled extra-biblical/.test(md), copy + ": brief keeps Enoch as extra-biblical / [C]");
+  assert.ok(!/\[C\] Genesis 6:2/.test(md), copy + ": brief does not mark Gen 6:2 as [C]");
+  assert.ok(!/\[C\] Genesis 6:4/.test(md), copy + ": brief does not mark Gen 6:4 as [C]");
+  assert.ok(/Do not put \[C\] on Greek manuscripts of Genesis/.test(md), copy + ": brief keeps [C] off Genesis Greek");
   assert.ok(/KJV 1611 printed the Apocrypha/i.test(md) || /1611 King James printed the Apocrypha/i.test(md), copy + ": 1611 Apocrypha between testaments");
   assert.ok(/Revelation 2:9 or 3:9/.test(md), copy + ": do not un-Jew from Rev 2:9/3:9");
   assert.ok(!/Wyatt/i.test(md), copy + ": no Ron Wyatt");
