@@ -37,7 +37,7 @@ function recapHtml(w) {
 async function loadReadings(n) {
   if (readingsByWeek[n]) return readingsByWeek[n];
   try {
-    var pack = await (await fetch("readings-week" + n + ".json")).json();
+    var pack = await (await fetch("readings-week" + n + ".json?v=teach2job")).json();
     readingsByWeek[n] = pack;
     return pack;
   } catch (e) { return null; }
@@ -200,7 +200,7 @@ function onAppClick(e) {
   go(BneiRoute.parseRoute(u), false, u.hash);
 }
 async function boot() {
-  weeks = await (await fetch("weeks.json?v=openbible2")).json();
+  weeks = await (await fetch("weeks.json?v=teach2job")).json();
   const sel = document.getElementById("pick");
   sel.innerHTML = WeekWindow.pickerWeeks(weeks).map(function(w){
     return "<option value=\"" + w.n + "\">" + esc(WeekWindow.optionLabel(w)) + "</option>";

@@ -51,7 +51,12 @@ assert.ok(home.indexOf("nachash") !== -1);
 assert.ok(home.indexOf("Genesis 3:15") !== -1);
 assert.ok(home.indexOf("week.html?week=1") !== -1);
 assert.ok(home.indexOf("job.html") !== -1, "optional Job door");
-assert.ok(home.indexOf("Twelve stations") === -1);
+assert.ok(home.indexOf("Deep Questions") === -1, "student home has no Deep Questions tracker");
+assert.ok(home.indexOf("Timing of the fall") === -1, "student home has no fall-timing card");
+assert.ok(home.indexOf("Acts 21") === -1, "student home has no Acts 21 dump");
+assert.ok(home.indexOf("why Paul takes the vow") === -1, "student home has no Paul-vow card");
+assert.ok(home.indexOf("Big Board") === -1, "student home has no Big Board");
+assert.ok(indexHtml.indexOf("id=\"view-teacher\"") !== -1, "teacher view stays on the one-page shell");
 assert.ok(home.indexOf("Story so far") === -1);
 assert.ok(home.indexOf("map.html") === -1, "no Map on student home");
 assert.ok(home.indexOf("class=\"card\"") === -1, "home is not cream homework cards");
@@ -115,6 +120,7 @@ assert.deepStrictEqual(week2.openBible, [
   "Genesis 8:20-9:17"
 ]);
 assert.deepStrictEqual(week2.focus, ["Genesis 6:1-8"]);
+assert.strictEqual(week2.student, "Genesis 4:1-16; Genesis 6:1-22; Job 1:6 and Job 38:4-7; Genesis 8:20-9:17");
 assert.ok(week2.student.indexOf("Genesis 4:1-16") !== -1);
 assert.ok(week2.student.indexOf("Genesis 6:1-22") !== -1);
 assert.ok(week2.student.indexOf("Job 1:6") !== -1);
@@ -144,8 +150,18 @@ assert.ok((week2.observe || []).some(function (line) {
 assert.ok((week2.observe || []).some(function (line) {
   return /Nimrod|Babel/.test(line) && /next week/i.test(line);
 }), "Nimrod/Babel is next week");
-assert.ok((week2.teacherMoves || []).join(" ").indexOf("Numbers 13") !== -1, "keep later houses in teacher notes");
+var teacherMoves = (week2.teacherMoves || []).join(" ");
+assert.ok(teacherMoves.indexOf("Numbers 13") === -1, "teacherMoves must not send the class through Numbers 13");
+assert.ok(teacherMoves.indexOf("Og") === -1 && teacherMoves.indexOf("Goliath") === -1, "teacherMoves must not tour Og or Goliath");
+assert.ok(teacherMoves.indexOf("Lot") === -1 && teacherMoves.indexOf("Matthew 4") === -1, "teacherMoves must not restore Lot / Matt 4 homework");
+assert.ok(/Hold up their English Bible/i.test(teacherMoves), "name where their English came from");
+assert.ok(/1 Peter 3:20-21/.test(teacherMoves), "1 Peter 3 names earth-through-water later");
+assert.ok(teacherMoves.indexOf("Messiah is the greater ark") !== -1 && /opening frame/.test(teacherMoves), "do not open with Messiah-as-ark");
+assert.ok(/two piles/i.test(teacherMoves), "Qumran two piles stays a teacher move");
 assert.ok(week2.teacherOnly && week2.teacherOnly.length, "keep teacher-only notes");
+assert.ok((week2.observe || []).some(function (line) {
+  return /desert/.test(line) && /labeled/.test(line) && /Torah/.test(line);
+}), "one thin desert-copies observe; no 1Q20 dump");
 
 assert.ok(week2.reader && week2.reader.length === 4, "four Scripture blocks, not a world tour");
 
@@ -171,6 +187,12 @@ week2.reader.forEach(function (block) {
 });
 assert.ok(html.indexOf("Job 1:6") !== -1, "Job 1:6 is in the cream reader");
 assert.ok(html.indexOf("Job 38:4-7") !== -1, "Job 38:4-7 is in the cream reader");
+assert.ok(/sons of God/.test(html), "cream Job lines say sons of God");
+assert.ok(!/God['’]s sons/.test(html), "cream reader does not say God's sons");
+assert.ok(html.indexOf("the adversary") !== -1, "Job 1:6 on the student reader says the adversary");
+assert.ok(!/\bSatan\b/.test(html), "Job 1:6 on the student reader does not name Satan");
+assert.ok(html.indexOf("Watcher") === -1, "do not insert Watcher into the student week reader");
+assert.ok(html.indexOf("1 Enoch") === -1, "do not add 1 Enoch to the student week reader");
 assert.ok(html.indexOf("Genesis 19") === -1, "Lot is not this week's homework");
 assert.ok(html.indexOf("Numbers 13") === -1);
 assert.ok(html.indexOf("Deuteronomy 3") === -1);
@@ -184,6 +206,39 @@ assert.ok(fs.existsSync(path.join(publicDir, "interlinear-week2.json")), "do not
 var packKeys = (pack.passages || []).map(function (p) { return p.refKey; });
 assert.ok(packKeys.indexOf("Job 1:6") !== -1, "WEB pack has Job 1:6");
 assert.ok(packKeys.indexOf("Job 38:4-7") !== -1, "WEB pack has Job 38:4-7");
+var job16 = (pack.passages || []).find(function (p) { return p.refKey === "Job 1:6"; });
+var job16t = job16 && job16.verses && job16.verses[0] && job16.verses[0].t;
+assert.ok(job16t, "Job 1:6 verse text exists");
+assert.ok(/sons of God/.test(job16t), "pack Job 1:6 says sons of God");
+assert.ok(!/God['’]s sons/.test(job16t), "pack Job 1:6 does not say God's sons");
+assert.ok(/the adversary/.test(job16t), "pack Job 1:6 says the adversary");
+assert.ok(!/\bSatan\b/.test(job16t), "pack Job 1:6 does not name Satan");
+var job38 = (pack.passages || []).find(function (p) { return p.refKey === "Job 38:4-7"; });
+var job387 = job38 && (job38.verses || []).find(function (v) { return Number(v.v) === 7; });
+assert.ok(job387 && /sons of God/.test(job387.t), "pack Job 38:7 says sons of God");
+var dirty = JSON.parse(JSON.stringify(pack));
+dirty.passages.forEach(function (p) {
+  if (p.refKey === "Job 1:6" && p.verses && p.verses[0]) {
+    p.verses[0].t = "Now on the day when God’s sons came to present themselves before Yahweh, Satan also came among them.";
+  }
+});
+var overridden = WeekWindow.creamReaderHtml(week2, dirty, [false, false, false, false]);
+assert.ok(/sons of God/.test(overridden), "reader overrides WEB God's sons");
+assert.ok(overridden.indexOf("the adversary") !== -1, "reader overrides WEB Satan to the adversary");
+assert.ok(!/God['’]s sons/.test(overridden), "override drops God's sons even if the pack still has WEB");
+assert.ok(!/\bSatan\b/.test(overridden), "override drops Satan even if the pack still has WEB");
+["public", "docs"].forEach(function (copy) {
+  var copyPack = JSON.parse(fs.readFileSync(path.join(__dirname, "..", copy, "readings-week2.json"), "utf8"));
+  var copy16 = (copyPack.passages || []).find(function (p) { return p.refKey === "Job 1:6"; });
+  var t = copy16 && copy16.verses && copy16.verses[0] && copy16.verses[0].t;
+  assert.ok(/sons of God/.test(t) && /the adversary/.test(t), copy + " Job 1:6 uses sons of God / the adversary");
+  assert.ok(!/God['’]s sons/.test(t) && !/\bSatan\b/.test(t), copy + " Job 1:6 is not WEB God's sons / Satan");
+});
+var week1 = weeks.find(function (w) { return w.n === 1; });
+assert.ok(week1, "week 1 exists");
+assert.ok(JSON.stringify(week1.recap).indexOf("The nachash is a spiritual rebel") !== -1, "do not rewrite the guys' nachash recap line");
+assert.ok(!/Rev(?:elation)? 12/.test(JSON.stringify(week1.recap)), "do not dump Rev 12 onto the student recap");
+assert.ok(home.indexOf("The nachash") !== -1 && home.indexOf("spiritual rebel") !== -1, "home last-week beat stays the guys' line");
 
 assert.ok(appSrc.indexOf("pickerWeeks") !== -1, "student picker uses the week window");
 assert.ok(appSrc.indexOf("creamReaderHtml") !== -1, "student tab uses cream reader");
