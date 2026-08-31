@@ -187,6 +187,12 @@ week2.reader.forEach(function (block) {
 });
 assert.ok(html.indexOf("Job 1:6") !== -1, "Job 1:6 is in the cream reader");
 assert.ok(html.indexOf("Job 38:4-7") !== -1, "Job 38:4-7 is in the cream reader");
+assert.ok(/sons of God/.test(html), "cream Job lines say sons of God");
+assert.ok(!/God['’]s sons/.test(html), "cream reader does not say God's sons");
+assert.ok(html.indexOf("the adversary") !== -1, "Job 1:6 on the student reader says the adversary");
+assert.ok(!/\bSatan\b/.test(html), "Job 1:6 on the student reader does not name Satan");
+assert.ok(html.indexOf("Watcher") === -1, "do not insert Watcher into the student week reader");
+assert.ok(html.indexOf("1 Enoch") === -1, "do not add 1 Enoch to the student week reader");
 assert.ok(html.indexOf("Genesis 19") === -1, "Lot is not this week's homework");
 assert.ok(html.indexOf("Numbers 13") === -1);
 assert.ok(html.indexOf("Deuteronomy 3") === -1);
@@ -200,6 +206,39 @@ assert.ok(fs.existsSync(path.join(publicDir, "interlinear-week2.json")), "do not
 var packKeys = (pack.passages || []).map(function (p) { return p.refKey; });
 assert.ok(packKeys.indexOf("Job 1:6") !== -1, "WEB pack has Job 1:6");
 assert.ok(packKeys.indexOf("Job 38:4-7") !== -1, "WEB pack has Job 38:4-7");
+var job16 = (pack.passages || []).find(function (p) { return p.refKey === "Job 1:6"; });
+var job16t = job16 && job16.verses && job16.verses[0] && job16.verses[0].t;
+assert.ok(job16t, "Job 1:6 verse text exists");
+assert.ok(/sons of God/.test(job16t), "pack Job 1:6 says sons of God");
+assert.ok(!/God['’]s sons/.test(job16t), "pack Job 1:6 does not say God's sons");
+assert.ok(/the adversary/.test(job16t), "pack Job 1:6 says the adversary");
+assert.ok(!/\bSatan\b/.test(job16t), "pack Job 1:6 does not name Satan");
+var job38 = (pack.passages || []).find(function (p) { return p.refKey === "Job 38:4-7"; });
+var job387 = job38 && (job38.verses || []).find(function (v) { return Number(v.v) === 7; });
+assert.ok(job387 && /sons of God/.test(job387.t), "pack Job 38:7 says sons of God");
+var dirty = JSON.parse(JSON.stringify(pack));
+dirty.passages.forEach(function (p) {
+  if (p.refKey === "Job 1:6" && p.verses && p.verses[0]) {
+    p.verses[0].t = "Now on the day when God’s sons came to present themselves before Yahweh, Satan also came among them.";
+  }
+});
+var overridden = WeekWindow.creamReaderHtml(week2, dirty, [false, false, false, false]);
+assert.ok(/sons of God/.test(overridden), "reader overrides WEB God's sons");
+assert.ok(overridden.indexOf("the adversary") !== -1, "reader overrides WEB Satan to the adversary");
+assert.ok(!/God['’]s sons/.test(overridden), "override drops God's sons even if the pack still has WEB");
+assert.ok(!/\bSatan\b/.test(overridden), "override drops Satan even if the pack still has WEB");
+["public", "docs"].forEach(function (copy) {
+  var copyPack = JSON.parse(fs.readFileSync(path.join(__dirname, "..", copy, "readings-week2.json"), "utf8"));
+  var copy16 = (copyPack.passages || []).find(function (p) { return p.refKey === "Job 1:6"; });
+  var t = copy16 && copy16.verses && copy16.verses[0] && copy16.verses[0].t;
+  assert.ok(/sons of God/.test(t) && /the adversary/.test(t), copy + " Job 1:6 uses sons of God / the adversary");
+  assert.ok(!/God['’]s sons/.test(t) && !/\bSatan\b/.test(t), copy + " Job 1:6 is not WEB God's sons / Satan");
+});
+var week1 = weeks.find(function (w) { return w.n === 1; });
+assert.ok(week1, "week 1 exists");
+assert.ok(JSON.stringify(week1.recap).indexOf("The nachash is a spiritual rebel") !== -1, "do not rewrite the guys' nachash recap line");
+assert.ok(!/Rev(?:elation)? 12/.test(JSON.stringify(week1.recap)), "do not dump Rev 12 onto the student recap");
+assert.ok(home.indexOf("The nachash") !== -1 && home.indexOf("spiritual rebel") !== -1, "home last-week beat stays the guys' line");
 
 assert.ok(appSrc.indexOf("pickerWeeks") !== -1, "student picker uses the week window");
 assert.ok(appSrc.indexOf("creamReaderHtml") !== -1, "student tab uses cream reader");

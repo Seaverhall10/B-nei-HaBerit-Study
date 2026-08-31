@@ -30,6 +30,15 @@
     "app": "Live this week as an image-bearer: represent Yahweh rule in ordinary work, family, and speech.",
     "guard": "Do not reduce image of God to a list of human faculties while ignoring royal-priestly vocation.",
     "response": "Blessed are you, Yahweh; you made us to walk with you. Restore our calling in Messiah.",
+    "teacherOnly": [
+      {
+        "h": "Nachash: [A] in Genesis 3, [B] later",
+        "label": "teacher method — do not dump Rev 12 on the guys",
+        "p": [
+          "[A] is the speaking נחש among the beasts in Genesis 3. [B] is later identification (Rev 12). The guys’ recap line “the nachash is a spiritual rebel” is [B]. Leave it. Do not dump Rev 12 onto the student recap."
+        ]
+      }
+    ],
     "alreadyMet": true,
     "recap": [
       {
