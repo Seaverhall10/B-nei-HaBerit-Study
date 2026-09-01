@@ -60,7 +60,7 @@ assert.ok(indexHtml.indexOf("id=\"view-teacher\"") !== -1, "teacher view stays o
 assert.ok(home.indexOf("Story so far") === -1);
 assert.ok(home.indexOf("map.html") === -1, "no Map on student home");
 assert.ok(home.indexOf("class=\"card\"") === -1, "home is not cream homework cards");
-assert.ok(indexHtml.indexOf("ancient-texts-app") === -1);
+assert.strictEqual((indexHtml.match(/https:\/\/ancient-texts-app\.web\.app\//g) || []).length, 1, "student shell has one Ancient Texts return link");
 assert.ok(/class="cta"/.test(home), "one gold primary CTA");
 assert.ok(home.indexOf("class=\"beats\"") !== -1, "last week uses headed beats");
 assert.ok(home.indexOf("home-foot") !== -1, "tight Hebrew footer");
@@ -277,10 +277,19 @@ assert.ok(navStart !== -1 && navEnd !== -1, "student chrome nav exists");
 var studentNav = indexHtml.slice(navStart, navEnd);
 assert.ok(studentNav.indexOf("This week") !== -1);
 assert.ok(studentNav.indexOf(">Job<") !== -1);
+assert.ok(studentNav.indexOf('href="https://ancient-texts-app.web.app/"') !== -1, "student chrome links back to the live Ancient Texts Library");
+assert.ok(studentNav.indexOf("Ancient Texts") !== -1, "return destination is named for readers");
 assert.ok(studentNav.indexOf("Map") === -1, "Map stays off student chrome");
 assert.ok(studentNav.indexOf("map.html") === -1);
 assert.ok(appSrc.indexOf("history.replaceState") === -1 || appSrc.indexOf('go({ view: "week"') !== -1, "picker stays on the one-page query route");
 assert.ok(appSrc.indexOf("week.html?week=\" + sel.value") === -1, "picker must not bounce to week.html");
+
+["public", "docs"].forEach(function (copy) {
+  var shell = fs.readFileSync(path.join(__dirname, "..", copy, "index.html"), "utf8");
+  var matches = shell.match(/https:\/\/ancient-texts-app\.web\.app\//g) || [];
+  assert.strictEqual(matches.length, 1, copy + ": exactly one Ancient Texts return link");
+  assert.ok(!/<a[^>]*class="library-return"[^>]*target="_blank"/.test(shell) && !/<a[^>]*target="_blank"[^>]*class="library-return"/.test(shell), copy + ": return link stays in the same tab so Back remains predictable");
+});
 
 var firebaseCfg = fs.readFileSync(path.join(publicDir, "firebase-config.js"), "utf8");
 assert.ok(firebaseCfg.indexOf("REPLACE_ME") !== -1, "SPA PR does not land real Firebase config");
