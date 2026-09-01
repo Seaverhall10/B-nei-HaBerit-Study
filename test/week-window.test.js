@@ -73,6 +73,9 @@ assert.ok(styles.indexOf("--gold:#c9a24a") !== -1);
 assert.ok(styles.indexOf("--gold-soft:#e7c56a") !== -1);
 assert.ok(styles.indexOf("--void:#0b1211") !== -1);
 assert.ok(styles.indexOf("overflow-x:clip") !== -1);
+assert.ok(styles.indexOf("reading-first mobile layout") !== -1, "week page uses the reading-first responsive layout");
+assert.ok(styles.indexOf(".week-page #week.card") !== -1, "lesson surface has a dedicated mobile card system");
+assert.ok(styles.indexOf(".week-page #week > ul > li") !== -1, "observation material is separated into readable rows");
 assert.ok(styles.indexOf("#b85c38") === -1 && styles.indexOf("ember") === -1);
 
 assert.strictEqual(WeekWindow.DEFAULT_WEEK, 2, "this week is 2");

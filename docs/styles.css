@@ -547,7 +547,7 @@ body.home-page{
 .recap-items p{margin:0 0 8px;font-size:1.05rem;line-height:1.55}
 .recap-items p:last-child{margin-bottom:0}
 
-/* Week page: one tight chrome stack. Nav stays; pills wrap as a set. */
+/* Week page: reading-first mobile layout. */
 .week-page header.mast{
   padding:6px 10px 8px;
   position:sticky;
@@ -610,4 +610,266 @@ body.home-page{
   .week-page .brand-text .kicker{display:none}
   .week-page header.mast{padding:5px 8px 6px}
   .week-page .pills a{padding:4px 7px}
+}
+/* Week page: reading-first mobile layout. */
+.week-page header.mast{
+  padding:8px 12px 10px;
+  position:sticky;
+  top:0;
+  z-index:30;
+  background:rgba(11,18,17,.97);
+  border-bottom:1px solid rgba(201,162,74,.32);
+  box-shadow:0 10px 28px rgba(0,0,0,.28);
+  backdrop-filter:blur(16px);
+}
+.week-page .mast-bar{
+  width:min(720px,100%);
+  flex-wrap:nowrap;
+  gap:10px;
+}
+.week-page .pills{
+  flex-wrap:nowrap;
+  align-items:center;
+  gap:4px;
+}
+.week-page .pills a{
+  padding:6px 9px;
+  border-radius:999px;
+  font:700 .68rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.02em;
+}
+.week-page .pills .library-return{
+  border-color:var(--gold);
+  color:var(--gold-soft);
+}
+.week-page .seal{width:32px;height:32px}
+.week-page .he-title{font-size:1rem}
+.week-page .toolbar{
+  width:min(720px,100%);
+  max-width:100%;
+  min-width:0;
+  margin:8px auto 0;
+  padding-top:8px;
+  border-top:1px solid rgba(201,162,74,.24);
+  flex-wrap:nowrap;
+  gap:10px;
+  font:600 .82rem "Source Sans 3",system-ui,sans-serif;
+}
+.week-page .week-pick{
+  flex:1 1 0;
+  min-width:0;
+  max-width:100%;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.week-page .week-pick select{
+  flex:1 1 0;
+  min-width:0;
+  max-width:100%;
+  width:100%;
+  padding:8px 34px 8px 10px;
+  border:1px solid rgba(201,162,74,.48);
+  border-radius:10px;
+  background:#f8f1e1;
+  color:var(--heading);
+  font:700 .9rem "Source Sans 3",system-ui,sans-serif;
+}
+.week-page .auth-slim{margin-left:0;flex:none}
+.week-page .toolbar .progress{
+  flex:none;
+  min-width:38px;
+  margin-left:auto;
+  padding:5px 8px;
+  border:1px solid rgba(201,162,74,.42);
+  border-radius:999px;
+  color:var(--gold-soft);
+  font:700 .72rem "Source Sans 3",system-ui,sans-serif;
+  text-align:center;
+}
+.week-page .wrap{
+  width:min(720px,calc(100% - 24px));
+  padding:18px 0 72px;
+}
+.week-page #week.card{
+  margin:0;
+  padding:clamp(20px,4vw,34px);
+  border:1px solid rgba(201,162,74,.34);
+  border-radius:20px;
+  background:linear-gradient(180deg,#f8f0dd 0%,#f2e6cc 100%);
+  box-shadow:0 22px 54px rgba(0,0,0,.36);
+  overflow:hidden;
+}
+.week-page #week .week-head{
+  grid-template-columns:1fr;
+  gap:8px;
+  align-items:start;
+  margin:0 0 22px;
+  padding-bottom:20px;
+  border-bottom:1px solid rgba(23,61,57,.16);
+}
+.week-page #week .number{
+  display:inline-flex;
+  width:max-content;
+  height:auto;
+  padding:5px 10px;
+  border-radius:999px;
+  background:var(--heading);
+  color:#fff8e8;
+  font:700 .7rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.1em;
+}
+.week-page #week .number::before{content:"WEEK ";margin-right:4px;color:var(--gold-soft)}
+.week-page #week .week-head h2{
+  margin:0 0 8px;
+  color:var(--heading);
+  font:700 clamp(1.65rem,5vw,2.15rem)/1.08 "Source Serif 4",Georgia,serif;
+  letter-spacing:-.015em;
+}
+.week-page #week .this-week{
+  margin:0;
+  max-width:34rem;
+  color:#4d463c;
+  font:600 1.08rem/1.5 "Source Serif 4",Georgia,serif;
+}
+.week-page #week .open-bible{
+  margin:0 0 20px;
+  padding:18px;
+  border:1px solid #e4d09a;
+  border-left:0;
+  border-radius:14px;
+  background:#fffaf0;
+  box-shadow:0 8px 22px rgba(74,55,20,.08);
+}
+.week-page #week .open-bible .eyebrow{
+  margin:0 0 12px;
+  color:#9b681c;
+  font:800 .72rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.week-page #week .open-bible li{
+  margin:0 0 7px;
+  color:var(--heading);
+  font:700 1.08rem/1.3 "Source Serif 4",Georgia,serif;
+}
+.week-page #week .open-bible .in-room{
+  margin:13px 0 0;
+  padding-top:12px;
+  border-top:1px solid #eadcb6;
+  font-size:1rem;
+}
+.week-page #week .question{
+  margin:18px 0 22px;
+  padding:14px 16px;
+  border:1px solid rgba(201,162,74,.34);
+  border-left:4px solid var(--gold);
+  border-radius:10px;
+  background:#fff7e6;
+  font-size:1.04rem;
+  line-height:1.5;
+}
+.week-page #week .read-list,
+.week-page #reader-slot{
+  margin:24px 0 0;
+  padding-top:22px;
+  border-top:1px solid rgba(23,61,57,.15);
+}
+.week-page #week > h3{
+  margin:28px 0 12px;
+  padding-top:22px;
+  border-top:1px solid rgba(23,61,57,.15);
+  color:var(--heading);
+  font:800 .78rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.week-page #week > ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.week-page #week > ul > li{
+  position:relative;
+  margin:0;
+  padding:11px 0 11px 22px;
+  border-bottom:1px solid rgba(23,61,57,.11);
+  color:#302c26;
+  font-size:1.03rem;
+  line-height:1.52;
+}
+.week-page #week > ul > li:last-child{border-bottom:0}
+.week-page #week > ul > li::before{
+  content:"";
+  position:absolute;
+  left:2px;
+  top:1.18rem;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--gold);
+}
+.week-page .reader{margin:0}
+.week-page .reader h3{
+  margin:0 0 12px;
+  color:var(--heading);
+  font:800 .78rem "Source Sans 3",system-ui,sans-serif;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.week-page .passage{
+  margin:10px 0;
+  overflow:hidden;
+  border:1px solid #decda6;
+  border-radius:12px;
+  background:#fffdf8;
+}
+.week-page .passage summary{
+  padding:15px 16px;
+  color:var(--heading);
+  font:700 1.02rem/1.3 "Source Serif 4",Georgia,serif;
+  letter-spacing:0;
+}
+.week-page .passage-body{padding:8px 16px 18px;background:#fffdf8}
+.week-page .verse{font-size:1.06rem;line-height:1.62}
+.week-page .checklist{margin:0}
+.week-page .checklist li{
+  min-height:56px;
+  align-items:center;
+  margin:9px 0;
+  padding:12px 14px;
+  border-color:#decda6;
+  border-radius:10px;
+  background:#fffdf8;
+}
+.week-page .checklist input{width:20px;height:20px;flex:none}
+.week-page .checklist label{
+  color:var(--heading);
+  font:700 1rem/1.35 "Source Serif 4",Georgia,serif;
+}
+
+#read-this-week, #reader-slot{scroll-margin-top:132px}
+
+@media (max-width:430px){
+  .week-page header.mast{padding:7px 10px 9px}
+  .week-page .mast-bar{flex-wrap:wrap;gap:7px}
+  .week-page .brand{flex:1 1 auto}
+  .week-page .brand-text .kicker{display:none}
+  .week-page .pills{
+    flex:1 0 100%;
+    width:100%;
+    justify-content:space-between;
+    padding-top:7px;
+    border-top:1px solid rgba(201,162,74,.24);
+  }
+  .week-page .pills a{padding:5px 7px;font-size:.66rem}
+  .week-page .pills .library-return{margin-left:auto;padding:5px 9px}
+  .week-page .toolbar{margin-top:7px;padding-top:7px;gap:7px}
+  .week-page .week-pick{gap:0;font-size:0}
+  .week-page .week-pick select{padding:8px 30px 8px 9px;font-size:.82rem}
+  .week-page .toolbar .progress{min-width:36px;padding:5px 6px}
+  .week-page .wrap{width:calc(100% - 18px);padding-top:12px}
+  .week-page #week.card{padding:20px 17px;border-radius:16px}
+  .week-page #week .week-head h2{font-size:1.62rem}
+  .week-page #week .open-bible{padding:16px 14px}
 }
