@@ -145,10 +145,6 @@ function applyChrome(route) {
     if (he) he.textContent = "בְּנֵי הַבְּרִית";
     if (kicker) kicker.textContent = "Story map";
     document.title = "Story map | Bnei Haberit";
-  } else if (route.view === "teacher") {
-    if (he) he.textContent = "בְּנֵי הַבְּרִית";
-    if (kicker) kicker.textContent = "Teacher";
-    document.title = "Teacher | Bnei Haberit Study";
   } else if (week) {
     if (he) he.textContent = "בְּנֵי הַבְּרִית";
     if (kicker) kicker.textContent = "Weekly reading";
@@ -162,7 +158,7 @@ function applyChrome(route) {
     var v = a.getAttribute("data-view");
     a.classList.toggle("here", v === route.view);
   });
-  ["home", "week", "job", "map", "teacher"].forEach(function(v){
+  ["home", "week", "job", "map"].forEach(function(v){
     var el = document.getElementById("view-" + v);
     if (el) el.hidden = v !== route.view;
   });
@@ -178,7 +174,6 @@ function applyRoute(route) {
     render();
   }
   if (route.view === "map" && window.BneiMap) BneiMap.boot(route.week);
-  if (route.view === "teacher" && window.BneiTeacher) BneiTeacher.boot(route.week);
   if (location.hash && route.view === "week") {
     var jump = document.getElementById(location.hash.slice(1));
     if (jump) jump.scrollIntoView();
@@ -200,7 +195,7 @@ function onAppClick(e) {
   go(BneiRoute.parseRoute(u), false, u.hash);
 }
 async function boot() {
-  weeks = await (await fetch("weeks.json?v=teach2job")).json();
+  weeks = await (await fetch("weeks.json?v=student-only-20260902")).json();
   const sel = document.getElementById("pick");
   sel.innerHTML = WeekWindow.pickerWeeks(weeks).map(function(w){
     return "<option value=\"" + w.n + "\">" + esc(WeekWindow.optionLabel(w)) + "</option>";

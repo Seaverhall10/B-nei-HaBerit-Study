@@ -1,6 +1,7 @@
 node_modules/
 .firebase/
 .firebaserc
+/private-facilitator-source-backup-*/
 .env
 .env.*
 *.log

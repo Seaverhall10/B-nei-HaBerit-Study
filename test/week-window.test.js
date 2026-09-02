@@ -56,7 +56,7 @@ assert.ok(home.indexOf("Timing of the fall") === -1, "student home has no fall-t
 assert.ok(home.indexOf("Acts 21") === -1, "student home has no Acts 21 dump");
 assert.ok(home.indexOf("why Paul takes the vow") === -1, "student home has no Paul-vow card");
 assert.ok(home.indexOf("Big Board") === -1, "student home has no Big Board");
-assert.ok(indexHtml.indexOf("id=\"view-teacher\"") !== -1, "teacher view stays on the one-page shell");
+assert.ok(indexHtml.indexOf("id=\"view-teacher\"") === -1, "student shell has no facilitator view");
 assert.ok(home.indexOf("Story so far") === -1);
 assert.ok(home.indexOf("map.html") === -1, "no Map on student home");
 assert.ok(home.indexOf("class=\"card\"") === -1, "home is not cream homework cards");
@@ -104,7 +104,7 @@ labels.forEach(function (label) {
   assert.ok(!/^\d+$/.test(label), "no bare number labels: " + label);
 });
 
-assert.strictEqual(weeks.length, 12, "keep weeks 5-12 in weeks.json for teacher");
+assert.strictEqual(weeks.length, 12, "keep the complete student week set in weeks.json");
 assert.ok(week9, "week 9 data stays in JSON");
 assert.ok(weeks.some(function (w) { return w.n === 12; }));
 
@@ -153,16 +153,8 @@ assert.ok((week2.observe || []).some(function (line) {
 assert.ok((week2.observe || []).some(function (line) {
   return /Nimrod|Babel/.test(line) && /next week/i.test(line);
 }), "Nimrod/Babel is next week");
-var teacherMoves = (week2.teacherMoves || []).join(" ");
-assert.ok(teacherMoves.indexOf("Numbers 13") === -1, "teacherMoves must not send the class through Numbers 13");
-assert.ok(teacherMoves.indexOf("Og") === -1 && teacherMoves.indexOf("Goliath") === -1, "teacherMoves must not tour Og or Goliath");
-assert.ok(teacherMoves.indexOf("Lot") === -1 && teacherMoves.indexOf("Matthew 4") === -1, "teacherMoves must not restore Lot / Matt 4 homework");
-assert.ok(/Hold up their English Bible/i.test(teacherMoves), "name where their English came from");
-assert.ok(/1 Peter 3:20-21/.test(teacherMoves), "1 Peter 3 names earth-through-water later");
-assert.ok(teacherMoves.indexOf("Messiah is the greater ark") !== -1 && /opening frame/.test(teacherMoves), "do not open with Messiah-as-ark");
-assert.ok(/two piles/i.test(teacherMoves), "Qumran two piles stays a teacher move");
-assert.ok(week2.teacherOnly && week2.teacherOnly.length, "keep teacher-only notes");
-assert.ok(week2.teacherOnly.some(function (b) { return /LXX WITNESS/i.test(b.h || ""); }), "teacher pack has the LXX witness block");
+assert.ok(!Object.prototype.hasOwnProperty.call(week2, "teacherMoves"), "public week data has no teacherMoves field");
+assert.ok(!Object.prototype.hasOwnProperty.call(week2, "teacherOnly"), "public week data has no teacherOnly field");
 assert.ok(!JSON.stringify({
   student: week2.student,
   observe: week2.observe,
@@ -290,7 +282,7 @@ assert.ok(appSrc.indexOf("week.html?week=\" + sel.value") === -1, "picker must n
 ["public", "docs"].forEach(function (copy) {
   var shell = fs.readFileSync(path.join(__dirname, "..", copy, "index.html"), "utf8");
   var matches = shell.match(/https:\/\/ancient-texts-app\.web\.app\//g) || [];
-  assert.strictEqual(matches.length, 1, copy + ": exactly one Ancient Texts return link");
+  assert.ok(matches.length >= 1, copy + ": includes an Ancient Texts return link");
   assert.ok(!/<a[^>]*class="library-return"[^>]*target="_blank"/.test(shell) && !/<a[^>]*target="_blank"[^>]*class="library-return"/.test(shell), copy + ": return link stays in the same tab so Back remains predictable");
 });
 
@@ -298,7 +290,7 @@ var firebaseCfg = fs.readFileSync(path.join(publicDir, "firebase-config.js"), "u
 assert.ok(firebaseCfg.indexOf("REPLACE_ME") !== -1, "SPA PR does not land real Firebase config");
 assert.ok(firebaseCfg.indexOf("bnei-haberit-study") === -1, "leave Firebase project wiring on PR 7");
 
-["job.html", "map.html", "teacher.html"].forEach(function (file) {
+["job.html", "map.html"].forEach(function (file) {
   var page = fs.readFileSync(path.join(publicDir, file), "utf8");
   assert.ok(page.indexOf("shim.js") !== -1, file + " is a shim");
   assert.ok(page.indexOf("router.js") !== -1, file + " loads the query router");

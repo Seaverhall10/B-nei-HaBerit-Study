@@ -20,12 +20,10 @@
     if (file === "week.html") return { view: "week", week: week || DEFAULT_WEEK };
     if (file === "job.html") return { view: "job" };
     if (file === "map.html") return week ? { view: "map", week: week } : { view: "map" };
-    if (file === "teacher.html") return week ? { view: "teacher", week: week } : { view: "teacher" };
     if (file === "deck.html") return { view: "deck", week: week || DEFAULT_WEEK };
 
     if (viewParam === "job") return { view: "job" };
     if (viewParam === "map") return week ? { view: "map", week: week } : { view: "map" };
-    if (viewParam === "teacher") return week ? { view: "teacher", week: week } : { view: "teacher" };
     if (viewParam === "deck") return { view: "deck", week: week || DEFAULT_WEEK };
     if (viewParam === "week" || week) return { view: "week", week: week || DEFAULT_WEEK };
     return { view: "home" };
@@ -38,9 +36,6 @@
     if (route.view === "map") {
       return route.week ? "?view=map&week=" + route.week : "?view=map";
     }
-    if (route.view === "teacher") {
-      return route.week ? "?view=teacher&week=" + route.week : "?view=teacher";
-    }
     if (route.view === "deck") {
       return "?view=deck&week=" + (route.week || DEFAULT_WEEK);
     }
@@ -50,7 +45,7 @@
   function shimTarget(loc) {
     loc = loc || {};
     var file = basename(loc.pathname || "");
-    if (file !== "week.html" && file !== "job.html" && file !== "map.html" && file !== "teacher.html" && file !== "deck.html") {
+    if (file !== "week.html" && file !== "job.html" && file !== "map.html" && file !== "deck.html") {
       return null;
     }
     var href = hrefFor(parseRoute(loc));
@@ -60,7 +55,7 @@
 
   function isAppPath(pathname) {
     var file = basename(pathname);
-    return file === "" || file === "index.html" || file === "week.html" || file === "job.html" || file === "map.html" || file === "teacher.html" || file === "deck.html";
+    return file === "" || file === "index.html" || file === "week.html" || file === "job.html" || file === "map.html" || file === "deck.html";
   }
 
   var api = {

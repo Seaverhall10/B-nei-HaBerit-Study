@@ -1,6 +1,6 @@
 # Bnei HaBerit Study
 
-Vanilla JS participant site for a 12-week Bible study. Google sign-in. Firestore progress. Firebase Hosting. Teacher notes live on teacher.html and are not linked from index.html.
+Vanilla JS participant site for a 12-week Bible study. Google sign-in. Firestore progress. Firebase Hosting. Public output is student-only; facilitator source must remain outside `public/` and `docs/`.
 
 ## How Seaver finishes Firebase
 
