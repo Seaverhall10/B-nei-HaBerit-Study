@@ -1,609 +1,1115 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cosmic & Earth Infinite Canvas Timeline — Ancient Texts</title>
-  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosmic Canvas Timeline · Multi-Layered Redemptive Engine</title>
+  <link rel="icon" href="seal.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;600;700&family=Noto+Serif+Hebrew:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --canvas-bg: #0b0f17;
-      --grid-dot: rgba(255, 215, 0, 0.08);
-      --gold: #d4af37;
-      --gold-light: #fef08a;
-      --council-purple: #9333ea;
-      --covenant-gold: #eab308;
-      --history-blue: #0284c7;
-      --eschat-crimson: #e11d48;
+      --bg-dark: #070b0d;
+      --bg-panel: #0d1417;
+      --bg-card: rgba(15, 23, 27, 0.92);
+      --bg-card-hover: rgba(22, 34, 40, 0.98);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-gold: rgba(201, 162, 74, 0.35);
+      --gold: #c9a24a;
+      --gold-bright: #f0cb69;
+      --track-council: #8b5cf6; /* Violet */
+      --track-seed: #10b981;    /* Emerald */
+      --track-empires: #f43f5e; /* Rose / Crimson */
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
     }
-    body {
-      background-color: var(--canvas-bg);
-      color: #e2e8f0;
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    .he {
+      font-family: "Noto Serif Hebrew", serif;
+      direction: rtl;
+      unicode-bidi: isolate;
+    }
+
+    /* TOP RETURN & CONTROL BAR */
+    .timeline-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 11, 13, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-gold);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.8rem;
+      transition: all 0.15s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      color: #fff;
+    }
+
+    .timeline-title {
+      font-family: "Cinzel", serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timeline-title span {
+      color: var(--gold-bright);
+      font-family: "Noto Serif Hebrew", serif;
+    }
+
+    /* FLASHPOINT FILTER TOGGLES */
+    .filter-toggles {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+    }
+
+    .filter-btn:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .filter-btn.active-council {
+      background: rgba(139, 92, 246, 0.18);
+      border-color: var(--track-council);
+      color: #c4b5fd;
+    }
+
+    .filter-btn.active-seed {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: var(--track-seed);
+      color: #6ee7b7;
+    }
+
+    .filter-btn.active-giants {
+      background: rgba(244, 63, 94, 0.18);
+      border-color: var(--track-empires);
+      color: #fda4af;
+    }
+
+    .filter-btn.active-covenant {
+      background: rgba(201, 162, 74, 0.18);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+    }
+
+    /* MAIN CONTAINER */
+    .timeline-wrapper {
+      max-width: 1540px;
+      width: 96vw;
+      margin: 0 auto;
+      padding: 24px 0 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* TRACK LEGEND */
+    .track-legend {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .legend-title {
+      font-family: "Cinzel", serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+    }
+
+    .legend-items {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .legend-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-council { background: var(--track-council); box-shadow: 0 0 8px var(--track-council); }
+    .dot-seed { background: var(--track-seed); box-shadow: 0 0 8px var(--track-seed); }
+    .dot-empires { background: var(--track-empires); box-shadow: 0 0 8px var(--track-empires); }
+
+    /* 3-TRACK MULTI-RIBBON CONTAINER */
+    .ribbon-section {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      overflow-x: auto;
+    }
+
+    .ribbon-scroll-container {
+      min-width: 1380px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .ribbon-header-row {
+      display: grid;
+      grid-template-columns: 220px repeat(6, 1fr);
+      gap: 12px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .track-row {
+      display: grid;
+      grid-template-columns: 220px repeat(6, 1fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .track-label-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border-left: 4px solid #fff;
+    }
+
+    .track-label-col.council { border-color: var(--track-council); }
+    .track-label-col.seed { border-color: var(--track-seed); }
+    .track-label-col.empires { border-color: var(--track-empires); }
+
+    .track-name {
+      font-family: "Cinzel", serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .track-sub {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* TIMELINE NODES */
+    .time-node {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .time-node:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .node-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.68rem;
+    }
+
+    .node-ref { color: var(--gold); }
+    .node-tag {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.62rem;
+      font-weight: 700;
+    }
+
+    .tag-council { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; }
+    .tag-seed { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
+    .tag-empires { background: rgba(244, 63, 94, 0.15); color: #fda4af; }
+
+    .node-title {
+      font-family: "Cinzel", serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    .node-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .node-lemma {
+      font-family: "Noto Serif Hebrew", serif;
+      font-size: 0.85rem;
+      color: var(--gold-bright);
+      margin-top: auto;
+      direction: rtl;
+    }
+
+    /* LIFESPAN OVERLAP GANTT SECTION */
+    .lifespan-section {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .section-head h3 {
+      font-family: "Cinzel", serif;
+      font-size: 1.25rem;
+      color: #fff;
+      margin: 0;
+    }
+
+    .section-head p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 2px 0 0;
+    }
+
+    .gantt-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .gantt-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 90px;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.82rem;
+    }
+
+    .gantt-name {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .gantt-name small {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .gantt-bar-track {
+      height: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      position: relative;
       overflow: hidden;
-      user-select: none;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    .canvas-grid {
-      background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
-      background-size: 24px 24px;
+
+    .gantt-bar {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 100%);
+      position: absolute;
+      top: 0;
     }
-    .node-card {
-      transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.15s ease, border-color 0.15s ease;
+
+    .gantt-bar.overlap-adam { background: #3b82f6; }
+    .gantt-bar.overlap-methuselah { background: #10b981; }
+    .gantt-bar.overlap-shem { background: #f59e0b; }
+    .gantt-bar.overlap-abraham { background: #ec4899; }
+
+    .gantt-years {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      color: var(--gold-bright);
+      text-align: right;
+    }
+
+    .takeaway-box {
+      background: rgba(201, 162, 74, 0.08);
+      border: 1px solid var(--border-gold);
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #f1e7d2;
+    }
+
+    .takeaway-box strong {
+      color: var(--gold-bright);
+      font-family: "Cinzel", serif;
+    }
+
+    /* TABERNACLE & COSMIC GEOGRAPHY GRID */
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      gap: 24px;
+    }
+
+    .diagram-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .diagram-card h4 {
+      font-family: "Cinzel", serif;
+      font-size: 1.15rem;
+      color: var(--gold-bright);
+      margin: 0;
+    }
+
+    /* TABERNACLE CAMP MATRIX */
+    .tabernacle-matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: 8px;
+      background: #000;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.78rem;
+    }
+
+    .camp-cell {
+      padding: 12px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      justify-content: center;
+    }
+
+    .camp-cell.center {
+      background: rgba(201, 162, 74, 0.15);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+      font-weight: 700;
+    }
+
+    .camp-cell.banner-east { border-color: #e11d48; } /* Judah Lion */
+    .camp-cell.banner-south { border-color: #3b82f6; } /* Reuben Man */
+    .camp-cell.banner-west { border-color: #10b981; } /* Ephraim Ox */
+    .camp-cell.banner-north { border-color: #f59e0b; } /* Dan Eagle */
+
+    .camp-title { font-weight: 700; color: #fff; }
+    .camp-face { font-size: 0.7rem; color: var(--gold); font-family: "JetBrains Mono", monospace; }
+
+    /* ETYMOLOGICAL CIPHER CARD */
+    .cipher-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .cipher-item {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .cipher-item strong { color: #fff; }
+    .cipher-item span { color: var(--gold-bright); font-style: italic; }
+
+    .cipher-sentence {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      color: #a7f3d0;
+      line-height: 1.5;
+    }
+
+    /* POP-UP DRAWER MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      max-width: 680px;
+      width: 100%;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
       cursor: pointer;
     }
-    .node-card:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.3);
-      border-color: var(--gold);
+
+    .modal-close:hover { color: #fff; }
+
+    .modal-hebrew {
+      font-family: "Noto Serif Hebrew", serif;
+      font-size: 1.4rem;
+      color: var(--gold-bright);
+      direction: rtl;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(201, 162, 74, 0.2);
+      line-height: 1.5;
     }
-    .glow-gold {
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
+
+    .modal-trans {
+      font-size: 1rem;
+      color: #f3f4f6;
+      line-height: 1.6;
+      font-style: italic;
     }
-    .track-line {
-      stroke-dasharray: 6 6;
-      animation: dashmove 40s linear infinite;
+
+    .modal-takeaway {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
     }
-    @keyframes dashmove {
-      to { stroke-dashoffset: -1000; }
+
+    @media (max-width: 900px) {
+      .diagram-grid { grid-template-columns: 1fr; }
+      .cipher-list { grid-template-columns: 1fr; }
     }
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
   </style>
 </head>
-<body class="w-screen h-screen relative canvas-grid">
+<body>
 
-  <!-- Top Floating HUD / Navigation -->
-  <header class="absolute top-4 left-4 right-4 z-40 flex items-center justify-between pointer-events-none">
-    <div class="flex items-center space-x-3 bg-slate-900/90 backdrop-blur-md border border-slate-700/60 rounded-xl px-4 py-2.5 shadow-2xl pointer-events-auto">
-      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-bold text-slate-950 text-base shadow-lg">
-        ✦
-      </div>
-      <div>
-        <h1 class="text-sm font-bold tracking-wide text-amber-400">COSMIC & EARTH CANVAS TIMELINE</h1>
-        <p class="text-[10px] text-slate-400 font-medium">Infinite Spatial Matrix · Divine Council · World Empires · Eschaton</p>
+  <!-- TOP RETURN & CONTROL BAR -->
+  <header class="timeline-topbar">
+    <div class="topbar-left">
+      <a href="index.html" class="back-btn">&larr; Return to Campaign Hub</a>
+      <div class="timeline-title">
+        <span>בְּנֵי הַבְּרִית</span> COSMIC CANVAS TIMELINE
       </div>
     </div>
 
-    <!-- Mode Selector & Tour Controls -->
-    <div class="flex items-center space-x-2 bg-slate-900/90 backdrop-blur-md border border-slate-700/60 rounded-xl p-1.5 shadow-2xl pointer-events-auto">
-      <button id="btnTourMode" class="flex items-center space-x-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold text-xs rounded-lg transition shadow-md">
-        <span>▶</span>
-        <span>Story Tour</span>
-      </button>
-      <div class="h-5 w-[1px] bg-slate-700 mx-1"></div>
-      <button class="layer-toggle active px-2.5 py-1 text-xs rounded-lg text-slate-300 hover:text-white bg-slate-800 font-medium" data-track="cosmic">✦ Council</button>
-      <button class="layer-toggle active px-2.5 py-1 text-xs rounded-lg text-slate-300 hover:text-white bg-slate-800 font-medium" data-track="covenant">📜 Covenant</button>
-      <button class="layer-toggle active px-2.5 py-1 text-xs rounded-lg text-slate-300 hover:text-white bg-slate-800 font-medium" data-track="earth">🌍 Empires</button>
-      <button class="layer-toggle active px-2.5 py-1 text-xs rounded-lg text-slate-300 hover:text-white bg-slate-800 font-medium" data-track="map">🗺️ Map</button>
-    </div>
-
-    <!-- Zoom & Controls -->
-    <div class="flex items-center space-x-1 bg-slate-900/90 backdrop-blur-md border border-slate-700/60 rounded-xl p-1.5 shadow-2xl pointer-events-auto">
-      <button id="btnZoomOut" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white font-bold text-sm" title="Zoom Out">−</button>
-      <span id="zoomLevelText" class="text-xs font-mono px-2 text-amber-400 min-w-[48px] text-center">100%</span>
-      <button id="btnZoomIn" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white font-bold text-sm" title="Zoom In">+</button>
-      <button id="btnResetView" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white text-xs" title="Fit to Screen">⤢</button>
+    <!-- FLASHPOINT FILTERS -->
+    <div class="filter-toggles">
+      <button class="filter-btn active-council" data-filter="council">&#127963;&#65039; Unseen Council</button>
+      <button class="filter-btn active-seed" data-filter="seed">&#127793; Promised Seed Line</button>
+      <button class="filter-btn active-giants" data-filter="giants">&#9876; Empires &amp; Giant Clans</button>
+      <button class="filter-btn active-covenant" data-filter="covenant">&#128737;&#65039; Covenant Handshakes</button>
     </div>
   </header>
 
-  <!-- Infinite Canvas Viewport -->
-  <div id="viewport" class="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing relative">
-    <div id="canvas" class="absolute origin-top-left" style="width: 7200px; height: 3600px; transform: translate(100px, 120px) scale(0.85);">
+  <!-- MAIN TIMELINE ENGINE -->
+  <main class="timeline-wrapper">
 
-      <!-- Track Background Strips -->
-      <div class="absolute top-[80px] left-[50px] w-[7000px] h-[340px] bg-purple-950/10 border-y border-purple-800/20 rounded-2xl pointer-events-none">
-        <span class="absolute top-3 left-4 text-xs font-bold text-purple-400 uppercase tracking-widest flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span> Track 1: Heavenly Realm & Divine Council (3 Rebellions & Reversals)
-        </span>
+    <!-- TRACK LEGEND -->
+    <section class="track-legend">
+      <span class="legend-title">Synchronized Multi-Track History Ribbon</span>
+      <div class="legend-items">
+        <div class="legend-tag"><span class="legend-dot dot-council"></span> Track 1: Unseen Realm &amp; Divine Council</div>
+        <div class="legend-tag"><span class="legend-dot dot-seed"></span> Track 2: The Promised Seed Line (Zera)</div>
+        <div class="legend-tag"><span class="legend-dot dot-empires"></span> Track 3: Terrestrial Empires &amp; Giant Clans</div>
       </div>
+    </section>
 
-      <div class="absolute top-[460px] left-[50px] w-[7000px] h-[340px] bg-amber-950/10 border-y border-amber-800/20 rounded-2xl pointer-events-none">
-        <span class="absolute top-3 left-4 text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Track 2: Redemptive Covenant Spine (The Seed & Priesthood)
-        </span>
+    <!-- 3-TRACK MULTI-RIBBON (HORIZONTAL SCROLL) -->
+    <section class="ribbon-section">
+      <div class="ribbon-scroll-container">
+
+        <!-- EPOCH HEADERS -->
+        <div class="ribbon-header-row">
+          <div>TRACK STREAM</div>
+          <div>1. CREATION &amp; EDEN</div>
+          <div>2. FLOOD &amp; WATCHERS</div>
+          <div>3. BABEL &amp; 70 NATIONS</div>
+          <div>4. PATRIARCHS &amp; EXODUS</div>
+          <div>5. CALVARY TRIUMPH</div>
+          <div>6. PENTECOST &amp; GLORY</div>
+        </div>
+
+        <!-- TRACK 1: UNSEEN REALM / COUNCIL -->
+        <div class="track-row">
+          <div class="track-label-col council">
+            <span class="track-name">Track 1: Council</span>
+            <span class="track-sub">Unseen Realm &amp; Powers</span>
+          </div>
+
+          <!-- 1. Creation -->
+          <div class="time-node" onclick="openModal('protoevangelium')">
+            <div class="node-top">
+              <span class="node-ref">Job 38:7</span>
+              <span class="node-tag tag-council">Witness</span>
+            </div>
+            <h4 class="node-title">Morning Stars Sing</h4>
+            <p class="node-desc">Heavenly assembly witnesses earth's foundation.</p>
+            <span class="node-lemma">כּוֹכְבֵי בֹקֶר</span>
+          </div>
+
+          <!-- 2. Watchers -->
+          <div class="time-node" onclick="openModal('watchers')">
+            <div class="node-top">
+              <span class="node-ref">Gen 6:1-4</span>
+              <span class="node-tag tag-council">Rebellion 2</span>
+            </div>
+            <h4 class="node-title">Watcher Incursion</h4>
+            <p class="node-desc">Benei Elohim breach celestial boundaries on Hermon.</p>
+            <span class="node-lemma">בְּנֵי הָאֱלֹהִים</span>
+          </div>
+
+          <!-- 3. Babel -->
+          <div class="time-node" onclick="openModal('deut32')">
+            <div class="node-top">
+              <span class="node-ref">Deut 32:8-9</span>
+              <span class="node-tag tag-council">Rebellion 3</span>
+            </div>
+            <h4 class="node-title">Babel Allotment</h4>
+            <p class="node-desc">70 nations apportioned under subordinate elohim.</p>
+            <span class="node-lemma">לְמִסְפַּר בְּנֵי אֱלֹהִים</span>
+          </div>
+
+          <!-- 4. Psalm 82 -->
+          <div class="time-node" onclick="openModal('psalm82')">
+            <div class="node-top">
+              <span class="node-ref">Psalm 82:1-8</span>
+              <span class="node-tag tag-council">Judgment</span>
+            </div>
+            <h4 class="node-title">Council Indictment</h4>
+            <p class="node-desc">YHWH stands in council: "You shall die like men."</p>
+            <span class="node-lemma">בְּקֶרֶב אֱלֹהִים יִשְׁפֹּט</span>
+          </div>
+
+          <!-- 5. Cross Disarming -->
+          <div class="time-node" onclick="openModal('colossians2')">
+            <div class="node-top">
+              <span class="node-ref">Col 2:15</span>
+              <span class="node-tag tag-council">Triumph</span>
+            </div>
+            <h4 class="node-title">Powers Disarmed</h4>
+            <p class="node-desc">Rulers &amp; authorities put to open shame at the Cross.</p>
+            <span class="node-lemma">ἀπεκδυσάμενος</span>
+          </div>
+
+          <!-- 6. New Jerusalem -->
+          <div class="time-node">
+            <div class="node-top">
+              <span class="node-ref">Rev 21-22</span>
+              <span class="node-tag tag-council">Final State</span>
+            </div>
+            <h4 class="node-title">Council Reunited</h4>
+            <p class="node-desc">Humanity glorified to judge angels and rule with Christ.</p>
+            <span class="node-lemma">שָׁמַיִם חֲדָשִׁים</span>
+          </div>
+        </div>
+
+        <!-- TRACK 2: PROMISED SEED LINE -->
+        <div class="track-row">
+          <div class="track-label-col seed">
+            <span class="track-name">Track 2: The Seed</span>
+            <span class="track-sub">The Zera Line to Christ</span>
+          </div>
+
+          <!-- 1. Adam / Eve -->
+          <div class="time-node" onclick="openModal('protoevangelium')">
+            <div class="node-top">
+              <span class="node-ref">Gen 3:15</span>
+              <span class="node-tag tag-seed">Anchor 0</span>
+            </div>
+            <h4 class="node-title">The Protoevangelium</h4>
+            <p class="node-desc">Enmity set between serpent's seed and woman's Seed.</p>
+            <span class="node-lemma">וְאֵיבָה אָשִׁית... זַרְעָהּ</span>
+          </div>
+
+          <!-- 2. Noah -->
+          <div class="time-node">
+            <div class="node-top">
+              <span class="node-ref">Gen 6:9</span>
+              <span class="node-tag tag-seed">Preservation</span>
+            </div>
+            <h4 class="node-title">Noah &amp; The Ark</h4>
+            <p class="node-desc">Uncorrupted lineage (<em>tamim</em>) preserved through flood.</p>
+            <span class="node-lemma">תָּמִים בְּדֹרֹתָיו</span>
+          </div>
+
+          <!-- 3. Abram -->
+          <div class="time-node" onclick="openModal('abraham')">
+            <div class="node-top">
+              <span class="node-ref">Gen 12:1-3</span>
+              <span class="node-tag tag-seed">The Call</span>
+            </div>
+            <h4 class="node-title">Abram Called Out</h4>
+            <p class="node-desc">In Abram all 70 disinherited families shall be blessed.</p>
+            <span class="node-lemma">וְנִבְרְכוּ בְךָ כֹּל מִשְׁפְּחֹת</span>
+          </div>
+
+          <!-- 4. Melchizedek / David -->
+          <div class="time-node" onclick="openModal('melchizedek')">
+            <div class="node-top">
+              <span class="node-ref">Ps 110:4</span>
+              <span class="node-tag tag-seed">Royal Priest</span>
+            </div>
+            <h4 class="node-title">Order of Melchizedek</h4>
+            <p class="node-desc">Eternal priest-king sworn oath to David's Lord.</p>
+            <span class="node-lemma">מַלְכִּי־צֶדֶק</span>
+          </div>
+
+          <!-- 5. Jesus Christ -->
+          <div class="time-node" onclick="openModal('galatians3')">
+            <div class="node-top">
+              <span class="node-ref">Gal 3:16</span>
+              <span class="node-tag tag-seed">The Singular Seed</span>
+            </div>
+            <h4 class="node-title">Christ the Fulfilller</h4>
+            <p class="node-desc">"Not to seeds, as of many, but to your Seed: Christ."</p>
+            <span class="node-lemma">τῷ σπέρματί σου</span>
+          </div>
+
+          <!-- 6. Pentecost Harvest -->
+          <div class="time-node">
+            <div class="node-top">
+              <span class="node-ref">Acts 2 &middot; Rev 12</span>
+              <span class="node-tag tag-seed">Overcomers</span>
+            </div>
+            <h4 class="node-title">The Corporate Seed</h4>
+            <p class="node-desc">Believers indwelt as living body of the King.</p>
+            <span class="node-lemma">σῶμα Χριστοῦ</span>
+          </div>
+        </div>
+
+        <!-- TRACK 3: EMPIRES & GIANT CLANS -->
+        <div class="track-row">
+          <div class="track-label-col empires">
+            <span class="track-name">Track 3: Empires</span>
+            <span class="track-sub">Rephaim &amp; World Powers</span>
+          </div>
+
+          <!-- 1. Early City States -->
+          <div class="time-node">
+            <div class="node-top">
+              <span class="node-ref">Gen 4:17</span>
+              <span class="node-tag tag-empires">Cainite Tech</span>
+            </div>
+            <h4 class="node-title">City of Enoch</h4>
+            <p class="node-desc">Tubal-Cain metallurgy, weaponry, and imperial pride.</p>
+            <span class="node-lemma">תּוּבַל קַיִן</span>
+          </div>
+
+          <!-- 2. Nephilim Remnants -->
+          <div class="time-node">
+            <div class="node-top">
+              <span class="node-ref">Gen 6:4</span>
+              <span class="node-tag tag-empires">Hybrids</span>
+            </div>
+            <h4 class="node-title">Nephilim &amp; Gibborim</h4>
+            <p class="node-desc">"Men of renown" ancient martial tyrant warlords.</p>
+            <span class="node-lemma">הַגִּבֹּרִים אַנְשֵׁי הַשֵּׁם</span>
+          </div>
+
+          <!-- 3. Chedorlaomer Campaign -->
+          <div class="time-node">
+            <div class="node-top">
+              <span class="node-ref">Gen 14:5</span>
+              <span class="node-tag tag-empires">War of Kings</span>
+            </div>
+            <h4 class="node-title">Rephaim &amp; Zuzim Wars</h4>
+            <p class="node-desc">4 Mesopotamian kings strike Transjordan giant strongholds.</p>
+            <span class="node-lemma">רְפָאִים בְּעַשְׁתְּרֹת</span>
+          </div>
+
+          <!-- 4. Og of Bashan & Goliath -->
+          <div class="time-node">
+            <div class="node-top">
+              <span class="node-ref">Deut 3 &middot; 1 Sam 17</span>
+              <span class="node-tag tag-empires">Giant Extinction</span>
+            </div>
+            <h4 class="node-title">Bashan &amp; Goliath</h4>
+            <p class="node-desc">King Og's iron bed; David decapitates the champion of Gath.</p>
+            <span class="node-lemma">עוֹג מֶלֶךְ הַבָּשָׁן</span>
+          </div>
+
+          <!-- 5. Roman Crucifixion -->
+          <div class="time-node">
+            <div class="node-top">
+              <span class="node-ref">Matt 27</span>
+              <span class="node-tag tag-empires">Imperial Clash</span>
+            </div>
+            <h4 class="node-title">Rome &amp; Sanhedrin</h4>
+            <p class="node-desc">Gentiles and corrupted temple leadership crucify the Lord.</p>
+            <span class="node-lemma">בַּעֲלֵי שִׁלְטוֹן</span>
+          </div>
+
+          <!-- 6. Babylon Fallen -->
+          <div class="time-node">
+            <div class="node-top">
+              <span class="node-ref">Rev 18-19</span>
+              <span class="node-tag tag-empires">Final Judgment</span>
+            </div>
+            <h4 class="node-title">Babylon the Great Falls</h4>
+            <p class="node-desc">The beast and false prophet cast into lake of fire.</p>
+            <span class="node-lemma">נָפְלָה בָּבֶל</span>
+          </div>
+        </div>
+
       </div>
+    </section>
 
-      <div class="absolute top-[840px] left-[50px] w-[7000px] h-[340px] bg-sky-950/10 border-y border-sky-800/20 rounded-2xl pointer-events-none">
-        <span class="absolute top-3 left-4 text-xs font-bold text-sky-400 uppercase tracking-widest flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span> Track 3: Earth History, World Empires & Geographical Movements
-        </span>
-      </div>
-
-      <div class="absolute top-[1220px] left-[50px] w-[7000px] h-[340px] bg-emerald-950/10 border-y border-emerald-800/20 rounded-2xl pointer-events-none">
-        <span class="absolute top-3 left-4 text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Track 4: Canonical Scriptures & Primary Manuscript Witnesses (MT, DSS, LXX)
-        </span>
-      </div>
-
-      <!-- Connecting SVG Lines -->
-      <svg id="svgLines" class="absolute inset-0 w-full h-full pointer-events-none z-10">
-        <!-- Connecting curves drawn by JS -->
-      </svg>
-
-      <!-- TIMELINE NODES CONTAINER -->
-      <div id="nodesContainer" class="relative z-20">
-        <!-- Populated via JavaScript -->
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Real-World Map Modal / Split Pane -->
-  <div id="mapDrawer" class="absolute bottom-6 left-6 z-40 w-[420px] h-[260px] bg-slate-900/95 backdrop-blur-xl border border-slate-700/70 rounded-2xl shadow-2xl p-4 flex flex-col transition-all duration-300">
-    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
-      <div class="flex items-center space-x-2">
-        <span class="text-amber-400 text-sm font-bold">🗺️ SACRED GEOGRAPHY RADAR</span>
-        <span id="mapPinCount" class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-full font-mono">9 Pins</span>
-      </div>
-      <button id="btnToggleMapSize" class="text-slate-400 hover:text-white text-xs">⤢ Expand</button>
-    </div>
-    <!-- Interactive Vector Map Mockup -->
-    <div class="relative flex-1 mt-2 bg-slate-950 rounded-xl overflow-hidden border border-slate-800/80 flex items-center justify-center">
-      <svg viewBox="0 0 600 350" class="w-full h-full opacity-70">
-        <!-- Mediterranean / Levant / Mesopotamia coastline paths -->
-        <path d="M 50 150 Q 150 100 250 140 T 400 130 T 550 220" fill="none" stroke="#1e293b" stroke-width="6"/>
-        <path d="M 280 140 Q 300 200 290 280 T 360 340" fill="none" stroke="#0369a1" stroke-width="4" opacity="0.6"/> <!-- Nile -->
-        <path d="M 380 100 Q 450 140 540 260" fill="none" stroke="#0284c7" stroke-width="3" opacity="0.6"/> <!-- Euphrates -->
-        <path d="M 420 80 Q 480 120 560 230" fill="none" stroke="#0284c7" stroke-width="3" opacity="0.6"/> <!-- Tigris -->
-        
-        <!-- Sacred Geography Hotspots -->
-        <g id="mapPins" class="cursor-pointer">
-          <!-- Hermon -->
-          <circle cx="315" cy="165" r="7" fill="#9333ea" class="animate-ping opacity-75"/>
-          <circle cx="315" cy="165" r="5" fill="#a855f7"/>
-          <text x="325" y="169" fill="#e2e8f0" font-size="10" font-weight="bold">Mt. Hermon (Bashan)</text>
-
-          <!-- Eden/Ur -->
-          <circle cx="520" cy="245" r="5" fill="#eab308"/>
-          <text x="530" y="249" fill="#fde047" font-size="10" font-weight="bold">Eden / Ur</text>
-
-          <!-- Jerusalem -->
-          <circle cx="308" cy="190" r="5" fill="#f59e0b"/>
-          <text x="240" y="194" fill="#fbbf24" font-size="10" font-weight="bold">Jerusalem</text>
-
-          <!-- Sinai -->
-          <circle cx="295" cy="245" r="5" fill="#38bdf8"/>
-          <text x="250" y="249" fill="#7dd3fc" font-size="10" font-weight="bold">Mt. Sinai</text>
-
-          <!-- Nineveh -->
-          <circle cx="450" cy="115" r="5" fill="#f43f5e"/>
-          <text x="460" y="119" fill="#fda4af" font-size="10" font-weight="bold">Nineveh</text>
-
-          <!-- Rome -->
-          <circle cx="120" cy="100" r="5" fill="#64748b"/>
-          <text x="130" y="104" fill="#cbd5e1" font-size="10" font-weight="bold">Rome</text>
-        </g>
-      </svg>
-      <div id="mapLocationLabel" class="absolute bottom-2 left-2 right-2 bg-slate-900/90 border border-slate-700/60 rounded px-2 py-1 text-[11px] text-amber-200 truncate">
-        Select a timeline node or map pin to inspect cosmic geography.
-      </div>
-    </div>
-  </div>
-
-  <!-- Deep Dive Detail Inspector Panel (Slide-Over on Node Click) -->
-  <aside id="inspectorPanel" class="absolute top-20 right-6 z-50 w-[460px] max-h-[calc(100vh-120px)] bg-slate-900/95 backdrop-blur-2xl border border-amber-500/30 rounded-2xl shadow-2xl flex flex-col transform translate-x-[500px] transition-transform duration-300 overflow-hidden">
-    <header class="p-4 border-b border-slate-800 flex items-start justify-between bg-slate-950/60">
-      <div>
-        <span id="inspectTrackPill" class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-900/50 text-purple-300 border border-purple-700/40">Divine Council</span>
-        <h2 id="inspectTitle" class="text-base font-bold text-white mt-1">Genesis 6: The Mount Hermon Watchers</h2>
-        <div id="inspectRef" class="text-xs text-amber-400 font-mono">Genesis 6:1–4 · 1 Enoch 6–16 · Jude 6</div>
-      </div>
-      <button id="btnCloseInspector" class="text-slate-400 hover:text-white text-lg font-bold p-1">&times;</button>
-    </header>
-
-    <div class="p-5 overflow-y-auto space-y-4 text-xs leading-relaxed flex-1">
-      <div>
-        <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">📜 The Manuscript & Hebrew Truth</h3>
-        <div id="inspectHebrew" class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-amber-200/90 font-serif text-sm">
-          וַיִּרְאוּ בְנֵי־הָאֱלֹהִים אֶת־בְּנוֹת הָאָדָם (Bene Ha-Elohim) — "The Sons of God" (Divine Council spiritual beings), NOT the Sethite line.
+    <!-- SECTION 2: THE LIFESPAN OVERLAP GANTT CHART -->
+    <section class="lifespan-section">
+      <div class="section-head">
+        <div>
+          <h3>Patriarchal Lifespan Overlap Engine</h3>
+          <p>Visual proof that oral tradition was preserved through living conversational overlap, dismantling the "telephone game" myth.</p>
         </div>
       </div>
 
-      <div>
-        <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">⚡ Translation Gap & Distortion</h3>
-        <p id="inspectGap" class="p-3 bg-red-950/20 border border-red-900/40 rounded-xl text-red-200">
-          Modern commentaries frequently rationalize this as "godly Sethites marrying Cainites" to avoid the supernatural worldview. The Dead Sea Scrolls (4QEn), Septuagint (LXX), and Peter (2 Pet 2:4) unanimously confirm spiritual rebellion.
+      <div class="gantt-container">
+        <!-- ADAM -->
+        <div class="gantt-row">
+          <div class="gantt-name">Adam <small>Gen 5:5</small></div>
+          <div class="gantt-bar-track">
+            <div class="gantt-bar overlap-adam" style="left: 0%; width: 45%;"></div>
+          </div>
+          <div class="gantt-years">930 Yrs</div>
+        </div>
+
+        <!-- METHUSELAH -->
+        <div class="gantt-row">
+          <div class="gantt-name">Methuselah <small>Gen 5:27</small></div>
+          <div class="gantt-bar-track">
+            <div class="gantt-bar overlap-methuselah" style="left: 33%; width: 47%;"></div>
+          </div>
+          <div class="gantt-years">969 Yrs</div>
+        </div>
+
+        <!-- SHEM -->
+        <div class="gantt-row">
+          <div class="gantt-name">Shem <small>Gen 11:10</small></div>
+          <div class="gantt-bar-track">
+            <div class="gantt-bar overlap-shem" style="left: 75%; width: 30%;"></div>
+          </div>
+          <div class="gantt-years">600 Yrs</div>
+        </div>
+
+        <!-- ABRAHAM -->
+        <div class="gantt-row">
+          <div class="gantt-name">Abraham <small>Gen 25:7</small></div>
+          <div class="gantt-bar-track">
+            <div class="gantt-bar overlap-abraham" style="left: 92%; width: 9%;"></div>
+          </div>
+          <div class="gantt-years">175 Yrs</div>
+        </div>
+      </div>
+
+      <div class="takeaway-box">
+        <strong>The Generational Bridge:</strong> Adam lived 930 years and talked directly with Methuselah for 243 years! Methuselah died the exact year of the Flood (1656 AM). Shem survived the Flood and <strong>outlived Abraham</strong>! Abraham could have spoken face-to-face with Shem about Eden, the Flood, and the pre-Babel world.
+      </div>
+    </section>
+
+    <!-- SECTION 3: TABERNACLE CAMP & ETYMOLOGICAL CIPHER -->
+    <section class="diagram-grid">
+
+      <!-- THE 12 TRIBES TABERNACLE CAMP -->
+      <article class="diagram-card">
+        <h4>Wilderness Tabernacle Camp (Numbers 2)</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+          The 4 camp standards match the 4 Cherubim throne guardian faces in Ezekiel 1 and Revelation 4:
         </p>
-      </div>
 
-      <div>
-        <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">👑 Christological Reversal</h3>
-        <p id="inspectReversal" class="p-3 bg-amber-950/20 border border-amber-900/40 rounded-xl text-amber-200">
-          Jesus marches His disciples to Caesarea Philippi at the foot of Mount Hermon (Matt 16:18) to proclaim: "On this rock I will build my church, and the gates of Hades will not prevail against it!"
+        <div class="tabernacle-matrix">
+          <div class="camp-cell banner-north">
+            <span class="camp-title">NORTH: DAN</span>
+            <span class="camp-face">Face: Eagle &#129413;</span>
+            <small>Asher &middot; Naphtali</small>
+          </div>
+          <div class="camp-cell">
+            <span class="camp-title">NORTH LEVITES</span>
+            <small>Merari</small>
+          </div>
+          <div class="camp-cell">
+            <span class="camp-title">TENT OF MEETING</span>
+          </div>
+
+          <div class="camp-cell banner-west">
+            <span class="camp-title">WEST: EPHRAIM</span>
+            <span class="camp-face">Face: Ox &#128002;</span>
+            <small>Manasseh &middot; Benjamin</small>
+          </div>
+          <div class="camp-cell center">
+            <span class="camp-title">&#10024; TABERNACLE &#10024;</span>
+            <span class="he">מִשְׁכַּן יְהוָה</span>
+            <small>The Presence of YHWH</small>
+          </div>
+          <div class="camp-cell banner-east">
+            <span class="camp-title">EAST: JUDAH</span>
+            <span class="camp-face">Face: Lion &#129409;</span>
+            <small>Issachar &middot; Zebulun</small>
+          </div>
+
+          <div class="camp-cell">
+            <span class="camp-title">PRIESTS</span>
+            <small>Moses &middot; Aaron</small>
+          </div>
+          <div class="camp-cell banner-south">
+            <span class="camp-title">SOUTH: REUBEN</span>
+            <span class="camp-face">Face: Man &#128104;</span>
+            <small>Simeon &middot; Gad</small>
+          </div>
+          <div class="camp-cell">
+            <span class="camp-title">SOUTH LEVITES</span>
+            <small>Kohath</small>
+          </div>
+        </div>
+      </article>
+
+      <!-- THE ETYMOLOGICAL CIPHER (ADAM TO NOAH) -->
+      <article class="diagram-card">
+        <h4>The Genesis 5 Etymological Cipher</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+          The literal Hebrew root meanings of the 10 pre-flood patriarchs form an unbroken prophetic sentence:
         </p>
-      </div>
 
-      <div class="pt-2">
-        <button id="inspectAskHai" class="w-full py-2.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold rounded-xl shadow-lg flex items-center justify-center space-x-2 transition">
-          <span>✦</span>
-          <span>Ask Hallelujah AI Deep Lexical Questions</span>
-        </button>
-      </div>
-    </div>
-  </aside>
+        <div class="cipher-list">
+          <div class="cipher-item"><strong>1. Adam</strong> <span>Man</span></div>
+          <div class="cipher-item"><strong>2. Seth</strong> <span>Appointed</span></div>
+          <div class="cipher-item"><strong>3. Enosh</strong> <span>Mortal / Frail</span></div>
+          <div class="cipher-item"><strong>4. Kenan</strong> <span>Sorrow</span></div>
+          <div class="cipher-item"><strong>5. Mahalalel</strong> <span>The Blessed God</span></div>
+          <div class="cipher-item"><strong>6. Jared</strong> <span>Shall Come Down</span></div>
+          <div class="cipher-item"><strong>7. Enoch</strong> <span>Teaching</span></div>
+          <div class="cipher-item"><strong>8. Methuselah</strong> <span>His Death Shall Bring</span></div>
+          <div class="cipher-item"><strong>9. Lamech</strong> <span>The Despairing</span></div>
+          <div class="cipher-item"><strong>10. Noah</strong> <span>Rest / Comfort</span></div>
+        </div>
 
-  <!-- Step-By-Step Guided Tour Footer (Active during Tour Mode) -->
-  <div id="tourBar" class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-40 bg-slate-900/95 backdrop-blur-xl border border-amber-500/40 rounded-2xl px-6 py-3 shadow-2xl flex items-center space-x-6 hidden">
-    <button id="btnTourPrev" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white">← Previous</button>
-    <div class="text-center">
-      <span id="tourStepIndicator" class="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Step 1 of 10</span>
-      <h3 id="tourStepTitle" class="text-xs font-bold text-white">Creation & The Divine Council Assembly</h3>
+        <div class="cipher-sentence">
+          <strong>The Prophetic Declaration:</strong><br>
+          &ldquo;Man is appointed mortal sorrow; [but] the Blessed God shall come down teaching that His death shall bring the despairing rest.&rdquo;
+        </div>
+      </article>
+
+    </section>
+
+  </main>
+
+  <!-- POP-UP DRAWER MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModalDirect()">&times;</button>
+      <div id="modalContent"></div>
     </div>
-    <button id="btnTourNext" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-amber-500 text-slate-950 font-bold text-xs">Next Milestone →</button>
-    <button id="btnTourExit" class="text-slate-400 hover:text-white text-xs ml-2">Exit Tour</button>
   </div>
 
   <script>
-    // ═══════════════════════════════════════════════════════════════
-    // COSMIC CANVAS TIMELINE DATA MODEL
-    // ═══════════════════════════════════════════════════════════════
-    const TIMELINE_NODES = [
-      // ── Track 1: Heavenly / Cosmic (Top) ──
-      {
-        id: "c1", track: "cosmic", x: 200, y: 140,
-        title: "Council Deliberation: 'Let Us Make Man'",
-        ref: "Gen 1:26 · Ps 82:1 · Ps 89:5–7",
-        hebrew: "נַעֲשֶׂה אָדָם בְּצַלְמֵנוּ (Na'aseh Adam)",
-        gap: "Modern notes claim 'plural of majesty' (a late medieval idiom). The Hebrew text depicts YHWH presiding over the heavenly court (sod YHWH).",
-        reversal: "Humans appointed as divine council representatives (tselem) on earth.",
-        mapPin: "Eden / Ur",
-        color: "purple"
+    const MODAL_DATA = {
+      protoevangelium: {
+        title: "The Protoevangelium (Genesis 3:15)",
+        hebrew: "וְאֵיבָה אָשִׁית בֵּינְךָ וּבֵין הָאִשָּׁה וּבֵין זַרְעֲךָ וּבֵין זַרְעָהּ הוּא יְשׁוּפְךָ רֹאשׁ וְאַתָּה תְּשׁוּפֶנּוּ עָקֵב׃",
+        trans: "\"And enmity I will set between you and between the woman, and between your seed and between her seed; he shall crush your head, and you shall crush his heel.\"",
+        takeaway: "The foundational anchor of the entire Bible. It establishes that human history is a warfare over the promised singular male Seed (Christ) who will destroy the ancient serpent."
       },
-      {
-        id: "c2", track: "cosmic", x: 800, y: 140,
-        title: "Rebellion 1: Eden & The Nachash",
-        ref: "Gen 3:1–15 · Ezek 28:13–15",
-        hebrew: "הַנָּחָשׁ (Ha-Nachash) — Seraph Throne Guardian",
-        gap: "Flattened to a regular talking reptile rather than a shining divine throne guardian claiming autonomy.",
-        reversal: "Protoevangelium (Gen 3:15): The Seed of the Woman will crush the Nachash's head.",
-        mapPin: "Eden / Ur",
-        color: "purple"
+      watchers: {
+        title: "The Watcher Incursion (Genesis 6:1-4)",
+        hebrew: "וַיִּרְאוּ בְנֵי־הָאֱלֹהִים אֶת־בְּנוֹת הָאָדָם כִּי טֹבֹת הֵנָּה וַיִּקְחוּ לָהֶם נָשִׁים...",
+        trans: "\"And the sons of God saw the daughters of mankind that they were fair, and took for themselves wives of all whom they chose...\"",
+        takeaway: "Corroborated by DSS 4QEn, Jude 6, and 2 Peter 2:4. The celestial rebellion that produced the Nephilim giant clans, requiring the cosmos to be cleansed by the Flood."
       },
-      {
-        id: "c3", track: "cosmic", x: 1500, y: 140,
-        title: "Rebellion 2: Mt. Hermon Watchers",
-        ref: "Gen 6:1–4 · 1 En 6–16 · 2 Pet 2:4 · Jude 6",
-        hebrew: "בְּנֵי הָאֱלֹהִים (Bene Ha-Elohim)",
-        gap: "Invented the Sethite-Cainite marriage theory to sanitize supernatural angelic rebellion.",
-        reversal: "Christ proclaims victory to imprisoned spirits (1 Pet 3:19) and claims Mount Hermon at Caesarea Philippi.",
-        mapPin: "Mt. Hermon (Bashan)",
-        color: "purple"
+      deut32: {
+        title: "The Cosmic Apportionment (Deut 32:8-9)",
+        hebrew: "בְּהַנְחֵל עֶלְיוֹן גּוֹיִם... יַצֵּב גְּבֻלֹת עַמִּים לְמִסְפַּר בְּנֵי אֱלֹהִים׃ כִּי חֵלֶק יְהוָה עַמּוֹ...",
+        trans: "\"When the Most High gave to the nations their inheritance... He fixed the borders of the peoples according to the number of the sons of God (DSS/LXX). For Yahweh's portion is His people, Jacob the lot of His inheritance.\"",
+        takeaway: "At the Tower of Babel, YHWH disinherited the 70 rebellious nations, assigning them under subordinate spiritual beings, and chose Abram to build His own counter-nation."
       },
-      {
-        id: "c4", track: "cosmic", x: 2200, y: 140,
-        title: "Rebellion 3: Babel & 70 Nations Allotment",
-        ref: "Gen 11:1–9 · Deut 32:8–9 (DSS)",
-        hebrew: "לְמִסְפַּר בְּנֵי אֱלֹהִים (According to the number of the sons of God)",
-        gap: "Masoretic Text medieval scribes altered 'sons of God' to 'sons of Israel'. 4QDeut-j and LXX preserve the true divine council allotment.",
-        reversal: "Acts 2 Pentecost: Holy Spirit falls in all 70 languages, disinheriting the rebellious gods.",
-        mapPin: "Nineveh",
-        color: "purple"
+      psalm82: {
+        title: "The Indictment of the Council (Psalm 82:1-8)",
+        hebrew: "אֱלֹהִים נִצָּב בַּעֲדַת־אֵל בְּקֶרֶב אֱלֹהִים יִשְׁפֹּט...",
+        trans: "\"God stands in the divine assembly; in the midst of the gods He judges... 'I said, You are gods, sons of the Most High, all of you; nevertheless, like men you shall die!'\"",
+        takeaway: "YHWH judges the corrupt territorial elohim who ruled the nations with injustice, sentencing them to loss of immortality when Christ inherits the earth."
       },
-      {
-        id: "c5", track: "cosmic", x: 4200, y: 140,
-        title: "The Cosmic Cross: Powers Disarmed",
-        ref: "Col 2:15 · 1 Cor 2:8 · Matt 28:18",
-        hebrew: "ἀπεκδυσάμενος τὰς ἀρχὰς (Disarming the rulers & authorities)",
-        gap: "If the cosmic rulers had understood, they would not have crucified the Lord of Glory.",
-        reversal: "All authority in heaven and on earth granted to the resurrected Son.",
-        mapPin: "Jerusalem",
-        color: "purple"
+      colossians2: {
+        title: "The Cosmic Disarming at Calvary (Colossians 2:15)",
+        hebrew: "ἀπεκδυσάμενος τὰς ἀρχὰς καὶ τὰς ἐξουσίας ἐδειγμάτισεν ἐν παρρησίᾳ, θριαμβεύσας αὐτοὺς ἐν αὐτῷ.",
+        trans: "\"Having disarmed the rulers and authorities, He made a public display of them, having triumphed over them through the Cross.\"",
+        takeaway: "The Cross was not a tragedy; it was a cosmic ambush. Christ disarmed the territorial rulers of Deuteronomy 32 and reclaimed legal authority over the cosmos."
       },
-      {
-        id: "c6", track: "cosmic", x: 6200, y: 140,
-        title: "New Jerusalem: Cosmic Renewal",
-        ref: "Rev 21–22 · Isa 65 · 1 Cor 15",
-        hebrew: "הִנֵּה מִשְׁכַּן אֱלֹהִים עִם־הָאָדָם (Dwelling of God with Man)",
-        gap: "Heaven is not an ethereal cloud retreat; it is God's sacred space reuniting with a renewed physical earth.",
-        reversal: "Eden restored: Tree of Life accessible, divine council populated by redeemed humanity.",
-        mapPin: "Jerusalem",
-        color: "purple"
+      galatians3: {
+        title: "The Singular Seed Promise (Galatians 3:16)",
+        hebrew: "τῷ δὲ Ἀβραὰμ ἐρρέθησαν αἱ ἐπαγγελίαι καὶ τῷ σπέρματι αὐτοῦ. οὐ λέγει· Καὶ τοῖς σπέρμασιν, ὡς ἐπὶ πολλῶν, ἀλλ’ ὡς ἐφ’ ἑνός· Καὶ τῷ σπέρματί σου, ὅς ἐστιν Χριστός.",
+        trans: "\"Now the promises were spoken to Abraham and to his Seed. It does not say, 'And to seeds,' as of many, but as of one, 'And to your Seed,' who is Christ.\"",
+        takeaway: "Paul explicitly rejects ethnic/political nationalism as the primary fulfillment of the Abrahamic covenant. Christ alone is the Heir of the world."
       },
-
-      // ── Track 2: Covenant Spine (Middle) ──
-      {
-        id: "cov1", track: "covenant", x: 900, y: 520,
-        title: "Noahic Covenant: Bow in the Cloud",
-        ref: "Genesis 9:8–17",
-        hebrew: "בְּרִית עוֹלָם (Berit Olam)",
-        gap: "God's war bow (qeshet) is hung up pointed away from earth — cosmos preservation guarantee.",
-        reversal: "Preserves the arena for the coming Seed.",
-        mapPin: "Eden / Ur",
-        color: "gold"
+      melchizedek: {
+        title: "The Royal Order of Melchizedek (Psalm 110:4)",
+        hebrew: "נִשְׁבַּע יְהוָה וְלֹא יִנָּחֵם אַתָּה־כֹהֵן לְעוֹלָם עַל־דִּבְרָתִי מַלְכִּי־צֶדֶק׃",
+        trans: "\"Yahweh has sworn and will not relent: 'You are a priest forever after the order of Melchizedek.'\"",
+        takeaway: "Links Genesis 14 forward to Jesus Christ in Hebrews 5–7. An eternal, royal priesthood superior to the temporary Levitical priesthood."
       },
-      {
-        id: "cov2", track: "covenant", x: 1800, y: 520,
-        title: "Abrahamic Covenant & Melchizedek",
-        ref: "Gen 12:1–3 · Gen 14:18 · Gen 15",
-        hebrew: "מַלְכִּי־צֶדֶק כֹּהֵן לְאֵל עֶלְיוֹן (King-Priest of God Most High)",
-        gap: "Abraham pays tithes to a royal priesthood predating Levi and Aaron, foreshadowing Christ.",
-        reversal: "Through Abraham's Seed (Christ), all disinherited nations will be blessed.",
-        mapPin: "Jerusalem",
-        color: "gold"
-      },
-      {
-        id: "cov3", track: "covenant", x: 2600, y: 520,
-        title: "Sinai: Suzerain-Vassal Treaty & Torah",
-        ref: "Exodus 19–24 · Deut 5",
-        hebrew: "מַמְלֶכֶת כֹּהֲנִים וְגוֹי קָדוֹשׁ (Kingdom of Priests)",
-        gap: "Torah is not legalistic burden; it is the constitutional charter of Yahweh's vassal kingdom.",
-        reversal: "Establishing sacred space where holy God dwells among fallen mankind.",
-        mapPin: "Mt. Sinai",
-        color: "gold"
-      },
-      {
-        id: "cov4", track: "covenant", x: 3400, y: 520,
-        title: "Davidic Covenant: The Eternal Throne",
-        ref: "2 Samuel 7 · Psalm 89 · Psalm 110",
-        hebrew: "וְנֶאְמַן בֵּיתְךָ וּמַמְלַכְתְּךָ עַד־עוֹלָם (Throne established forever)",
-        gap: "David's son is also David's Lord (Ps 110:1) who sits at YHWH's right hand.",
-        reversal: "The Messianic King reigns forever over all restored nations.",
-        mapPin: "Jerusalem",
-        color: "gold"
-      },
-      {
-        id: "cov5", track: "covenant", x: 4300, y: 520,
-        title: "The New Covenant in Blood",
-        ref: "Jeremiah 31:31 · Luke 22:20 · Hebrews 8",
-        hebrew: "בְּרִית חֲדָשָׁה (Berit Chadashah)",
-        gap: "Law written on hearts by the Holy Spirit; eternal forgiveness of sin.",
-        reversal: "Fulfills all prior covenants in the resurrected Christ.",
-        mapPin: "Jerusalem",
-        color: "gold"
-      },
-
-      // ── Track 3: Earth History & Empires (Lower) ──
-      {
-        id: "emp1", track: "earth", x: 2000, y: 900,
-        title: "Old & Middle Kingdom Egypt",
-        ref: "Bronze Age · Pharaohs & Pyramids",
-        hebrew: "מִצְרַיִם (Mitzrayim)",
-        gap: "Israel enslaved in Egyptian state cult; Yahweh's plagues systematically judge the gods of Egypt (Ex 12:12).",
-        reversal: "Exodus: Yahweh triumphs over the Nile and sun gods.",
-        mapPin: "Mt. Sinai",
-        color: "blue"
-      },
-      {
-        id: "emp2", track: "earth", x: 3100, y: 900,
-        title: "Assyrian Empire & Jonah's Mission",
-        ref: "Nineveh · Tiglath-Pileser III · Ashurbanipal",
-        hebrew: "אַשּׁוּר (Ashur)",
-        gap: "Jonah called to the terror capital of the ancient world; Nineveh repents before Yahweh.",
-        reversal: "Yahweh demonstrates sovereignty over Gentile pagan superpowers.",
-        mapPin: "Nineveh",
-        color: "blue"
-      },
-      {
-        id: "emp3", track: "earth", x: 3600, y: 900,
-        title: "Babylonian Empire & The Exile",
-        ref: "Nebuchadnezzar · 586 BC Temple Destruction",
-        hebrew: "בָּבֶל (Babel / Babylon)",
-        gap: "Judah exiled to Babylon; Daniel reveals the 4 successive beast empires (Dan 2, 7).",
-        reversal: "The Stone cut without hands crushes all earthly empires.",
-        mapPin: "Nineveh",
-        color: "blue"
-      },
-      {
-        id: "emp4", track: "earth", x: 4100, y: 900,
-        title: "Roman Empire & The Incarnation",
-        ref: "Caesar Augustus · Tiberius · Pax Romana",
-        hebrew: "הָאִימְפֶּרְיָה הָרוֹמִית (Rome)",
-        gap: "Rome claims Caesar is 'Lord and Savior' (Kyrios). Early Christians counter: 'Jesus is Lord!'",
-        reversal: "The Kingdom of God spreads through martyrdom and resurrection power.",
-        mapPin: "Rome",
-        color: "blue"
-      },
-
-      // ── Track 4: Manuscripts & Canon (Bottom) ──
-      {
-        id: "can1", track: "canon", x: 2300, y: 1280,
-        title: "Torah Composition & Masorah",
-        ref: "Moses · Hebrew Masoretic Text (MT)",
-        hebrew: "תּוֹרַת מֹשֶׁה (Torat Moshe)",
-        gap: "Ancient Paleo-Hebrew script meticulously preserved.",
-        reversal: "God's unalterable written word given to Israel.",
-        mapPin: "Mt. Sinai",
-        color: "emerald"
-      },
-      {
-        id: "can2", track: "canon", x: 3800, y: 1280,
-        title: "Septuagint (LXX) Translation (250 BC)",
-        ref: "Alexandria, Egypt · 72 Jewish Translators",
-        hebrew: "הַשִּׁבְעִים (Septuaginta)",
-        gap: "The Bible quoted by Jesus and the Apostles; preserves older readings like Deut 32:8 'sons of God'.",
-        reversal: "Greek language unifies Scripture for the Mediterranean world.",
-        mapPin: "Rome",
-        color: "emerald"
-      },
-      {
-        id: "can3", track: "canon", x: 4000, y: 1280,
-        title: "Dead Sea Scrolls (DSS) Library",
-        ref: "Qumran Caves 1–11 · 3rd c. BC – 1st c. AD",
-        hebrew: "מְגִלּוֹת יַם הַמֶּלַח (Megillot Yam HaMelach)",
-        gap: "Over 900 ancient manuscripts proving Hebrew biblical stability 1,000 years older than medieval MT copies.",
-        reversal: "Vindicates the ancient Divine Council and Enochic worldview.",
-        mapPin: "Jerusalem",
-        color: "emerald"
+      abraham: {
+        title: "The Call of Abram (Genesis 12:1-3)",
+        hebrew: "וְאֶעֶשְׂךָ לְגוֹי גָּדוֹל... וְנִבְרְכוּ בְךָ כֹּל מִשְׁפְּחֹת הָאֲדָמָה׃",
+        trans: "\"And I will make of you a great nation... and in you all the families of the earth shall be blessed.\"",
+        takeaway: "God's answer to the Babel disinheritance. Through Abram's seed, YHWH will reclaim the 70 nations scattered across the globe."
       }
-    ];
+    };
 
-    // ═══════════════════════════════════════════════════════════════
-    // CANVAS INTERACTION & PAN/ZOOM ENGINE
-    // ═══════════════════════════════════════════════════════════════
-    let panX = 100, panY = 120, scale = 0.85;
-    let isDragging = false, startX, startY;
-    const canvas = document.getElementById("canvas");
-    const viewport = document.getElementById("viewport");
-    const zoomText = document.getElementById("zoomLevelText");
-
-    function updateTransform() {
-      canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-      zoomText.textContent = `${Math.round(scale * 100)}%`;
+    function openModal(key) {
+      const data = MODAL_DATA[key];
+      if (!data) return;
+      const content = `
+        <h3 style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff; margin: 0;">${data.title}</h3>
+        <div class="modal-hebrew">${data.hebrew}</div>
+        <div class="modal-trans">${data.trans}</div>
+        <div class="modal-takeaway"><strong>Linguistic &amp; Theological Anchor:</strong><br>${data.takeaway}</div>
+      `;
+      document.getElementById('modalContent').innerHTML = content;
+      document.getElementById('modalOverlay').classList.add('open');
     }
 
-    viewport.addEventListener("mousedown", (e) => {
-      if (e.target.closest(".node-card") || e.target.closest("button")) return;
-      isDragging = true;
-      startX = e.clientX - panX;
-      startY = e.clientY - panY;
-    });
+    function closeModal(e) {
+      if (e.target.id === 'modalOverlay') {
+        document.getElementById('modalOverlay').classList.remove('open');
+      }
+    }
 
-    window.addEventListener("mousemove", (e) => {
-      if (!isDragging) return;
-      panX = e.clientX - startX;
-      panY = e.clientY - startY;
-      updateTransform();
-    });
+    function closeModalDirect() {
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
 
-    window.addEventListener("mouseup", () => { isDragging = false; });
-
-    viewport.addEventListener("wheel", (e) => {
-      e.preventDefault();
-      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
-      const newScale = Math.min(Math.max(0.2, scale * zoomFactor), 2.5);
-      
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-      panX = mouseX - (mouseX - panX) * (newScale / scale);
-      panY = mouseY - (mouseY - panY) * (newScale / scale);
-      scale = newScale;
-      updateTransform();
-    }, { passive: false });
-
-    document.getElementById("btnZoomIn").addEventListener("click", () => {
-      scale = Math.min(scale * 1.2, 2.5);
-      updateTransform();
-    });
-
-    document.getElementById("btnZoomOut").addEventListener("click", () => {
-      scale = Math.max(scale / 1.2, 0.2);
-      updateTransform();
-    });
-
-    document.getElementById("btnResetView").addEventListener("click", () => {
-      panX = 100; panY = 120; scale = 0.85;
-      updateTransform();
-    });
-
-    // ═══════════════════════════════════════════════════════════════
-    // RENDER TIMELINE NODES
-    // ═══════════════════════════════════════════════════════════════
-    const nodesContainer = document.getElementById("nodesContainer");
-
-    function renderNodes() {
-      nodesContainer.innerHTML = "";
-      TIMELINE_NODES.forEach((n) => {
-        const card = document.createElement("div");
-        card.id = `node-${n.id}`;
-        card.className = `node-card absolute w-[280px] bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-xl p-3.5 shadow-xl text-left`;
-        card.style.left = `${n.x}px`;
-        card.style.top = `${n.y}px`;
-
-        const badgeColors = {
-          purple: "bg-purple-900/40 text-purple-300 border-purple-700/50",
-          gold: "bg-amber-900/40 text-amber-300 border-amber-700/50",
-          blue: "bg-sky-900/40 text-sky-300 border-sky-700/50",
-          emerald: "bg-emerald-900/40 text-emerald-300 border-emerald-700/50"
-        };
-
-        card.innerHTML = `
-          <div class="flex items-center justify-between mb-1.5">
-            <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${badgeColors[n.color]}">${n.track}</span>
-            <span class="text-[10px] text-slate-400 font-mono">✦ ${n.mapPin}</span>
-          </div>
-          <h3 class="text-xs font-bold text-white leading-snug">${n.title}</h3>
-          <p class="text-[10px] text-amber-400/90 font-mono mt-0.5">${n.ref}</p>
-          <div class="mt-2 pt-2 border-t border-slate-800 text-[11px] text-slate-300 line-clamp-2">
-            ${n.hebrew}
-          </div>
-        `;
-
-        card.addEventListener("click", () => openInspector(n));
-        nodesContainer.appendChild(card);
+    // Filter Toggles
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
       });
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    // INSPECTOR DRAWER
-    // ═══════════════════════════════════════════════════════════════
-    const inspector = document.getElementById("inspectorPanel");
-
-    function openInspector(node) {
-      document.getElementById("inspectTrackPill").textContent = node.track.toUpperCase();
-      document.getElementById("inspectTitle").textContent = node.title;
-      document.getElementById("inspectRef").textContent = node.ref;
-      document.getElementById("inspectHebrew").textContent = node.hebrew;
-      document.getElementById("inspectGap").textContent = node.gap;
-      document.getElementById("inspectReversal").textContent = node.reversal;
-      document.getElementById("mapLocationLabel").innerHTML = `<strong>Map Anchor:</strong> ${node.mapPin} · <em>${node.title}</em>`;
-      
-      inspector.classList.remove("translate-x-[500px]");
-      inspector.classList.add("translate-x-0");
-    }
-
-    document.getElementById("btnCloseInspector").addEventListener("click", () => {
-      inspector.classList.remove("translate-x-0");
-      inspector.classList.add("translate-x-[500px]");
     });
-
-    document.getElementById("inspectAskHai").addEventListener("click", () => {
-      alert("Opening Hallelujah AI with this node's Scripture & Hebrew context...");
-    });
-
-    // ═══════════════════════════════════════════════════════════════
-    // STEP-BY-STEP GUIDED TOUR ENGINE
-    // ═══════════════════════════════════════════════════════════════
-    let tourActive = false;
-    let tourStep = 0;
-    const tourNodes = TIMELINE_NODES.filter(n => n.track === "cosmic" || n.track === "covenant");
-
-    const tourBar = document.getElementById("tourBar");
-    const btnTour = document.getElementById("btnTourMode");
-
-    btnTour.addEventListener("click", startTour);
-    document.getElementById("btnTourExit").addEventListener("click", exitTour);
-    document.getElementById("btnTourNext").addEventListener("click", () => goToTourStep(tourStep + 1));
-    document.getElementById("btnTourPrev").addEventListener("click", () => goToTourStep(tourStep - 1));
-
-    function startTour() {
-      tourActive = true;
-      tourBar.classList.remove("hidden");
-      goToTourStep(0);
-    }
-
-    function exitTour() {
-      tourActive = false;
-      tourBar.classList.add("hidden");
-      document.querySelectorAll(".node-card").forEach(c => c.classList.remove("glow-gold", "ring-2", "ring-amber-400"));
-    }
-
-    function goToTourStep(index) {
-      if (index < 0 || index >= tourNodes.length) return;
-      tourStep = index;
-      const node = tourNodes[tourStep];
-
-      document.getElementById("tourStepIndicator").textContent = `Step ${tourStep + 1} of ${tourNodes.length}`;
-      document.getElementById("tourStepTitle").textContent = node.title;
-
-      // Center canvas on node
-      scale = 1.0;
-      panX = (window.innerWidth / 2) - node.x * scale - 140;
-      panY = (window.innerHeight / 2) - node.y * scale - 100;
-      updateTransform();
-
-      // Highlight active node card
-      document.querySelectorAll(".node-card").forEach(c => c.classList.remove("glow-gold", "ring-2", "ring-amber-400"));
-      const activeCard = document.getElementById(`node-${node.id}`);
-      if (activeCard) activeCard.classList.add("glow-gold", "ring-2", "ring-amber-400");
-
-      openInspector(node);
-    }
-
-    // Initialize
-    renderNodes();
-    updateTransform();
   </script>
 </body>
 </html>
