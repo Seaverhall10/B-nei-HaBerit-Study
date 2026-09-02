@@ -3,295 +3,251 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bnei HaBerit Study · Sons of the Covenant</title>
+  <title>Bnei HaBerit Study · Campaign Hub</title>
   <link rel="icon" href="seal.png">
-  <link rel="stylesheet" href="styles.css?v=calvary-widescreen-1">
+  <link rel="stylesheet" href="styles.css?v=campaign-hub-1">
   <link rel="stylesheet" href="map.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Serif+Hebrew:wght@500;700;900&family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;600&family=Noto+Serif+Hebrew:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="home-page">
+<body class="campaign-body">
 
-  <!-- MASTHEAD NAVIGATION -->
-  <header class="mast">
-    <div class="mast-bar">
-      <a class="brand" href="index.html">
-        <img class="seal" src="seal.png" alt="Bnei HaBerit Seal">
-        <div class="brand-text">
-          <span class="he-title">בְּנֵי הַבְּרִית</span>
-          <span class="kicker">Bnei HaBerit · Sons of the Covenant</span>
+  <!-- TOP HUD BAR -->
+  <header class="hud-header">
+    <div class="hud-bar">
+      <a class="hud-brand" href="index.html">
+        <img class="hud-seal" src="seal.png" alt="Seal">
+        <div class="hud-brand-text">
+          <span class="hud-he">בְּנֵי הַבְּרִית</span>
+          <span class="hud-title">BNEI HABERIT <span class="hud-sub">· CAMPAIGN HUB</span></span>
         </div>
       </a>
-      <nav class="home-nav" id="shell-nav">
-        <a href="index.html" class="here">Home</a>
-        <a href="#curriculum">Curriculum</a>
-        <a href="timeline.html" class="nav-highlight">Interactive Timeline</a>
-        <a href="#story-tracks">Story Tracks</a>
-        <a href="job.html">Job Drama</a>
-        <a class="library-return" href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener">Ancient Texts Library &rarr;</a>
+
+      <div class="hud-quest-status">
+        <span class="hud-status-dot"></span>
+        <span class="hud-quest-label">ACTIVE QUEST:</span>
+        <strong class="hud-quest-name">Week 2 · Seed Line &amp; Flood</strong>
+      </div>
+
+      <nav class="hud-nav">
+        <a href="index.html" class="hud-btn active">Campaign Map</a>
+        <a href="timeline.html" class="hud-btn highlight">&#128506; Timeline</a>
+        <a href="week.html?week=2" class="hud-btn primary">&#9876; Week 2 Study</a>
+        <a href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener" class="hud-btn ext">Ancient Texts &rarr;</a>
       </nav>
     </div>
   </header>
 
-  <!-- WIDESCREEN CONTAINER -->
-  <div id="view-home">
-    <main class="widescreen-wrap">
+  <!-- MAIN HUD INTERFACE -->
+  <main class="hud-wrap">
 
-      <!-- HERO BANNER (CALVARY & BLOOD MOON) -->
-      <section class="calvary-hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <span class="hero-badge">The Unbroken Covenant Spine</span>
-          <h1 class="hero-title">
-            <span class="he-hero">בְּנֵי הַבְּרִית</span>
-            <span class="en-hero">SONS OF THE COVENANT</span>
-          </h1>
-          <p class="hero-lede">
-            Anchored at the Cross of Calvary. Grounded in the Ancient Hebrew, Aramaic, and Greek Manuscripts. 
-            Walking in the Berean Spirit.
-          </p>
-
-          <!-- BEREAN GUARANTEE CALLOUT -->
-          <div class="berean-guarantee">
-            <div class="berean-quote">
-              <strong>Acts 17:11 &mdash;</strong> &ldquo;They received the word with all eagerness, examining the Scriptures daily to see if these things were so.&rdquo;
-            </div>
-            <p class="berean-sub">
-              We do not ask you to abandon your faith or attack your church&mdash;we invite you to discover the breathtaking depth of what is actually written on the ancient parchment.
-            </p>
-          </div>
-
-          <div class="hero-actions">
-            <a class="btn-primary" href="timeline.html">&#128506; Open Interactive Timeline</a>
-            <a class="btn-secondary" href="week.html?week=2">Week 2 Study: Seed Line &amp; Flood</a>
-            <a class="btn-tertiary" href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener">&#128214; Ancient Texts App</a>
-          </div>
+    <!-- COMPACT HERO BRIEFING (CLEAN & MINIMAL) -->
+    <section class="briefing-card">
+      <div class="briefing-left">
+        <div class="briefing-tag-row">
+          <span class="badge-gold">COVENANT SPINE</span>
+          <span class="badge-mono">BEREAN STANDARD · ACTS 17:11</span>
         </div>
-      </section>
-
-      <!-- SECTION: INTERACTIVE TIMELINE LAUNCHPAD -->
-      <section class="portal-card timeline-preview-section">
-        <div class="section-header">
-          <span class="section-tag">Cosmic Architecture</span>
-          <h2>The Grand Cosmic Timeline</h2>
-          <p class="section-subtitle">
-            Navigate the redemptive drama from Eternity Past and Eden, through the Babel Disinheritance and Calvary Victory, to the Final New Creation.
-          </p>
-        </div>
-
-        <div class="timeline-banner-embed">
-          <div class="timeline-epoch-pills">
-            <span class="pill">1. Eternity &amp; Eden</span>
-            <span class="pill">2. Watchers &amp; Flood</span>
-            <span class="pill">3. Babel &amp; 70 Nations</span>
-            <span class="pill">4. Abraham &amp; Melchizedek</span>
-            <span class="pill">5. The Cross &amp; Resurrection</span>
-            <span class="pill">6. Pentecost &amp; New Jerusalem</span>
-          </div>
-          <div class="timeline-cta-row">
-            <a href="timeline.html" class="btn-primary-large">&#10024; Launch Fullscreen Interactive Canvas Timeline</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION: BEREAN GUIDED STORY TRACKS -->
-      <section class="portal-card" id="story-tracks">
-        <div class="section-header">
-          <span class="section-tag">Curated Redemptive Paths</span>
-          <h2>Three Guided Discovery Tracks</h2>
-          <p class="section-subtitle">
-            Follow the continuous threads linking the Old Testament roots directly to their fulfillment in Jesus Christ.
-          </p>
-        </div>
-
-        <div class="story-tracks-grid">
-          <!-- TRACK 1 -->
-          <article class="track-card">
-            <div class="track-icon">&#127793;</div>
-            <span class="track-tag">The Zera Thread</span>
-            <h3>The Cosmic Seed War</h3>
-            <p class="track-desc">
-              Trace the unbroken war between the Seed of the Woman and the Seed of the Serpent from Genesis 3:15 to Calvary and Revelation 12.
-            </p>
-            <ul class="track-steps">
-              <li><strong>Genesis 3:15:</strong> The Protoevangelium (<em>Zera</em>)</li>
-              <li><strong>Genesis 6:1-4:</strong> The Watcher incursion</li>
-              <li><strong>Numbers 13:33:</strong> The Anakim &amp; King Og</li>
-              <li><strong>1 Samuel 17:</strong> David's head-strike on Goliath</li>
-              <li><strong>Galatians 3:16:</strong> Christ the Singular Seed</li>
-            </ul>
-            <a class="track-link" href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener">Explore in Interlinear &rarr;</a>
-          </article>
-
-          <!-- TRACK 2 -->
-          <article class="track-card">
-            <div class="track-icon">&#127963;&#65039;</div>
-            <span class="track-tag">Cosmic Geography</span>
-            <h3>Divine Council &amp; The 70 Nations</h3>
-            <p class="track-desc">
-              Understand how YHWH allotted the 70 nations at Babel (Deut 32:8), judged the corrupt gods (Psalm 82), and reclaimed all cosmic authority (Matt 28:18).
-            </p>
-            <ul class="track-steps">
-              <li><strong>Job 38:4-7:</strong> Morning stars witness creation</li>
-              <li><strong>Deut 32:8-9:</strong> Babel disinheritance under <em>Benei Elohim</em></li>
-              <li><strong>Psalm 82:1-8:</strong> God judges the gods</li>
-              <li><strong>Matthew 4:8-10:</strong> The 70 kingdoms offered</li>
-              <li><strong>Acts 2:</strong> Pentecost reverses Babel</li>
-            </ul>
-            <a class="track-link" href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener">Explore in Interlinear &rarr;</a>
-          </article>
-
-          <!-- TRACK 3 -->
-          <article class="track-card">
-            <div class="track-icon">&#128081;</div>
-            <span class="track-tag">Royal Priesthood</span>
-            <h3>The Order of Melchizedek</h3>
-            <p class="track-desc">
-              Discover the mysterious King of Righteousness who brought bread and wine to Abraham, foreshadowing the eternal priesthood of Yeshua.
-            </p>
-            <ul class="track-steps">
-              <li><strong>Genesis 14:18-20:</strong> Melchizedek, Priest of El Elyon</li>
-              <li><strong>Psalm 110:1-4:</strong> The sworn oath to David's Lord</li>
-              <li><strong>Hebrews 5 &amp; 7:</strong> An indestructible priesthood</li>
-            </ul>
-            <a class="track-link" href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener">Explore in Interlinear &rarr;</a>
-          </article>
-        </div>
-      </section>
-
-      <!-- SECTION: WEEKLY CURRICULUM -->
-      <section class="portal-card" id="curriculum">
-        <div class="section-header">
-          <span class="section-tag">Active Curriculum</span>
-          <h2>Weekly Study Modules</h2>
-          <p class="section-subtitle">
-            Step-by-step reading modules designed for weekly small group research and deep scripture meditation.
-          </p>
-        </div>
-
-        <div class="curriculum-grid">
-          <!-- CURRENT WEEK (WEEK 2) -->
-          <article class="curriculum-card featured">
-            <span class="week-pill active">This Week &middot; Week 2</span>
-            <h3>Seed Line, Watchers, and Flood</h3>
-            <p class="curriculum-lede">
-              Rebellion spreads past Eden. The Watchers transgress celestial boundaries. Yahweh cleanses the earth with the Deluge and preserves the Holy Seed through Noah.
-            </p>
-            <div class="reading-list">
-              <strong>Assigned Readings:</strong>
-              <ul>
-                <li>Genesis 4:1-16 (Cain &amp; Abel)</li>
-                <li>Genesis 6:1-22 (Sons of God &amp; The Ark)</li>
-                <li>Job 1:6 &amp; Job 38:4-7 (The Divine Council)</li>
-                <li>Genesis 8:20-9:17 (The Noahic Covenant)</li>
-              </ul>
-            </div>
-            <div class="card-footer">
-              <a class="btn-primary" href="week.html?week=2">Launch Week 2 Study &rarr;</a>
-            </div>
-          </article>
-
-          <!-- PREVIOUS WEEK (WEEK 1) -->
-          <article class="curriculum-card">
-            <span class="week-pill">Week 1 Archive</span>
-            <h3>Creation, Eden, and the Human Calling</h3>
-            <p class="curriculum-lede">
-              Yahweh speaks creation into being before the rejoicing heavenly host. Humanity is crowned with the divine royal image in sacred temple space.
-            </p>
-            <div class="reading-list">
-              <strong>Core Takeaways:</strong>
-              <ul>
-                <li><strong>Yahweh alone creates:</strong> Ex nihilo by His Word.</li>
-                <li><strong>The Council was present:</strong> Job 38:7 morning stars.</li>
-                <li><strong>The Nachash:</strong> The throne guardian rebel.</li>
-                <li><strong>Genesis 3:15:</strong> The foundational Seed War prophecy.</li>
-              </ul>
-            </div>
-            <div class="card-footer">
-              <a class="btn-secondary" href="week.html?week=1">Review Week 1 Recap &rarr;</a>
-            </div>
-          </article>
-
-          <!-- DRAMATIC SCRIPTURE FEATURE: JOB -->
-          <article class="curriculum-card">
-            <span class="week-pill">Dramatic Exegesis</span>
-            <h3>The Drama of Job in Uz</h3>
-            <p class="curriculum-lede">
-              A blameless man tested. The adversary in the Divine Assembly. The four messengers of calamity, and the unshakeable praise: <em>"Blessed be the name of Yahweh."</em>
-            </p>
-            <div class="reading-list">
-              <strong>Key Sections:</strong>
-              <ul>
-                <li>Job 1:1-5 (A Man in Uz)</li>
-                <li>Job 1:6-12 (The Sons of God Present Themselves)</li>
-                <li>Job 1:20-22 (Yahweh Gave, Yahweh Has Taken Away)</li>
-              </ul>
-            </div>
-            <div class="card-footer">
-              <a class="btn-secondary" href="job.html">Read Job Drama &rarr;</a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- SECTION: THE FIVE CANONICAL PILLARS -->
-      <section class="portal-card pillars-section">
-        <div class="section-header">
-          <span class="section-tag">Theological Foundations</span>
-          <h2>The Five Canonical Pillars</h2>
-          <p class="section-subtitle">
-            Our non-negotiable boundaries ensuring absolute fidelity to historic biblical orthodoxy and the primacy of Jesus Christ.
-          </p>
-        </div>
-
-        <div class="pillars-grid">
-          <div class="pillar-item">
-            <span class="pillar-num">01</span>
-            <h4>YHWH Alone is Sovereign</h4>
-            <p>There is only one uncreated Creator: יהוה (YHWH). We never replace His sacred covenant name with generic cultural titles.</p>
-          </div>
-          <div class="pillar-item">
-            <span class="pillar-num">02</span>
-            <h4>Jesus Christ is the Singular Seed</h4>
-            <p>Yeshua HaMashiach is the incarnate Word, the Davidic King, who disarmed the powers at the Cross and rose bodily from the grave.</p>
-          </div>
-          <div class="pillar-item">
-            <span class="pillar-num">03</span>
-            <h4>The Divine Council &amp; Nations Reclaimed</h4>
-            <p>Acknowledging God's heavenly assembly (Psalm 82) and the reversal of the Babel disinheritance across all 70 nations at Pentecost.</p>
-          </div>
-          <div class="pillar-item">
-            <span class="pillar-num">04</span>
-            <h4>Living Temple of the Holy Spirit</h4>
-            <p>The <em>Parakletos</em> takes up residence in ordinary believers, writing God's covenant love and righteousness directly onto human hearts.</p>
-          </div>
-          <div class="pillar-item">
-            <span class="pillar-num">05</span>
-            <h4>Manuscript Integrity</h4>
-            <p>Grounding every insight directly in the Hebrew Masoretic Text, Greek Septuagint, and Dead Sea Scrolls without speculative distortion.</p>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="home-foot">
-      <div class="foot-wrap">
-        <div class="foot-brand">
-          <span class="he-title">בְּנֵי הַבְּרִית</span>
-          <p>Bnei HaBerit Study &middot; Dedicated to the Glory of YHWH and the Exaltation of Jesus Christ</p>
-        </div>
-        <div class="foot-links">
-          <a href="timeline.html">Interactive Timeline</a>
-          <a href="week.html?week=2">Weekly Reading</a>
-          <a href="job.html">Job Drama</a>
-          <a href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener">Ancient Texts Library</a>
+        <h1 class="briefing-heading">The Cosmic Redemptive Campaign</h1>
+        <p class="briefing-desc">
+          An unbroken manuscript journey through ancient Hebrew, Aramaic, and Greek texts. 
+          Tracking the Promised Seed war from Eden, across the Flood and Babel, to the triumph of the Cross.
+        </p>
+        <div class="briefing-actions">
+          <a href="week.html?week=2" class="btn-hud-primary">&#9876; Resume Active Study (Week 2)</a>
+          <a href="timeline.html" class="btn-hud-secondary">&#128506; Open Full Canvas Timeline</a>
         </div>
       </div>
-    </footer>
-  </div>
+
+      <div class="briefing-art">
+        <img src="images/hero-calvary-blood-moon.jpg" alt="Calvary Moon" class="art-thumb">
+        <div class="art-caption">
+          <span>DESTINATION: CALVARY</span>
+          <strong>Colossians 2:15</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAMPAIGN QUEST MAP (INTERACTIVE LEVEL PROGRESSION) -->
+    <section class="campaign-section">
+      <div class="section-title-row">
+        <div>
+          <span class="hud-kicker">STORYLINE PROGRESSION</span>
+          <h2 class="hud-h2">Redemptive Epochs</h2>
+        </div>
+        <div class="hud-stats">
+          <span class="stat-pill">7 Primary Epochs</span>
+          <span class="stat-pill live">&#9679; Week 2 Unlocked</span>
+        </div>
+      </div>
+
+      <div class="quest-grid">
+
+        <!-- EPOCH 1: EDEN -->
+        <article class="quest-card completed">
+          <div class="quest-top">
+            <span class="quest-num">EPOCH 01</span>
+            <span class="quest-status done">&#10003; RECAP READY</span>
+          </div>
+          <h3 class="quest-title">Eden, Creation &amp; The Seed War</h3>
+          <p class="quest-snippet">
+            Yahweh speaks creation into being. The Nachash rebel deceives humanity. Genesis 3:15 establishes the eternal war of the <em>Zera</em> (Seed).
+          </p>
+          <div class="quest-meta">
+            <span class="quest-ref">Gen 1:1 &ndash; 3:24 &middot; Job 38:7</span>
+            <span class="quest-root">זֶרַע (Seed)</span>
+          </div>
+          <a href="week.html?week=1" class="quest-btn">Review Week 1 &rarr;</a>
+        </article>
+
+        <!-- EPOCH 2: FLOOD & WATCHERS (ACTIVE) -->
+        <article class="quest-card active-quest">
+          <div class="quest-top">
+            <span class="quest-num">EPOCH 02</span>
+            <span class="quest-status active">&#9876; ACTIVE NOW</span>
+          </div>
+          <h3 class="quest-title">Watchers, Giants &amp; The Deluge</h3>
+          <p class="quest-snippet">
+            Celestial rebellion breaches terrestrial bounds (<em>Benei Elohim</em>). The earth is corrupted; Yahweh cleanses the cosmos and preserves the Seed in the Ark.
+          </p>
+          <div class="quest-meta">
+            <span class="quest-ref">Gen 6:1-22 &middot; Gen 8-9 &middot; Job 1:6</span>
+            <span class="quest-root">נְפִלִים (Nephilim)</span>
+          </div>
+          <a href="week.html?week=2" class="quest-btn pulse">Enter Week 2 Study &rarr;</a>
+        </article>
+
+        <!-- EPOCH 3: BABEL & 70 NATIONS -->
+        <article class="quest-card">
+          <div class="quest-top">
+            <span class="quest-num">EPOCH 03</span>
+            <span class="quest-status next">UPCOMING</span>
+          </div>
+          <h3 class="quest-title">Babel &amp; The 70 Disinherited Nations</h3>
+          <p class="quest-snippet">
+            Humanity's false ziggurat summit. YHWH allots the 70 nations under the <em>Benei Elohim</em> (Deut 32:8) and claims Abram as His personal inheritance.
+          </p>
+          <div class="quest-meta">
+            <span class="quest-ref">Gen 10-11 &middot; Deut 32:8 &middot; Ps 82</span>
+            <span class="quest-root">בְּנֵי אֱלֹהִים</span>
+          </div>
+          <a href="timeline.html" class="quest-btn">View on Timeline &rarr;</a>
+        </article>
+
+        <!-- EPOCH 4: ABRAHAM & MELCHIZEDEK -->
+        <article class="quest-card">
+          <div class="quest-top">
+            <span class="quest-num">EPOCH 04</span>
+            <span class="quest-status locked">&#128274; LOCKED</span>
+          </div>
+          <h3 class="quest-title">Abraham, Melchizedek &amp; The Pieces</h3>
+          <p class="quest-snippet">
+            The mysterious King-Priest of Salem blesses Abram with bread and wine. YHWH passes through the severed pieces as a walking torch (Gen 15:17).
+          </p>
+          <div class="quest-meta">
+            <span class="quest-ref">Gen 12-15 &middot; Ps 110:4 &middot; Heb 7</span>
+            <span class="quest-root">מַלְכִּי־צֶדֶק</span>
+          </div>
+          <span class="quest-locked-hint">Unlocks with Week 3 completion</span>
+        </article>
+
+        <!-- EPOCH 5: CALVARY VICTORY -->
+        <article class="quest-card climax">
+          <div class="quest-top">
+            <span class="quest-num">EPOCH 05</span>
+            <span class="quest-status climax">&#10024; THE CLIMAX</span>
+          </div>
+          <h3 class="quest-title">Golgotha: The Cosmic Triumph</h3>
+          <p class="quest-snippet">
+            The singular Seed is struck at the heel, crushing the dragon's head. The rulers and authorities are disarmed and put to open shame at the Cross (Col 2:15).
+          </p>
+          <div class="quest-meta">
+            <span class="quest-ref">Matt 27-28 &middot; Col 2:15 &middot; Gal 3:16</span>
+            <span class="quest-root">τετέλεσται (Finished)</span>
+          </div>
+          <a href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener" class="quest-btn">Explore Interlinear &rarr;</a>
+        </article>
+
+        <!-- EPOCH 6: PENTECOST & NATIONS RECLAIMED -->
+        <article class="quest-card">
+          <div class="quest-top">
+            <span class="quest-num">EPOCH 06</span>
+            <span class="quest-status locked">&#128274; LOCKED</span>
+          </div>
+          <h3 class="quest-title">Pentecost &amp; The Temple of the Spirit</h3>
+          <p class="quest-snippet">
+            Babel is reversed. Tongues of fire fall on 70 language representatives. The <em>Parakletos</em> indwells human hearts as living outposts of God's temple.
+          </p>
+          <div class="quest-meta">
+            <span class="quest-ref">Acts 2:1-12 &middot; 1 Cor 6:19 &middot; Rev 21</span>
+            <span class="quest-root">παράκλητος</span>
+          </div>
+          <span class="quest-locked-hint">Final Campaign Phase</span>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- INTEL & RESEARCH DOCKS -->
+    <section class="intel-grid">
+
+      <!-- BEREAN POSTURE CARD -->
+      <article class="intel-card">
+        <div class="intel-header">
+          <span class="intel-icon">&#128214;</span>
+          <h4>The Berean Standard</h4>
+        </div>
+        <p class="intel-text">
+          &ldquo;They received the word with all eagerness, examining the Scriptures daily to see if these things were so.&rdquo; (Acts 17:11).
+          We let the ancient Hebrew and Greek manuscripts speak for themselves without modern church-culture bias.
+        </p>
+        <a href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener" class="intel-link">Open Ancient Texts Library &rarr;</a>
+      </article>
+
+      <!-- DRAMA OF JOB CARD -->
+      <article class="intel-card">
+        <div class="intel-header">
+          <span class="intel-icon">&#127917;</span>
+          <h4>Scripture Drama: Job in Uz</h4>
+        </div>
+        <p class="intel-text">
+          The heavenly court convenes. The adversary speaks before Yahweh. Job loses everything yet declares: <em>&ldquo;Yahweh gave, and Yahweh has taken away; blessed be the name of Yahweh.&rdquo;</em>
+        </p>
+        <a href="job.html" class="intel-link">Read Job Scene by Scene &rarr;</a>
+      </article>
+
+      <!-- FIVE PILLARS CARD -->
+      <article class="intel-card">
+        <div class="intel-header">
+          <span class="intel-icon">&#128737;&#65039;</span>
+          <h4>Five Canonical Boundaries</h4>
+        </div>
+        <p class="intel-text">
+          1. YHWH is the Only Way &middot; 2. Jesus Christ is the Singular Seed &middot; 3. The Divine Council &amp; 3 Rebellions &middot; 4. Living Temple of the Spirit &middot; 5. Manuscript Evidence (MT, LXX, DSS).
+        </p>
+        <a href="timeline.html" class="intel-link">Inspect Covenant Matrix &rarr;</a>
+      </article>
+
+    </section>
+
+  </main>
+
+  <!-- MINIMAL HUD FOOTER -->
+  <footer class="hud-footer">
+    <div class="hud-footer-content">
+      <div class="footer-left">
+        <span class="hud-he">בְּנֵי הַבְּרִית</span>
+        <span class="footer-copy">Bnei HaBerit Study &middot; Unbroken Biblical Covenant Research</span>
+      </div>
+      <div class="footer-links">
+        <a href="timeline.html">Timeline</a>
+        <a href="week.html?week=2">Week 2 Study</a>
+        <a href="job.html">Job</a>
+        <a href="https://ancient-texts-app.web.app/" target="_blank" rel="noopener">Ancient Texts App</a>
+      </div>
+    </div>
+  </footer>
 
   <div id="view-week" hidden>
     <main class="wrap">
