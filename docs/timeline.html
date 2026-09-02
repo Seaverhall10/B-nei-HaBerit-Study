@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmic & Earth Infinite Canvas Timeline — Ancient Texts</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --canvas-bg: #0b0f17;
+      --grid-dot: rgba(255, 215, 0, 0.08);
+      --gold: #d4af37;
+      --gold-light: #fef08a;
+      --council-purple: #9333ea;
+      --covenant-gold: #eab308;
+      --history-blue: #0284c7;
+      --eschat-crimson: #e11d48;
+    }
+    body {
+      background-color: var(--canvas-bg);
+      color: #e2e8f0;
+      overflow: hidden;
+      user-select: none;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .canvas-grid {
+      background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .node-card {
+      transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.15s ease, border-color 0.15s ease;
+      cursor: pointer;
+    }
+    .node-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.3);
+      border-color: var(--gold);
+    }
+    .glow-gold {
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
+    }
+    .track-line {
+      stroke-dasharray: 6 6;
+      animation: dashmove 40s linear infinite;
+    }
+    @keyframes dashmove {
+      to { stroke-dashoffset: -1000; }
+    }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+  </style>
+</head>
+<body class="w-screen h-screen relative canvas-grid">
+
+  <!-- Top Floating HUD / Navigation -->
+  <header class="absolute top-4 left-4 right-4 z-40 flex items-center justify-between pointer-events-none">
+    <div class="flex items-center space-x-3 bg-slate-900/90 backdrop-blur-md border border-slate-700/60 rounded-xl px-4 py-2.5 shadow-2xl pointer-events-auto">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-bold text-slate-950 text-base shadow-lg">
+        ✦
+      </div>
+      <div>
+        <h1 class="text-sm font-bold tracking-wide text-amber-400">COSMIC & EARTH CANVAS TIMELINE</h1>
+        <p class="text-[10px] text-slate-400 font-medium">Infinite Spatial Matrix · Divine Council · World Empires · Eschaton</p>
+      </div>
+    </div>
+
+    <!-- Mode Selector & Tour Controls -->
+    <div class="flex items-center space-x-2 bg-slate-900/90 backdrop-blur-md border border-slate-700/60 rounded-xl p-1.5 shadow-2xl pointer-events-auto">
+      <button id="btnTourMode" class="flex items-center space-x-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold text-xs rounded-lg transition shadow-md">
+        <span>▶</span>
+        <span>Story Tour</span>
+      </button>
+      <div class="h-5 w-[1px] bg-slate-700 mx-1"></div>
+      <button class="layer-toggle active px-2.5 py-1 text-xs rounded-lg text-slate-300 hover:text-white bg-slate-800 font-medium" data-track="cosmic">✦ Council</button>
+      <button class="layer-toggle active px-2.5 py-1 text-xs rounded-lg text-slate-300 hover:text-white bg-slate-800 font-medium" data-track="covenant">📜 Covenant</button>
+      <button class="layer-toggle active px-2.5 py-1 text-xs rounded-lg text-slate-300 hover:text-white bg-slate-800 font-medium" data-track="earth">🌍 Empires</button>
+      <button class="layer-toggle active px-2.5 py-1 text-xs rounded-lg text-slate-300 hover:text-white bg-slate-800 font-medium" data-track="map">🗺️ Map</button>
+    </div>
+
+    <!-- Zoom & Controls -->
+    <div class="flex items-center space-x-1 bg-slate-900/90 backdrop-blur-md border border-slate-700/60 rounded-xl p-1.5 shadow-2xl pointer-events-auto">
+      <button id="btnZoomOut" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white font-bold text-sm" title="Zoom Out">−</button>
+      <span id="zoomLevelText" class="text-xs font-mono px-2 text-amber-400 min-w-[48px] text-center">100%</span>
+      <button id="btnZoomIn" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white font-bold text-sm" title="Zoom In">+</button>
+      <button id="btnResetView" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white text-xs" title="Fit to Screen">⤢</button>
+    </div>
+  </header>
+
+  <!-- Infinite Canvas Viewport -->
+  <div id="viewport" class="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing relative">
+    <div id="canvas" class="absolute origin-top-left" style="width: 7200px; height: 3600px; transform: translate(100px, 120px) scale(0.85);">
+
+      <!-- Track Background Strips -->
+      <div class="absolute top-[80px] left-[50px] w-[7000px] h-[340px] bg-purple-950/10 border-y border-purple-800/20 rounded-2xl pointer-events-none">
+        <span class="absolute top-3 left-4 text-xs font-bold text-purple-400 uppercase tracking-widest flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span> Track 1: Heavenly Realm & Divine Council (3 Rebellions & Reversals)
+        </span>
+      </div>
+
+      <div class="absolute top-[460px] left-[50px] w-[7000px] h-[340px] bg-amber-950/10 border-y border-amber-800/20 rounded-2xl pointer-events-none">
+        <span class="absolute top-3 left-4 text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Track 2: Redemptive Covenant Spine (The Seed & Priesthood)
+        </span>
+      </div>
+
+      <div class="absolute top-[840px] left-[50px] w-[7000px] h-[340px] bg-sky-950/10 border-y border-sky-800/20 rounded-2xl pointer-events-none">
+        <span class="absolute top-3 left-4 text-xs font-bold text-sky-400 uppercase tracking-widest flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span> Track 3: Earth History, World Empires & Geographical Movements
+        </span>
+      </div>
+
+      <div class="absolute top-[1220px] left-[50px] w-[7000px] h-[340px] bg-emerald-950/10 border-y border-emerald-800/20 rounded-2xl pointer-events-none">
+        <span class="absolute top-3 left-4 text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Track 4: Canonical Scriptures & Primary Manuscript Witnesses (MT, DSS, LXX)
+        </span>
+      </div>
+
+      <!-- Connecting SVG Lines -->
+      <svg id="svgLines" class="absolute inset-0 w-full h-full pointer-events-none z-10">
+        <!-- Connecting curves drawn by JS -->
+      </svg>
+
+      <!-- TIMELINE NODES CONTAINER -->
+      <div id="nodesContainer" class="relative z-20">
+        <!-- Populated via JavaScript -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Real-World Map Modal / Split Pane -->
+  <div id="mapDrawer" class="absolute bottom-6 left-6 z-40 w-[420px] h-[260px] bg-slate-900/95 backdrop-blur-xl border border-slate-700/70 rounded-2xl shadow-2xl p-4 flex flex-col transition-all duration-300">
+    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+      <div class="flex items-center space-x-2">
+        <span class="text-amber-400 text-sm font-bold">🗺️ SACRED GEOGRAPHY RADAR</span>
+        <span id="mapPinCount" class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-full font-mono">9 Pins</span>
+      </div>
+      <button id="btnToggleMapSize" class="text-slate-400 hover:text-white text-xs">⤢ Expand</button>
+    </div>
+    <!-- Interactive Vector Map Mockup -->
+    <div class="relative flex-1 mt-2 bg-slate-950 rounded-xl overflow-hidden border border-slate-800/80 flex items-center justify-center">
+      <svg viewBox="0 0 600 350" class="w-full h-full opacity-70">
+        <!-- Mediterranean / Levant / Mesopotamia coastline paths -->
+        <path d="M 50 150 Q 150 100 250 140 T 400 130 T 550 220" fill="none" stroke="#1e293b" stroke-width="6"/>
+        <path d="M 280 140 Q 300 200 290 280 T 360 340" fill="none" stroke="#0369a1" stroke-width="4" opacity="0.6"/> <!-- Nile -->
+        <path d="M 380 100 Q 450 140 540 260" fill="none" stroke="#0284c7" stroke-width="3" opacity="0.6"/> <!-- Euphrates -->
+        <path d="M 420 80 Q 480 120 560 230" fill="none" stroke="#0284c7" stroke-width="3" opacity="0.6"/> <!-- Tigris -->
+        
+        <!-- Sacred Geography Hotspots -->
+        <g id="mapPins" class="cursor-pointer">
+          <!-- Hermon -->
+          <circle cx="315" cy="165" r="7" fill="#9333ea" class="animate-ping opacity-75"/>
+          <circle cx="315" cy="165" r="5" fill="#a855f7"/>
+          <text x="325" y="169" fill="#e2e8f0" font-size="10" font-weight="bold">Mt. Hermon (Bashan)</text>
+
+          <!-- Eden/Ur -->
+          <circle cx="520" cy="245" r="5" fill="#eab308"/>
+          <text x="530" y="249" fill="#fde047" font-size="10" font-weight="bold">Eden / Ur</text>
+
+          <!-- Jerusalem -->
+          <circle cx="308" cy="190" r="5" fill="#f59e0b"/>
+          <text x="240" y="194" fill="#fbbf24" font-size="10" font-weight="bold">Jerusalem</text>
+
+          <!-- Sinai -->
+          <circle cx="295" cy="245" r="5" fill="#38bdf8"/>
+          <text x="250" y="249" fill="#7dd3fc" font-size="10" font-weight="bold">Mt. Sinai</text>
+
+          <!-- Nineveh -->
+          <circle cx="450" cy="115" r="5" fill="#f43f5e"/>
+          <text x="460" y="119" fill="#fda4af" font-size="10" font-weight="bold">Nineveh</text>
+
+          <!-- Rome -->
+          <circle cx="120" cy="100" r="5" fill="#64748b"/>
+          <text x="130" y="104" fill="#cbd5e1" font-size="10" font-weight="bold">Rome</text>
+        </g>
+      </svg>
+      <div id="mapLocationLabel" class="absolute bottom-2 left-2 right-2 bg-slate-900/90 border border-slate-700/60 rounded px-2 py-1 text-[11px] text-amber-200 truncate">
+        Select a timeline node or map pin to inspect cosmic geography.
+      </div>
+    </div>
+  </div>
+
+  <!-- Deep Dive Detail Inspector Panel (Slide-Over on Node Click) -->
+  <aside id="inspectorPanel" class="absolute top-20 right-6 z-50 w-[460px] max-h-[calc(100vh-120px)] bg-slate-900/95 backdrop-blur-2xl border border-amber-500/30 rounded-2xl shadow-2xl flex flex-col transform translate-x-[500px] transition-transform duration-300 overflow-hidden">
+    <header class="p-4 border-b border-slate-800 flex items-start justify-between bg-slate-950/60">
+      <div>
+        <span id="inspectTrackPill" class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-900/50 text-purple-300 border border-purple-700/40">Divine Council</span>
+        <h2 id="inspectTitle" class="text-base font-bold text-white mt-1">Genesis 6: The Mount Hermon Watchers</h2>
+        <div id="inspectRef" class="text-xs text-amber-400 font-mono">Genesis 6:1–4 · 1 Enoch 6–16 · Jude 6</div>
+      </div>
+      <button id="btnCloseInspector" class="text-slate-400 hover:text-white text-lg font-bold p-1">&times;</button>
+    </header>
+
+    <div class="p-5 overflow-y-auto space-y-4 text-xs leading-relaxed flex-1">
+      <div>
+        <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">📜 The Manuscript & Hebrew Truth</h3>
+        <div id="inspectHebrew" class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-amber-200/90 font-serif text-sm">
+          וַיִּרְאוּ בְנֵי־הָאֱלֹהִים אֶת־בְּנוֹת הָאָדָם (Bene Ha-Elohim) — "The Sons of God" (Divine Council spiritual beings), NOT the Sethite line.
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">⚡ Translation Gap & Distortion</h3>
+        <p id="inspectGap" class="p-3 bg-red-950/20 border border-red-900/40 rounded-xl text-red-200">
+          Modern commentaries frequently rationalize this as "godly Sethites marrying Cainites" to avoid the supernatural worldview. The Dead Sea Scrolls (4QEn), Septuagint (LXX), and Peter (2 Pet 2:4) unanimously confirm spiritual rebellion.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">👑 Christological Reversal</h3>
+        <p id="inspectReversal" class="p-3 bg-amber-950/20 border border-amber-900/40 rounded-xl text-amber-200">
+          Jesus marches His disciples to Caesarea Philippi at the foot of Mount Hermon (Matt 16:18) to proclaim: "On this rock I will build my church, and the gates of Hades will not prevail against it!"
+        </p>
+      </div>
+
+      <div class="pt-2">
+        <button id="inspectAskHai" class="w-full py-2.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold rounded-xl shadow-lg flex items-center justify-center space-x-2 transition">
+          <span>✦</span>
+          <span>Ask Hallelujah AI Deep Lexical Questions</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Step-By-Step Guided Tour Footer (Active during Tour Mode) -->
+  <div id="tourBar" class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-40 bg-slate-900/95 backdrop-blur-xl border border-amber-500/40 rounded-2xl px-6 py-3 shadow-2xl flex items-center space-x-6 hidden">
+    <button id="btnTourPrev" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white">← Previous</button>
+    <div class="text-center">
+      <span id="tourStepIndicator" class="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Step 1 of 10</span>
+      <h3 id="tourStepTitle" class="text-xs font-bold text-white">Creation & The Divine Council Assembly</h3>
+    </div>
+    <button id="btnTourNext" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-amber-500 text-slate-950 font-bold text-xs">Next Milestone →</button>
+    <button id="btnTourExit" class="text-slate-400 hover:text-white text-xs ml-2">Exit Tour</button>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // COSMIC CANVAS TIMELINE DATA MODEL
+    // ═══════════════════════════════════════════════════════════════
+    const TIMELINE_NODES = [
+      // ── Track 1: Heavenly / Cosmic (Top) ──
+      {
+        id: "c1", track: "cosmic", x: 200, y: 140,
+        title: "Council Deliberation: 'Let Us Make Man'",
+        ref: "Gen 1:26 · Ps 82:1 · Ps 89:5–7",
+        hebrew: "נַעֲשֶׂה אָדָם בְּצַלְמֵנוּ (Na'aseh Adam)",
+        gap: "Modern notes claim 'plural of majesty' (a late medieval idiom). The Hebrew text depicts YHWH presiding over the heavenly court (sod YHWH).",
+        reversal: "Humans appointed as divine council representatives (tselem) on earth.",
+        mapPin: "Eden / Ur",
+        color: "purple"
+      },
+      {
+        id: "c2", track: "cosmic", x: 800, y: 140,
+        title: "Rebellion 1: Eden & The Nachash",
+        ref: "Gen 3:1–15 · Ezek 28:13–15",
+        hebrew: "הַנָּחָשׁ (Ha-Nachash) — Seraph Throne Guardian",
+        gap: "Flattened to a regular talking reptile rather than a shining divine throne guardian claiming autonomy.",
+        reversal: "Protoevangelium (Gen 3:15): The Seed of the Woman will crush the Nachash's head.",
+        mapPin: "Eden / Ur",
+        color: "purple"
+      },
+      {
+        id: "c3", track: "cosmic", x: 1500, y: 140,
+        title: "Rebellion 2: Mt. Hermon Watchers",
+        ref: "Gen 6:1–4 · 1 En 6–16 · 2 Pet 2:4 · Jude 6",
+        hebrew: "בְּנֵי הָאֱלֹהִים (Bene Ha-Elohim)",
+        gap: "Invented the Sethite-Cainite marriage theory to sanitize supernatural angelic rebellion.",
+        reversal: "Christ proclaims victory to imprisoned spirits (1 Pet 3:19) and claims Mount Hermon at Caesarea Philippi.",
+        mapPin: "Mt. Hermon (Bashan)",
+        color: "purple"
+      },
+      {
+        id: "c4", track: "cosmic", x: 2200, y: 140,
+        title: "Rebellion 3: Babel & 70 Nations Allotment",
+        ref: "Gen 11:1–9 · Deut 32:8–9 (DSS)",
+        hebrew: "לְמִסְפַּר בְּנֵי אֱלֹהִים (According to the number of the sons of God)",
+        gap: "Masoretic Text medieval scribes altered 'sons of God' to 'sons of Israel'. 4QDeut-j and LXX preserve the true divine council allotment.",
+        reversal: "Acts 2 Pentecost: Holy Spirit falls in all 70 languages, disinheriting the rebellious gods.",
+        mapPin: "Nineveh",
+        color: "purple"
+      },
+      {
+        id: "c5", track: "cosmic", x: 4200, y: 140,
+        title: "The Cosmic Cross: Powers Disarmed",
+        ref: "Col 2:15 · 1 Cor 2:8 · Matt 28:18",
+        hebrew: "ἀπεκδυσάμενος τὰς ἀρχὰς (Disarming the rulers & authorities)",
+        gap: "If the cosmic rulers had understood, they would not have crucified the Lord of Glory.",
+        reversal: "All authority in heaven and on earth granted to the resurrected Son.",
+        mapPin: "Jerusalem",
+        color: "purple"
+      },
+      {
+        id: "c6", track: "cosmic", x: 6200, y: 140,
+        title: "New Jerusalem: Cosmic Renewal",
+        ref: "Rev 21–22 · Isa 65 · 1 Cor 15",
+        hebrew: "הִנֵּה מִשְׁכַּן אֱלֹהִים עִם־הָאָדָם (Dwelling of God with Man)",
+        gap: "Heaven is not an ethereal cloud retreat; it is God's sacred space reuniting with a renewed physical earth.",
+        reversal: "Eden restored: Tree of Life accessible, divine council populated by redeemed humanity.",
+        mapPin: "Jerusalem",
+        color: "purple"
+      },
+
+      // ── Track 2: Covenant Spine (Middle) ──
+      {
+        id: "cov1", track: "covenant", x: 900, y: 520,
+        title: "Noahic Covenant: Bow in the Cloud",
+        ref: "Genesis 9:8–17",
+        hebrew: "בְּרִית עוֹלָם (Berit Olam)",
+        gap: "God's war bow (qeshet) is hung up pointed away from earth — cosmos preservation guarantee.",
+        reversal: "Preserves the arena for the coming Seed.",
+        mapPin: "Eden / Ur",
+        color: "gold"
+      },
+      {
+        id: "cov2", track: "covenant", x: 1800, y: 520,
+        title: "Abrahamic Covenant & Melchizedek",
+        ref: "Gen 12:1–3 · Gen 14:18 · Gen 15",
+        hebrew: "מַלְכִּי־צֶדֶק כֹּהֵן לְאֵל עֶלְיוֹן (King-Priest of God Most High)",
+        gap: "Abraham pays tithes to a royal priesthood predating Levi and Aaron, foreshadowing Christ.",
+        reversal: "Through Abraham's Seed (Christ), all disinherited nations will be blessed.",
+        mapPin: "Jerusalem",
+        color: "gold"
+      },
+      {
+        id: "cov3", track: "covenant", x: 2600, y: 520,
+        title: "Sinai: Suzerain-Vassal Treaty & Torah",
+        ref: "Exodus 19–24 · Deut 5",
+        hebrew: "מַמְלֶכֶת כֹּהֲנִים וְגוֹי קָדוֹשׁ (Kingdom of Priests)",
+        gap: "Torah is not legalistic burden; it is the constitutional charter of Yahweh's vassal kingdom.",
+        reversal: "Establishing sacred space where holy God dwells among fallen mankind.",
+        mapPin: "Mt. Sinai",
+        color: "gold"
+      },
+      {
+        id: "cov4", track: "covenant", x: 3400, y: 520,
+        title: "Davidic Covenant: The Eternal Throne",
+        ref: "2 Samuel 7 · Psalm 89 · Psalm 110",
+        hebrew: "וְנֶאְמַן בֵּיתְךָ וּמַמְלַכְתְּךָ עַד־עוֹלָם (Throne established forever)",
+        gap: "David's son is also David's Lord (Ps 110:1) who sits at YHWH's right hand.",
+        reversal: "The Messianic King reigns forever over all restored nations.",
+        mapPin: "Jerusalem",
+        color: "gold"
+      },
+      {
+        id: "cov5", track: "covenant", x: 4300, y: 520,
+        title: "The New Covenant in Blood",
+        ref: "Jeremiah 31:31 · Luke 22:20 · Hebrews 8",
+        hebrew: "בְּרִית חֲדָשָׁה (Berit Chadashah)",
+        gap: "Law written on hearts by the Holy Spirit; eternal forgiveness of sin.",
+        reversal: "Fulfills all prior covenants in the resurrected Christ.",
+        mapPin: "Jerusalem",
+        color: "gold"
+      },
+
+      // ── Track 3: Earth History & Empires (Lower) ──
+      {
+        id: "emp1", track: "earth", x: 2000, y: 900,
+        title: "Old & Middle Kingdom Egypt",
+        ref: "Bronze Age · Pharaohs & Pyramids",
+        hebrew: "מִצְרַיִם (Mitzrayim)",
+        gap: "Israel enslaved in Egyptian state cult; Yahweh's plagues systematically judge the gods of Egypt (Ex 12:12).",
+        reversal: "Exodus: Yahweh triumphs over the Nile and sun gods.",
+        mapPin: "Mt. Sinai",
+        color: "blue"
+      },
+      {
+        id: "emp2", track: "earth", x: 3100, y: 900,
+        title: "Assyrian Empire & Jonah's Mission",
+        ref: "Nineveh · Tiglath-Pileser III · Ashurbanipal",
+        hebrew: "אַשּׁוּר (Ashur)",
+        gap: "Jonah called to the terror capital of the ancient world; Nineveh repents before Yahweh.",
+        reversal: "Yahweh demonstrates sovereignty over Gentile pagan superpowers.",
+        mapPin: "Nineveh",
+        color: "blue"
+      },
+      {
+        id: "emp3", track: "earth", x: 3600, y: 900,
+        title: "Babylonian Empire & The Exile",
+        ref: "Nebuchadnezzar · 586 BC Temple Destruction",
+        hebrew: "בָּבֶל (Babel / Babylon)",
+        gap: "Judah exiled to Babylon; Daniel reveals the 4 successive beast empires (Dan 2, 7).",
+        reversal: "The Stone cut without hands crushes all earthly empires.",
+        mapPin: "Nineveh",
+        color: "blue"
+      },
+      {
+        id: "emp4", track: "earth", x: 4100, y: 900,
+        title: "Roman Empire & The Incarnation",
+        ref: "Caesar Augustus · Tiberius · Pax Romana",
+        hebrew: "הָאִימְפֶּרְיָה הָרוֹמִית (Rome)",
+        gap: "Rome claims Caesar is 'Lord and Savior' (Kyrios). Early Christians counter: 'Jesus is Lord!'",
+        reversal: "The Kingdom of God spreads through martyrdom and resurrection power.",
+        mapPin: "Rome",
+        color: "blue"
+      },
+
+      // ── Track 4: Manuscripts & Canon (Bottom) ──
+      {
+        id: "can1", track: "canon", x: 2300, y: 1280,
+        title: "Torah Composition & Masorah",
+        ref: "Moses · Hebrew Masoretic Text (MT)",
+        hebrew: "תּוֹרַת מֹשֶׁה (Torat Moshe)",
+        gap: "Ancient Paleo-Hebrew script meticulously preserved.",
+        reversal: "God's unalterable written word given to Israel.",
+        mapPin: "Mt. Sinai",
+        color: "emerald"
+      },
+      {
+        id: "can2", track: "canon", x: 3800, y: 1280,
+        title: "Septuagint (LXX) Translation (250 BC)",
+        ref: "Alexandria, Egypt · 72 Jewish Translators",
+        hebrew: "הַשִּׁבְעִים (Septuaginta)",
+        gap: "The Bible quoted by Jesus and the Apostles; preserves older readings like Deut 32:8 'sons of God'.",
+        reversal: "Greek language unifies Scripture for the Mediterranean world.",
+        mapPin: "Rome",
+        color: "emerald"
+      },
+      {
+        id: "can3", track: "canon", x: 4000, y: 1280,
+        title: "Dead Sea Scrolls (DSS) Library",
+        ref: "Qumran Caves 1–11 · 3rd c. BC – 1st c. AD",
+        hebrew: "מְגִלּוֹת יַם הַמֶּלַח (Megillot Yam HaMelach)",
+        gap: "Over 900 ancient manuscripts proving Hebrew biblical stability 1,000 years older than medieval MT copies.",
+        reversal: "Vindicates the ancient Divine Council and Enochic worldview.",
+        mapPin: "Jerusalem",
+        color: "emerald"
+      }
+    ];
+
+    // ═══════════════════════════════════════════════════════════════
+    // CANVAS INTERACTION & PAN/ZOOM ENGINE
+    // ═══════════════════════════════════════════════════════════════
+    let panX = 100, panY = 120, scale = 0.85;
+    let isDragging = false, startX, startY;
+    const canvas = document.getElementById("canvas");
+    const viewport = document.getElementById("viewport");
+    const zoomText = document.getElementById("zoomLevelText");
+
+    function updateTransform() {
+      canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+      zoomText.textContent = `${Math.round(scale * 100)}%`;
+    }
+
+    viewport.addEventListener("mousedown", (e) => {
+      if (e.target.closest(".node-card") || e.target.closest("button")) return;
+      isDragging = true;
+      startX = e.clientX - panX;
+      startY = e.clientY - panY;
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      panX = e.clientX - startX;
+      panY = e.clientY - startY;
+      updateTransform();
+    });
+
+    window.addEventListener("mouseup", () => { isDragging = false; });
+
+    viewport.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+      const newScale = Math.min(Math.max(0.2, scale * zoomFactor), 2.5);
+      
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      panX = mouseX - (mouseX - panX) * (newScale / scale);
+      panY = mouseY - (mouseY - panY) * (newScale / scale);
+      scale = newScale;
+      updateTransform();
+    }, { passive: false });
+
+    document.getElementById("btnZoomIn").addEventListener("click", () => {
+      scale = Math.min(scale * 1.2, 2.5);
+      updateTransform();
+    });
+
+    document.getElementById("btnZoomOut").addEventListener("click", () => {
+      scale = Math.max(scale / 1.2, 0.2);
+      updateTransform();
+    });
+
+    document.getElementById("btnResetView").addEventListener("click", () => {
+      panX = 100; panY = 120; scale = 0.85;
+      updateTransform();
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // RENDER TIMELINE NODES
+    // ═══════════════════════════════════════════════════════════════
+    const nodesContainer = document.getElementById("nodesContainer");
+
+    function renderNodes() {
+      nodesContainer.innerHTML = "";
+      TIMELINE_NODES.forEach((n) => {
+        const card = document.createElement("div");
+        card.id = `node-${n.id}`;
+        card.className = `node-card absolute w-[280px] bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-xl p-3.5 shadow-xl text-left`;
+        card.style.left = `${n.x}px`;
+        card.style.top = `${n.y}px`;
+
+        const badgeColors = {
+          purple: "bg-purple-900/40 text-purple-300 border-purple-700/50",
+          gold: "bg-amber-900/40 text-amber-300 border-amber-700/50",
+          blue: "bg-sky-900/40 text-sky-300 border-sky-700/50",
+          emerald: "bg-emerald-900/40 text-emerald-300 border-emerald-700/50"
+        };
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${badgeColors[n.color]}">${n.track}</span>
+            <span class="text-[10px] text-slate-400 font-mono">✦ ${n.mapPin}</span>
+          </div>
+          <h3 class="text-xs font-bold text-white leading-snug">${n.title}</h3>
+          <p class="text-[10px] text-amber-400/90 font-mono mt-0.5">${n.ref}</p>
+          <div class="mt-2 pt-2 border-t border-slate-800 text-[11px] text-slate-300 line-clamp-2">
+            ${n.hebrew}
+          </div>
+        `;
+
+        card.addEventListener("click", () => openInspector(n));
+        nodesContainer.appendChild(card);
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // INSPECTOR DRAWER
+    // ═══════════════════════════════════════════════════════════════
+    const inspector = document.getElementById("inspectorPanel");
+
+    function openInspector(node) {
+      document.getElementById("inspectTrackPill").textContent = node.track.toUpperCase();
+      document.getElementById("inspectTitle").textContent = node.title;
+      document.getElementById("inspectRef").textContent = node.ref;
+      document.getElementById("inspectHebrew").textContent = node.hebrew;
+      document.getElementById("inspectGap").textContent = node.gap;
+      document.getElementById("inspectReversal").textContent = node.reversal;
+      document.getElementById("mapLocationLabel").innerHTML = `<strong>Map Anchor:</strong> ${node.mapPin} · <em>${node.title}</em>`;
+      
+      inspector.classList.remove("translate-x-[500px]");
+      inspector.classList.add("translate-x-0");
+    }
+
+    document.getElementById("btnCloseInspector").addEventListener("click", () => {
+      inspector.classList.remove("translate-x-0");
+      inspector.classList.add("translate-x-[500px]");
+    });
+
+    document.getElementById("inspectAskHai").addEventListener("click", () => {
+      alert("Opening Hallelujah AI with this node's Scripture & Hebrew context...");
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // STEP-BY-STEP GUIDED TOUR ENGINE
+    // ═══════════════════════════════════════════════════════════════
+    let tourActive = false;
+    let tourStep = 0;
+    const tourNodes = TIMELINE_NODES.filter(n => n.track === "cosmic" || n.track === "covenant");
+
+    const tourBar = document.getElementById("tourBar");
+    const btnTour = document.getElementById("btnTourMode");
+
+    btnTour.addEventListener("click", startTour);
+    document.getElementById("btnTourExit").addEventListener("click", exitTour);
+    document.getElementById("btnTourNext").addEventListener("click", () => goToTourStep(tourStep + 1));
+    document.getElementById("btnTourPrev").addEventListener("click", () => goToTourStep(tourStep - 1));
+
+    function startTour() {
+      tourActive = true;
+      tourBar.classList.remove("hidden");
+      goToTourStep(0);
+    }
+
+    function exitTour() {
+      tourActive = false;
+      tourBar.classList.add("hidden");
+      document.querySelectorAll(".node-card").forEach(c => c.classList.remove("glow-gold", "ring-2", "ring-amber-400"));
+    }
+
+    function goToTourStep(index) {
+      if (index < 0 || index >= tourNodes.length) return;
+      tourStep = index;
+      const node = tourNodes[tourStep];
+
+      document.getElementById("tourStepIndicator").textContent = `Step ${tourStep + 1} of ${tourNodes.length}`;
+      document.getElementById("tourStepTitle").textContent = node.title;
+
+      // Center canvas on node
+      scale = 1.0;
+      panX = (window.innerWidth / 2) - node.x * scale - 140;
+      panY = (window.innerHeight / 2) - node.y * scale - 100;
+      updateTransform();
+
+      // Highlight active node card
+      document.querySelectorAll(".node-card").forEach(c => c.classList.remove("glow-gold", "ring-2", "ring-amber-400"));
+      const activeCard = document.getElementById(`node-${node.id}`);
+      if (activeCard) activeCard.classList.add("glow-gold", "ring-2", "ring-amber-400");
+
+      openInspector(node);
+    }
+
+    // Initialize
+    renderNodes();
+    updateTransform();
+  </script>
+</body>
+</html>
